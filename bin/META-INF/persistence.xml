@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="app-fin">
+		<class>model.Banco</class>
+		<class>model.Categoria</class>
+		<class>model.CentroCusto</class>
+		<class>model.Cidade</class>
+		<class>model.Cliente</class>
+		<class>model.Conta</class>
+		<class>model.ContaPagar</class>
+		<class>model.ContaReceber</class>
+		<class>model.DespesaMensal</class>
+		<class>model.Empresa</class>
+		<class>model.Estado</class>
+		<class>model.FormaPagamento</class>
+		<class>model.Fornecedor</class>
+		<class>model.Marca</class>
+		<class>model.Perfil</class>
+		<class>model.Permissao</class>
+		<class>model.PlanoConta</class>
+		<class>model.Produto</class>
+		<class>model.ReceitaMensal</class>
+		<class>model.TipoConta</class>
+		<class>model.Transacao</class>
+		<class>model.Usuario</class>
+		<properties>
+			<property name="hibernate.ejb.cfgfile" value="hibernate.cfg.xml"/>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect"/>
+			<property name="hibernate.connection.driver_class" value="com.microsoft.jdbc.sqlserver.SQLServerDriver"/>
+			<property name="hibernate.connection.url" value="jdbc:microsoft:sqlserver://1E1;DatabaseName=test;SelectMethod=cursor"/>
+			<property name="hibernate.connection.username" value="root"/>
+			<property name="hibernate.connection.password" value="123321"/>
+		</properties>
+	</persistence-unit>
+</persistence>

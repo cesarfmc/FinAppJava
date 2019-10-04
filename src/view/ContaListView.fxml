@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ButtonBar buttonMinWidth="80.0" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="82.0">
+        <buttons>
+          <Button mnemonicParsing="false" text="Inserir" />
+            <Button mnemonicParsing="false" text="Editar" />
+            <Button mnemonicParsing="false" text="Sair" />
+        </buttons>
+      </ButtonBar>
+      <TableView layoutY="47.0" prefHeight="504.0" prefWidth="800.0">
+        <columns>
+          <TableColumn prefWidth="132.0" text="Nome" />
+          <TableColumn prefWidth="118.0" text="Núm. Banco" />
+            <TableColumn prefWidth="75.0" text="Banco" />
+            <TableColumn prefWidth="75.0" text="Agência" />
+            <TableColumn prefWidth="75.0" text="Conta" />
+            <TableColumn prefWidth="92.0" text="Tipo de Conta" />
+            <TableColumn prefWidth="97.0" text="Saldo" />
+            <TableColumn prefWidth="135.0" text="Abertura" />
+        </columns>
+      </TableView>
+      <Separator layoutY="555.0" prefHeight="5.0" prefWidth="800.0" />
+      <Button layoutX="14.0" layoutY="560.0" maxWidth="92.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="92.0" text="Lançamentos" />
+   </children>
+</AnchorPane>

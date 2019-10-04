@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+ <session-factory>
+  <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+  <property name="hibernate.connection.password">123321</property>
+  <property name="hibernate.connection.url">jdbc:sqlserver://localhost:1433;databaseName=FIN</property>
+  <property name="hibernate.connection.username">root</property>
+  <property name="hibernate.default_schema">dbo</property>
+  <property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
+  <property name="hibernate.connection.isolation">2</property>
+  <property name="hibernate.current_session_context_class">thread</property>
+  <mapping class="model.Banco"/>
+  <mapping class="model.Categoria"/>
+  <mapping class="model.CentroCusto"/>
+  <mapping class="model.Cidade"/>
+  <mapping class="model.Cliente"/>
+  <mapping class="model.Conta"/>
+  <mapping class="model.ContaPagar"/>
+  <mapping class="model.ContaReceber"/>
+  <mapping class="model.DespesaMensal"/>
+  <mapping class="model.Empresa"/>
+  <mapping class="model.Estado"/>
+  <mapping class="model.FormaPagamento"/>
+  <mapping class="model.Fornecedor"/>
+  <mapping class="model.Marca"/>
+  <mapping class="model.Perfil"/>
+  <mapping class="model.Permissao"/>
+  <mapping class="model.PlanoConta"/>
+  <mapping class="model.Produto"/>
+  <mapping class="model.ReceitaMensal"/>
+  <mapping class="model.TipoConta"/>
+  <mapping class="model.Transacao"/>
+  <mapping class="model.Usuario"/>
+ </session-factory>
+</hibernate-configuration>

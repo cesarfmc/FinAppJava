@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.mainController">
+   <top>
+      <MenuBar minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <menus>
+            <Menu id="mnuCad" fx:id="mnuCad" mnemonicParsing="false" text="Cadastros">
+               <items>
+                  <MenuItem id="mnuItemCliente" fx:id="itemCadClientes" mnemonicParsing="false" onAction="#mnuCliente_Click" text="Clientes" />
+                  <MenuItem id="mnuItemFornecedor" fx:id="itemCadFornecedores" mnemonicParsing="false" onAction="#mnFornecedor_Click" text="Fornecedores" />
+                  <MenuItem fx:id="itemCadProduto" mnemonicParsing="false" onAction="#mnProduto_Click" text="Produtos" />
+                  <MenuItem fx:id="itemCadCategoria" mnemonicParsing="false" onAction="#mnCategoria_Click" text="Categorias" />
+                  <MenuItem fx:id="itemCadMarca" mnemonicParsing="false" onAction="#mnMarca_Click" text="Marcas" />
+               </items>
+            </Menu>
+            <Menu id="mnuFinanceiro" fx:id="mnuFinanceiro" mnemonicParsing="false" text="Financeiro">
+               <items>
+                  <MenuItem id="mnuItemContasPagar" fx:id="itemFinanceiroContasPagar" mnemonicParsing="false" onAction="#mnuContaPagar_Click" text="Contas a Pagar" />
+                  <MenuItem id="mnuItemContasReceber" fx:id="itemFinanceiroContasReceber" mnemonicParsing="false" onAction="#mnuContaReceber_Click" text="Contas a Receber" />
+                  <MenuItem id="mnuItemContaCorrente" fx:id="itemFinanceiroContasCorrentes" mnemonicParsing="false" onAction="#mnuConta_Click" text="Contas Correntes" />
+                  <MenuItem id="mnuItemDespesaMensal" fx:id="itemFinanceiroDespesasMensais" mnemonicParsing="false" onAction="#mnuDespesaMensal_Click" text="Despesas Mensais" />
+                  <MenuItem id="mnuItemReceitaMensal" fx:id="itemFinanceiroReceitasMensais" mnemonicParsing="false" onAction="#mnuReceitaMensal_Click" text="Receitas Mensais" />
+               </items>
+            </Menu>
+            <Menu id="mnuRelatorio" fx:id="mnuRelatorios" mnemonicParsing="false" text="Relatorios">
+               <items>
+                  <MenuItem id="mnuItemRelContaPagar" fx:id="itemRelatoriosContasPagar" mnemonicParsing="false" onAction="#mnuContaPagarReport_Click" text="Contas a Pagar" />
+                  <MenuItem id="mnuItemRelContaReceber" fx:id="itemRelatoriosContasReceber" mnemonicParsing="false" onAction="#mnuContaReceberReport_Click" text="Contas a Receber" />
+                  <MenuItem id="mnuItemRelContaCorrente" fx:id="itemRelatoriosContasCorrentes" mnemonicParsing="false" onAction="#mnuContaReport_Click" text="Contas Correntes" />
+                  <MenuItem id="mnuItemRelTransacoes" fx:id="itemRelatoriosTransacoes" mnemonicParsing="false" onAction="#mnuTransacaoReport_Click" text="Transações" />
+               </items>
+            </Menu>
+            <Menu id="mnuUtilitarios" fx:id="mnuUtilitarios" mnemonicParsing="false" text="Utilitários">
+               <items>
+                  <MenuItem id="mnuItemOpcoes" fx:id="itemUtilitariosOpcoes" mnemonicParsing="false" onAction="#mnuOpcoes_Click" text="Opções" />
+                  <MenuItem id="mnuItemUsuarios" fx:id="itemUtilitariosUsuarios" mnemonicParsing="false" onAction="#mnuUsuario_Click" text="Usuários" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+   </top>
+   <bottom>
+      <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="575.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints vgrow="ALWAYS" />
+         </rowConstraints>
+         <children>
+            <ImageView fitHeight="223.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
+               <image>
+                  <Image url="@../images/logon.png" />
+               </image>
+               <GridPane.margin>
+                  <Insets left="22.0" top="21.0" />
+               </GridPane.margin>
+            </ImageView>
+         </children>
+      </GridPane>
+   </bottom>
+</BorderPane>
