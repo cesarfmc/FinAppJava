@@ -9,13 +9,13 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ContaPagarListViewController">
    <children>
       <Separator layoutX="6.0" layoutY="6.0" prefHeight="3.0" prefWidth="792.0" />
       <GridPane layoutX="14.0" layoutY="14.0">
@@ -42,20 +42,20 @@
             <Label text="Forma de Pagto:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <Label text="Data de Vencimento:" GridPane.columnIndex="2" GridPane.rowIndex="3" />
             <Label text="Faixa de Valores:" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-            <TextField maxWidth="120.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER" />
-            <TextField maxWidth="70.0" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-            <TextField maxWidth="70.0" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+            <TextField fx:id="tfdNumero" maxWidth="120.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER" />
+            <TextField fx:id="tfdValorInicio" maxWidth="70.0" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+            <TextField fx:id="tfdValorFinal" maxWidth="70.0" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
             <Label text="a" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-            <ComboBox maxWidth="240.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-            <ComboBox maxWidth="240.0" prefWidth="150.0" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-            <ComboBox maxWidth="240.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-            <ComboBox maxWidth="240.0" prefWidth="150.0" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-            <DatePicker maxWidth="96.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-            <DatePicker maxWidth="96.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-            <DatePicker maxWidth="96.0" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-            <DatePicker maxWidth="96.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-            <DatePicker maxWidth="96.0" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-            <DatePicker maxWidth="96.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+            <ComboBox fx:id="cmbFornecedor" maxWidth="240.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <ComboBox fx:id="cmbPlanoConta" maxWidth="240.0" prefWidth="150.0" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <ComboBox fx:id="cmbCentroCusto" maxWidth="240.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+            <ComboBox fx:id="cmbFormaPagamento" maxWidth="240.0" prefWidth="150.0" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+            <DatePicker fx:id="dpCompraInicio" maxWidth="96.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+            <DatePicker fx:id="dpPagamentoInicio" maxWidth="96.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+            <DatePicker fx:id="dpVencimentoInicio" maxWidth="96.0" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+            <DatePicker fx:id="dpCompraFinal" maxWidth="96.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+            <DatePicker fx:id="dpPagamentoFinal" maxWidth="96.0" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+            <DatePicker fx:id="dpPagamentoFinal" maxWidth="96.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
             <Label text="a" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
             <Label text="a" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
             <Label text="a" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
@@ -64,38 +64,104 @@
       <Separator layoutY="172.0" prefHeight="9.0" prefWidth="800.0" />
       <ButtonBar layoutX="14.0" layoutY="181.0" prefHeight="3.0" prefWidth="85.0">
         <buttons>
-          <Button mnemonicParsing="false" text="Inserir" />
-            <Button mnemonicParsing="false" text="Pesquisar" />
-            <Button mnemonicParsing="false" text="Limpar" />
-            <Button mnemonicParsing="false" text="Relatório" />
-            <Button mnemonicParsing="false" text="Sair" />
+          <Button fx:id="btnInserir" mnemonicParsing="false" onAction="#inserir_Click" text="Inserir" />
+            <Button fx:id="btnPesquisar" mnemonicParsing="false" onAction="#pesquisar_Click" text="Pesquisar" />
+            <Button fx:id="btnLimpar" mnemonicParsing="false" onAction="#limpar_Click" text="Limpar" />
+            <Button fx:id="btnRelatorio" mnemonicParsing="false" onAction="#relatorio_Click" text="Relatório" />
+            <Button fx:id="btnSair" mnemonicParsing="false" onAction="#sair_Click" text="Sair" />
         </buttons>
       </ButtonBar>
       <Separator layoutX="-8.0" layoutY="213.0" prefHeight="3.0" prefWidth="806.0" />
-      <TableView layoutX="-6.0" layoutY="216.0" prefHeight="330.0" prefWidth="806.0">
-        <columns>
-          <TableColumn prefWidth="119.0" text="Data da Compra" />
-          <TableColumn prefWidth="70.0" text="Número" />
-            <TableColumn prefWidth="75.0" text="Documento" />
-            <TableColumn prefWidth="75.0" text="Fornecedor" />
-            <TableColumn prefWidth="75.0" text="Valor" />
-            <TableColumn prefWidth="106.0" text="Data de Vencto" />
-            <TableColumn prefWidth="102.0" text="Plano de Conta" />
-            <TableColumn prefWidth="103.0" text="Centro de Custo" />
-            <TableColumn prefWidth="75.0" text="Forma" />
-        </columns>
-      </TableView>
       <Separator layoutY="546.0" prefHeight="9.0" prefWidth="800.0" />
       <ButtonBar layoutX="6.0" layoutY="553.0" prefHeight="25.0" prefWidth="70.0">
         <buttons>
-          <Button mnemonicParsing="false" text="Em Aberto" />
-            <Button mnemonicParsing="false" text="Pagos" />
-            <Button mnemonicParsing="false" text="Todos" />
+          <Button fx:id="btnAberto" mnemonicParsing="false" onAction="#aberto_Click" text="Em Aberto" />
+            <Button fx:id="btnPago" mnemonicParsing="false" onAction="#pago_Click" text="Pagos" />
+            <Button fx:id="btnTodos" mnemonicParsing="false" onAction="#todos_Click" text="Todos" />
         </buttons>
       </ButtonBar>
       <Label layoutX="288.0" layoutY="557.0" text="Qtd:" />
-      <TextField layoutX="312.0" layoutY="553.0" maxWidth="50.0" />
+      <TextField fx:id="tfdQtd" layoutX="312.0" layoutY="553.0" maxWidth="50.0" />
       <Label layoutX="373.0" layoutY="557.0" text="Valor Total:" />
-      <TextField layoutX="433.0" layoutY="553.0" maxWidth="100.0" />
+      <TextField fx:id="tfdValorTotal" layoutX="433.0" layoutY="553.0" maxWidth="100.0" />
+      <TableView fx:id="tbvContaPagar" layoutX="-6.0" layoutY="216.0" onMousePressed="#editarContaPagar_Click" prefHeight="330.0" prefWidth="806.0">
+        <columns>
+          <TableColumn fx:id="tcDataCompra" prefWidth="119.0" text="Data da Compra">
+          	<cellValueFactory>
+          		<PropertyValueFactory property="dataCompra" />
+          	</cellValueFactory>
+          </TableColumn>
+          <TableColumn fx:id="tcNumero" prefWidth="70.0" text="Número">
+                    	<cellValueFactory>
+          		<PropertyValueFactory property="numero" />
+          	</cellValueFactory>
+          </TableColumn>
+            <TableColumn fx:id="tcDocumento" prefWidth="75.0" text="Documento">
+                      	<cellValueFactory>
+          		<PropertyValueFactory property="documento" />
+          	</cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="tcFornecedor" prefWidth="75.0" text="Fornecedor">
+                      	<cellValueFactory>
+          		<PropertyValueFactory property="fornecedor" />
+          	</cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="tcValor" prefWidth="75.0" text="Valor">
+                      	<cellValueFactory>
+          		<PropertyValueFactory property="valor" />
+          	</cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="tcDataVencimento" prefWidth="106.0" text="Data de Vencto">
+                      	<cellValueFactory>
+          		<PropertyValueFactory property="dataVencimento" />
+          	</cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="tcPlanoConta" prefWidth="102.0" text="Plano de Conta">
+                      	<cellValueFactory>
+          		<PropertyValueFactory property="planoConta" />
+          	</cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="tcCeentroCusto" prefWidth="103.0" text="Centro de Custo">
+                      	<cellValueFactory>
+          		<PropertyValueFactory property="centroCusto" />
+          	</cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="tcFormaPagamento" prefWidth="75.0" text="Forma de Pagto.">
+                      	<cellValueFactory>
+          		<PropertyValueFactory property="formaPagamento" />
+          	</cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="tcValorPagamento" prefWidth="75.0" text="Valor de Pagto">
+                      	<cellValueFactory>
+          		<PropertyValueFactory property="valorPagamento" />
+          	</cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="tcDataPagamento" prefWidth="75.0" text="Data de Pagto">
+                      	<cellValueFactory>
+          		<PropertyValueFactory property="dataPagamento" />
+          	</cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="tcBanco" prefWidth="75.0" text="Banco">
+                      	<cellValueFactory>
+          		<PropertyValueFactory property="banco" />
+          	</cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="tcAgencia" prefWidth="75.0" text="Agência">
+                      	<cellValueFactory>
+          		<PropertyValueFactory property="agencia" />
+          	</cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="tcNumeroConta" prefWidth="75.0" text="Num. Conta">
+                      	<cellValueFactory>
+          		<PropertyValueFactory property="numeroConta" />
+          	</cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="tcNumeroDocumento" prefWidth="75.0" text="Num. Doc. Pagto">
+                      	<cellValueFactory>
+          		<PropertyValueFactory property="numDocPagto" />
+          	</cellValueFactory>
+            </TableColumn>
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>

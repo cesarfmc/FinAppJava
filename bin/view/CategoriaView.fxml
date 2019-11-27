@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CategoriaViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
 	<children>
 		<Separator layoutX="6.0" layoutY="18.0" prefHeight="1.0" prefWidth="790.0" />
 		<GridPane layoutX="6.0" layoutY="19.0">
@@ -33,9 +33,9 @@
 		<Separator layoutX="6.0" layoutY="116.0" prefHeight="9.0" prefWidth="790.0" />
 		<ButtonBar buttonMinWidth="80.0" layoutY="119.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="273.0">
 			<buttons>
-				<Button mnemonicParsing="false" onAction="#salvar_Click" text="Salvar" />
-				<Button fx:id="excluirButton" mnemonicParsing="false" onAction="#excluir_Click" text="Excluir" />
-				<Button mnemonicParsing="false" text="Cancelar" />
+				<Button fx:id="btnSalvar" mnemonicParsing="false" onAction="#salvar_Click" text="Salvar" />
+				<Button fx:id="btnExcluir" mnemonicParsing="false" onAction="#excluir_Click" text="Excluir" />
+				<Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cancelar_Click" text="Cancelar" />
 			</buttons>
 		</ButtonBar>
 		<Separator layoutY="158.0" prefHeight="3.0" prefWidth="800.0" />

@@ -4,6 +4,7 @@
 <hibernate-reverse-engineering>
 <type-mapping>
 	<sql-type jdbc-type="NVARCHAR" hibernate-type="string"></sql-type>
+	<sql-type jdbc-type="NCHAR" hibernate-type="string"></sql-type>
 </type-mapping>
 <table-filter match-catalog="FIN" match-schema="dbo" match-name="Banco"/>
   <table-filter match-catalog="FIN" match-schema="dbo" match-name="Categoria"/>

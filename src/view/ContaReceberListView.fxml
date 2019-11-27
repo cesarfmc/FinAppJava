@@ -16,8 +16,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane minHeight="600.0" minWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1">
+<AnchorPane minHeight="600.0" minWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ContaReceberListViewController">
    <children>
       <VBox layoutX="4.0" layoutY="3.0" prefHeight="600.0" prefWidth="800.0">
          <children>
@@ -62,24 +61,24 @@
                         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField maxWidth="120.0" minWidth="120.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+                  <TextField fx:id="tfdNumero" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                      </GridPane.margin>
                   </TextField>
-                  <ComboBox prefWidth="240.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                  <ComboBox fx:id="cmbCliente" prefWidth="240.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                      </GridPane.margin>
                   </ComboBox>
-                  <ComboBox prefWidth="240.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                  <ComboBox fx:id="cmbCentroCusto" prefWidth="240.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                      </GridPane.margin>
                   </ComboBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <children>
-                        <DatePicker maxWidth="96.0" minWidth="96.0">
+                        <DatePicker fx:id="dpVendaInicio" maxWidth="96.0" minWidth="96.0">
                            <HBox.margin>
                               <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                            </HBox.margin>
@@ -89,7 +88,7 @@
                               <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                            </HBox.margin>
                         </Label>
-                        <DatePicker maxWidth="86.0" minWidth="96.0">
+                        <DatePicker fx:id="dpVendaFinal" maxWidth="86.0" minWidth="96.0">
                            <HBox.margin>
                               <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                            </HBox.margin>
@@ -98,7 +97,7 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <children>
-                        <DatePicker minWidth="96.0" prefWidth="96.0">
+                        <DatePicker fx:id="dpRecebimentoInicio" minWidth="96.0" prefWidth="96.0">
                            <HBox.margin>
                               <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                            </HBox.margin>
@@ -108,7 +107,7 @@
                               <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                            </HBox.margin>
                         </Label>
-                        <DatePicker minWidth="96.0" prefWidth="96.0">
+                        <DatePicker fx:id="dpRecebimentoFinal" minWidth="96.0" prefWidth="96.0">
                            <HBox.margin>
                               <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                            </HBox.margin>
@@ -140,14 +139,14 @@
                         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                      </GridPane.margin>
                   </ComboBox>
-                  <ComboBox prefWidth="240.0" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                  <ComboBox fx:id="cmbFormaPagamento" prefWidth="240.0" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                      </GridPane.margin>
                   </ComboBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
                      <children>
-                        <DatePicker maxWidth="96.0" minWidth="96.0">
+                        <DatePicker fx:id="dpVencimentoInicio" maxWidth="96.0" minWidth="96.0">
                            <HBox.margin>
                               <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                            </HBox.margin>
@@ -157,7 +156,7 @@
                               <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                            </HBox.margin>
                         </Label>
-                        <DatePicker minWidth="96.0" prefWidth="96.0">
+                        <DatePicker fx:id="dpVencimentoFinal" minWidth="96.0" prefWidth="96.0">
                            <HBox.margin>
                               <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                            </HBox.margin>
@@ -166,7 +165,7 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
                      <children>
-                        <TextField maxWidth="70.0" minWidth="70.0">
+                        <TextField fx:id="tfdValorInicio" maxWidth="70.0" minWidth="70.0">
                            <HBox.margin>
                               <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                            </HBox.margin>
@@ -176,7 +175,7 @@
                               <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField minWidth="70.0" prefWidth="70.0">
+                        <TextField fx:id="tfdValorFinal" minWidth="70.0" prefWidth="70.0">
                            <HBox.margin>
                               <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                            </HBox.margin>
@@ -188,27 +187,27 @@
             <Separator prefWidth="200.0" />
             <HBox prefHeight="29.0" prefWidth="800.0">
                <children>
-                  <Button minWidth="80.0" mnemonicParsing="false" text="Inserir">
+                  <Button fx:id="btnInserir" minWidth="80.0" mnemonicParsing="false" onAction="#inserir_Click" text="Inserir">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button minWidth="80.0" mnemonicParsing="false" text="Pesquisar">
+                  <Button fx:id="btnPesquisar" minWidth="80.0" mnemonicParsing="false" onAction="#pesquisar_Click" text="Pesquisar">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button minWidth="80.0" mnemonicParsing="false" text="Limpar">
+                  <Button fx:id="btnLimpar" minWidth="80.0" mnemonicParsing="false" onAction="#limpar_Click" text="Limpar">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button minWidth="80.0" mnemonicParsing="false" text="Relatório">
+                  <Button fx:id="btnRelatorio" minWidth="80.0" mnemonicParsing="false" onAction="#relatorio_Click" text="Relatório">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button minWidth="80.0" mnemonicParsing="false" text="Sair">
+                  <Button fx:id="btnSair" minWidth="80.0" mnemonicParsing="false" onAction="#sair_Click" text="Sair">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" top="5.0" />
                      </HBox.margin>
@@ -219,7 +218,7 @@
                </VBox.margin>
             </HBox>
             <Separator prefWidth="200.0" />
-            <TableView prefHeight="315.0" prefWidth="200.0">
+            <TableView fx:id="trvContaReceber" prefHeight="315.0" prefWidth="200.0">
               <columns>
                 <TableColumn maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="90.0" text="Data de Venda" />
                 <TableColumn prefWidth="65.0" text="Número" />
@@ -242,17 +241,17 @@
             <Separator prefWidth="200.0" />
             <HBox prefHeight="21.0" prefWidth="792.0">
                <children>
-                  <Button minWidth="80.0" mnemonicParsing="false" text="Em Aberto">
+                  <Button fx:id="btnAberto" minWidth="80.0" mnemonicParsing="false" onAction="#aberto_Click" text="Em Aberto">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button minWidth="80.0" mnemonicParsing="false" text="Recebidos">
+                  <Button fx:id="btnRecebidos" minWidth="80.0" mnemonicParsing="false" onAction="#recebido_Click" text="Recebidos">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button minWidth="80.0" mnemonicParsing="false" text="Todos">
+                  <Button fx:id="btnTodos" minWidth="80.0" mnemonicParsing="false" onAction="#todo_Click" text="Todos">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
@@ -262,7 +261,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField minWidth="50.0" prefWidth="50.0">
+                  <TextField fx:id="tfdQtd" minWidth="50.0" prefWidth="50.0">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
@@ -272,7 +271,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField minWidth="100.0" prefWidth="100.0">
+                  <TextField fx:id="tfdValorTotal" minWidth="100.0" prefWidth="100.0">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>

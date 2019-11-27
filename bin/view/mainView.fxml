@@ -22,15 +22,18 @@
                   <MenuItem fx:id="itemCadProduto" mnemonicParsing="false" onAction="#mnProduto_Click" text="Produtos" />
                   <MenuItem fx:id="itemCadCategoria" mnemonicParsing="false" onAction="#mnCategoria_Click" text="Categorias" />
                   <MenuItem fx:id="itemCadMarca" mnemonicParsing="false" onAction="#mnMarca_Click" text="Marcas" />
+                  <MenuItem fx:id="itemCadCentroDeCusto" mnemonicParsing="false" onAction="#mnuCentroDeCusto_Click" text="Centro de Custo" />
                </items>
             </Menu>
             <Menu id="mnuFinanceiro" fx:id="mnuFinanceiro" mnemonicParsing="false" text="Financeiro">
                <items>
-                  <MenuItem id="mnuItemContasPagar" fx:id="itemFinanceiroContasPagar" mnemonicParsing="false" onAction="#mnuContaPagar_Click" text="Contas a Pagar" />
-                  <MenuItem id="mnuItemContasReceber" fx:id="itemFinanceiroContasReceber" mnemonicParsing="false" onAction="#mnuContaReceber_Click" text="Contas a Receber" />
                   <MenuItem id="mnuItemContaCorrente" fx:id="itemFinanceiroContasCorrentes" mnemonicParsing="false" onAction="#mnuConta_Click" text="Contas Correntes" />
                   <MenuItem id="mnuItemDespesaMensal" fx:id="itemFinanceiroDespesasMensais" mnemonicParsing="false" onAction="#mnuDespesaMensal_Click" text="Despesas Mensais" />
                   <MenuItem id="mnuItemReceitaMensal" fx:id="itemFinanceiroReceitasMensais" mnemonicParsing="false" onAction="#mnuReceitaMensal_Click" text="Receitas Mensais" />
+                  <MenuItem fx:id="itemFinanceiroContasPagar" mnemonicParsing="false" onAction="#mnuContaPagar_Click" text="Contas a Pagar" />
+                  <MenuItem fx:id="itemFinanceiroContaReceber" mnemonicParsing="false" onAction="#mnuContaReceber_Click" text="Contas a Receber" />
+                  <MenuItem fx:id="itemFinanceiroPlanoConta" mnemonicParsing="false" onAction="#mnuPlanoConta_Click" text="Plano de Contas" />
+                  <MenuItem fx:id="itemFinanceiroFormaPagamento" mnemonicParsing="false" onAction="#mnuFormaPagamento_Click" text="Forma Pagamento" />
                </items>
             </Menu>
             <Menu id="mnuRelatorio" fx:id="mnuRelatorios" mnemonicParsing="false" text="Relatorios">

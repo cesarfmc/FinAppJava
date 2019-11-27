@@ -9,7 +9,8 @@ import javafx.stage.Stage;
 
 
 public class Main extends Application {
-    
+    private static Stage stage;
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -21,6 +22,7 @@ public class Main extends Application {
 			primaryStage.setScene(scene);
 			//primaryStage.setMaximized(true);
 			primaryStage.show();
+			setStage(primaryStage);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -29,4 +31,13 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+
+	public static Stage getStage() {
+		return stage;
+	}
+
+	public static void setStage(Stage stage) {
+		Main.stage = stage;
+	}
+		
 }

@@ -26,7 +26,7 @@ public class mainController {
 
 	@FXML
 	private MenuItem itemCadFornecedores;
-	
+
 	@FXML
 	private MenuItem itemCadProduto;
 
@@ -35,6 +35,9 @@ public class mainController {
 
 	@FXML
 	private MenuItem itemCadMarca;
+
+	@FXML
+	private MenuItem itemCadCentroDeCusto;
 
 	@FXML
 	private Menu mnuFinanceiro;
@@ -54,6 +57,15 @@ public class mainController {
 	@FXML
 	private MenuItem itemFinanceiroReceitasMensais;
 
+	@FXML
+	private MenuItem itemFinanceiroPlanoConta;
+
+	@FXML
+	private MenuItem itemFinanceiroContaReceber;
+
+	@FXML
+	private MenuItem itemFinanceiroFormaPagamento;
+	
 	@FXML
 	private Menu mnuRelatorios;
 
@@ -79,7 +91,39 @@ public class mainController {
 	private MenuItem itemUtilitariosUsuarios;
 
 	@FXML
-    void mnCategoria_Click(ActionEvent event) {
+	void mnuCentroDeCusto_Click(ActionEvent event) {
+		try {
+			root = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/CentroCustoListView.fxml"));
+			Stage stage = new Stage();
+			Scene scene = new Scene(root, 800, 600);
+			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.setTitle("Lista de Centro de Custos");
+			stage.setScene(scene);
+			stage.showAndWait();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	void mnuFormaPagamento_Click(ActionEvent event) {
+		try {
+			root = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/FormaPagamentoListView.fxml"));
+			Stage stage = new Stage();
+			Scene scene = new Scene(root, 800, 600);
+			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.setTitle("Lista Formas Pagamento");
+			stage.setScene(scene);
+			stage.showAndWait();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	void mnCategoria_Click(ActionEvent event) {
 		try {
 			root = (VBox) FXMLLoader.load(getClass().getResource("/view/CategoriaListView.fxml"));
 			Stage stage = new Stage();
@@ -93,10 +137,10 @@ public class mainController {
 			e.printStackTrace();
 		}
 
-    }
-	
+	}
+
 	@FXML
-    void mnMarca_Click(ActionEvent event) {
+	void mnMarca_Click(ActionEvent event) {
 		try {
 			root = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/MarcaListView.fxml"));
 			Stage stage = new Stage();
@@ -110,11 +154,27 @@ public class mainController {
 			e.printStackTrace();
 		}
 
-    }
+	}
 
-    @FXML
-    void mnProduto_Click(ActionEvent event) {
-    	try {
+	@FXML
+	void mnuPlanoConta_Click(ActionEvent event) {
+		try {
+			root = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/PlanoContaListView.fxml"));
+			Stage stage = new Stage();
+			Scene scene = new Scene(root, 800, 600);
+			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.setTitle("Lista Plano de Contas");
+			stage.setScene(scene);
+			stage.showAndWait();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	void mnProduto_Click(ActionEvent event) {
+		try {
 			root = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/ProdutoListView.fxml"));
 			Stage stage = new Stage();
 			Scene scene = new Scene(root, 800, 600);
@@ -127,8 +187,8 @@ public class mainController {
 			e.printStackTrace();
 		}
 
-    }
-	
+	}
+
 	@FXML
 	void mnFornecedor_Click(ActionEvent event) {
 		try {
@@ -154,9 +214,9 @@ public class mainController {
 
 			stage.setTitle("Lista de Clientes");
 			stage.setScene(scene);
-			stage.show();
+			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.showAndWait();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

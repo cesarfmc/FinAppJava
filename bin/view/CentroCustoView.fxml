@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Separator layoutY="17.0" prefHeight="0.0" prefWidth="800.0" />
@@ -29,17 +28,17 @@
             <Label text="Centro de Custo Pai:" GridPane.halignment="LEFT" GridPane.valignment="CENTER" />
             <Label text="Nome:" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
             <Label text="Descrição:" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-            <TextField GridPane.columnIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-            <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+            <TextField fx:id="tfdCentroCustoPai" GridPane.columnIndex="1" />
+            <TextField fx:id="tfdNome" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <TextArea fx:id="txaDescricao" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
       <Separator layoutY="200.0" prefHeight="3.0" prefWidth="800.0" />
       <ButtonBar buttonMinWidth="80.0" layoutX="8.0" layoutY="202.0" prefHeight="40.0" prefWidth="89.0">
         <buttons>
-          <Button mnemonicParsing="false" text="Salvar" />
-            <Button mnemonicParsing="false" text="Excluir" />
-            <Button mnemonicParsing="false" text="Cancelar" />
+          <Button fx:id="btnSalvar" mnemonicParsing="false" onAction="#salvar_Click" text="Salvar" />
+            <Button fx:id="btnExcluir" mnemonicParsing="false" onAction="#excluir_Click" text="Excluir" />
+            <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cancelar_Click" text="Cancelar" />
         </buttons>
       </ButtonBar>
       <Separator layoutX="8.0" layoutY="242.0" prefHeight="3.0" prefWidth="790.0" />

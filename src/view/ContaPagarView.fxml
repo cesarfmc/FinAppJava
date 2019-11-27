@@ -14,7 +14,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox prefHeight="600.0" prefWidth="800.0">
@@ -37,24 +36,51 @@
                   <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Data da Compra:" GridPane.halignment="LEFT" GridPane.valignment="CENTER" />
-                  <Label text="Número:" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                  <Label text="Documento:" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                  <Label text="Fornecedor:" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                  <Label text="Valor:" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-                  <Label text="Plano de Conta:" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
-                  <Label text="Centro de Custo:" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
-                  <Label text="Data de Vencimento:" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
-                  <Label text="Forma de Pagto:" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
-                  <DatePicker maxWidth="96.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER" />
-                  <TextField maxWidth="120.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                  <TextField maxWidth="120.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                  <ComboBox prefWidth="240.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                  <TextField maxWidth="120.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-                  <ComboBox prefWidth="240.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
-                  <ComboBox prefWidth="240.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
-                  <ComboBox prefWidth="240.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
-                  <DatePicker maxWidth="96.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
+                  <Label text="Data da Compra:" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+                     <padding>
+                        <Insets left="4.0" />
+                     </padding></Label>
+                  <Label text="Número:" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                     <padding>
+                        <Insets left="4.0" />
+                     </padding></Label>
+                  <Label text="Documento:" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                     <padding>
+                        <Insets left="4.0" />
+                     </padding></Label>
+                  <Label text="Fornecedor:" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                     <padding>
+                        <Insets left="4.0" />
+                     </padding></Label>
+                  <Label text="Valor:" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                     <padding>
+                        <Insets left="4.0" />
+                     </padding></Label>
+                  <Label text="Plano de Conta:" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+                     <padding>
+                        <Insets left="4.0" />
+                     </padding></Label>
+                  <Label text="Centro de Custo:" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="CENTER">
+                     <padding>
+                        <Insets left="4.0" />
+                     </padding></Label>
+                  <Label text="Data de Vencimento:" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="CENTER">
+                     <padding>
+                        <Insets left="4.0" />
+                     </padding></Label>
+                  <Label text="Forma de Pagto:" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="CENTER">
+                     <padding>
+                        <Insets left="4.0" />
+                     </padding></Label>
+                  <DatePicker fx:id="dpCompra" maxWidth="96.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER" />
+                  <TextField fx:id="tfdNumero" maxWidth="120.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                  <TextField fx:id="tfdDocumento" maxWidth="120.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                  <ComboBox fx:id="cmbFornecedor" prefWidth="240.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                  <TextField fx:id="tfdValor" maxWidth="120.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+                  <ComboBox fx:id="cmbPlanoConta" prefWidth="240.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+                  <ComboBox fx:id="cmbFormaPagamento" prefWidth="240.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
+                  <ComboBox fx:id="cmbCentroCusto" prefWidth="240.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
+                  <DatePicker fx:id="dpVencimento" maxWidth="96.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
                </children>
             </GridPane>
             <Separator prefWidth="200.0" />
@@ -76,11 +102,17 @@
                      <GridPane.margin>
                         <Insets top="3.0" />
                      </GridPane.margin>
+                     <padding>
+                        <Insets left="4.0" />
+                     </padding>
                   </Label>
                   <Label text="Número Banco:" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets top="3.0" />
                      </GridPane.margin>
+                     <padding>
+                        <Insets left="4.0" />
+                     </padding>
                   </Label>
                   <Label text="Data Pagamento:" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
                      <GridPane.margin>
@@ -102,32 +134,32 @@
                         <Insets top="3.0" />
                      </GridPane.margin>
                   </Label>
-                  <DatePicker maxWidth="96.0" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+                  <DatePicker fx:id="dpPagamento" maxWidth="96.0" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets top="3.0" />
                      </GridPane.margin>
                   </DatePicker>
-                  <TextField maxWidth="120.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+                  <TextField fx:id="tfdValorPagamento" maxWidth="120.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets top="3.0" />
                      </GridPane.margin>
                   </TextField>
-                  <TextField maxWidth="120.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                  <TextField fx:id="tfdNumeroBanco" maxWidth="120.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets top="3.0" />
                      </GridPane.margin>
                   </TextField>
-                  <TextField maxWidth="120.0" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                  <TextField fx:id="tfdAgencia" maxWidth="120.0" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets top="3.0" />
                      </GridPane.margin>
                   </TextField>
-                  <TextField maxWidth="120.0" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+                  <TextField fx:id="tfdNumeroDocPagamento" maxWidth="120.0" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets top="3.0" />
                      </GridPane.margin>
                   </TextField>
-                  <TextField maxWidth="120.0" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                  <TextField fx:id="tfdConta" maxWidth="120.0" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets top="3.0" />
                      </GridPane.margin>
@@ -137,32 +169,32 @@
             <Separator prefWidth="200.0" />
             <HBox prefHeight="39.0" prefWidth="800.0">
                <children>
-                  <Button maxWidth="80.0" mnemonicParsing="false" text="Salvar">
+                  <Button fx:id="btnSalvar" maxWidth="80.0" minHeight="25.0" minWidth="80.0" mnemonicParsing="false" onAction="#salvar_Click" text="Salvar">
                      <HBox.margin>
                         <Insets right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button maxWidth="80.0" minWidth="80.0" mnemonicParsing="false" text="Excluir">
+                  <Button fx:id="btnExcluir" maxWidth="80.0" minWidth="80.0" mnemonicParsing="false" onAction="#excluir_Click" text="Excluir">
                      <HBox.margin>
                         <Insets right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button maxWidth="80.0" minWidth="80.0" mnemonicParsing="false" text="Baixar Doc">
+                  <Button fx:id="btnBaixaDoc" maxWidth="80.0" minWidth="80.0" mnemonicParsing="false" onAction="#baixarDoc_Click" text="Baixar Doc">
                      <HBox.margin>
                         <Insets right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button maxWidth="80.0" minWidth="80.0" mnemonicParsing="false" text="Canc. Baixa">
+                  <Button fx:id="btnCancelarBaixa" maxWidth="80.0" minWidth="80.0" mnemonicParsing="false" onAction="#cancelarBaixa_Click" text="Canc. Baixa">
                      <HBox.margin>
                         <Insets right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button maxWidth="80.0" minWidth="80.0" mnemonicParsing="false" text="Copiar">
+                  <Button fx:id="btnCopiar" maxWidth="80.0" minWidth="80.0" mnemonicParsing="false" onAction="#copiar_Click" text="Copiar">
                      <HBox.margin>
                         <Insets right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button minWidth="80.0" mnemonicParsing="false" text="Cancelar">
+                  <Button fx:id="btnCancelar" minWidth="80.0" mnemonicParsing="false" onAction="#cancelar_Click" text="Cancelar">
                      <HBox.margin>
                         <Insets right="5.0" top="5.0" />
                      </HBox.margin>
@@ -171,6 +203,9 @@
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
+               <padding>
+                  <Insets left="4.0" />
+               </padding>
             </HBox>
             <Separator prefWidth="800.0" />
          </children>

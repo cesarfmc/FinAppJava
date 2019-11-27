@@ -10,30 +10,29 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane minHeight="600.0" minWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1">
+<AnchorPane minHeight="600.0" minWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PlanoContaListViewController">
    <children>
       <VBox layoutX="3.0" layoutY="3.0" prefHeight="594.0" prefWidth="794.0">
          <children>
             <Label text="Plano de Contas:" />
             <ScrollPane prefHeight="505.0" prefWidth="200.0">
                <content>
-                  <TreeView prefHeight="502.0" prefWidth="793.0" />
+                  <TreeView fx:id="trvPlanoConta" prefHeight="502.0" prefWidth="793.0" />
                </content>
             </ScrollPane>
             <HBox prefHeight="28.0" prefWidth="794.0">
                <children>
-                  <Button minWidth="80.0" mnemonicParsing="false" text="Inserir">
+                  <Button fx:id="btnInserir" minWidth="80.0" mnemonicParsing="false" onAction="#inserir_Click" text="Inserir">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button minWidth="80.0" mnemonicParsing="false" text="Editar">
+                  <Button fx:id="btnEditar" minWidth="80.0" mnemonicParsing="false" onAction="#editar_Click" text="Editar">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button minWidth="80.0" mnemonicParsing="false" text="Sair">
+                  <Button fx:id="btnSair" minWidth="80.0" mnemonicParsing="false" onAction="#sair_Click" text="Sair">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>

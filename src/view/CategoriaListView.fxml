@@ -9,39 +9,31 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity"
-	minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
-	prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1"
-	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="controller.CategoriaListViewController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CategoriaListViewController">
 	<children>
 		<Label text="Categorias:">
 			<VBox.margin>
 				<Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
 			</VBox.margin>
 		</Label>
-		<ScrollPane fitToHeight="true" fitToWidth="true"
-			prefHeight="505.0" prefWidth="200.0">
+		<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="505.0" prefWidth="200.0">
 			<content>
 				<TreeView fx:id="trvCategorias" />
 			</content>
 		</ScrollPane>
 		<HBox prefHeight="27.0" prefWidth="800.0">
 			<children>
-				<Button maxWidth="80.0" minWidth="80.0"
-					mnemonicParsing="false" onAction="#inserir_Click" text="Inserir">
+				<Button fx:id="btnInserir" maxWidth="80.0" minWidth="80.0" mnemonicParsing="false" onAction="#inserir_Click" text="Inserir">
 					<HBox.margin>
 						<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
 					</HBox.margin>
 				</Button>
-				<Button maxWidth="80.0" minWidth="80.0"
-					mnemonicParsing="false" onAction="#editar_Click" text="Editar">
+				<Button fx:id="btnEditar" maxWidth="80.0" minWidth="80.0" mnemonicParsing="false" onAction="#editar_Click" text="Editar">
 					<HBox.margin>
 						<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
 					</HBox.margin>
 				</Button>
-				<Button maxWidth="80.0" minWidth="80.0"
-					mnemonicParsing="false" text="Sair">
+				<Button fx:id="btnSair" maxWidth="80.0" minWidth="80.0" mnemonicParsing="false" onAction="#sair_Click" text="Sair">
 					<HBox.margin>
 						<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
 					</HBox.margin>

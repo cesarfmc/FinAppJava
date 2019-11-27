@@ -1,12 +1,10 @@
 package helper;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+
 import java.util.Date;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import model.Cidade;
 
 public class ClienteTabela {
 	private final SimpleIntegerProperty id;
@@ -21,10 +19,10 @@ public class ClienteTabela {
 	private final SimpleStringProperty complemento;
 	private final SimpleStringProperty bairro;
 	private final SimpleStringProperty email;
-	//private final SimpleDateFormat dataNascimento;
+	private final SimpleStringProperty dataNascimento;
 
-	public ClienteTabela(Integer id,String nome,String cpf,String cnpj,String telefone,String endereco,String celular,String cidade,
-						  String numero,String bairro,String email,String complemento) {
+	public ClienteTabela(Integer id,String nome,String cnpj,String cpf,String celular,String telefone,String endereco,String numero,String complemento, String bairro,
+						String cidade,String email,Date dataNascimento) {
 		super();
 		
 		this.id = new SimpleIntegerProperty(id);
@@ -39,7 +37,7 @@ public class ClienteTabela {
 		this.complemento = new SimpleStringProperty(complemento);
 		this.bairro = new SimpleStringProperty(bairro);
 		this.email = new SimpleStringProperty(email);
-		//this.dataNascimento = new SimpleDateFormat(dataNascimento);
+		this.dataNascimento = new SimpleStringProperty(dataNascimento.toString());
 	}
 	
 	public String getNome() {
@@ -87,6 +85,10 @@ public class ClienteTabela {
 
 	public String getEmail() {
 		return email.get();
+	}
+
+	public String getDataNascimento() {
+		return dataNascimento.get();
 	}
 	
 }

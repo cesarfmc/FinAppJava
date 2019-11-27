@@ -1,124 +1,95 @@
 package controller;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import java.util.Optional;
 
-import org.hibernate.Session;
-
-import helper.HibernateUtil;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
+import helper.CategoriaDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
 import model.Categoria;
-import model.Produto;
 
 public class CategoriaViewController {
+	private Categoria categoria;
+	private CategoriaDAO categoriaDAO;
 	@FXML
-    private TextField tfdCategoriaPai;
+	private TextField tfdCategoriaPai;
 
-    @FXML
-    private TextField tfdNomeCategoria;
 	@FXML
-	private Button excluirButton;
+	private TextField tfdNomeCategoria;
+
+	@FXML
+	private Button btnSalvar;
+
+	@FXML
+	private Button btnExcluir;
+
+	@FXML
+	private Button btnCancelar;
+
+	@FXML
+	void cancelar_Click(ActionEvent event) {
+		Stage stage = (Stage) btnCancelar.getScene().getWindow();
+		stage.close();
+	}
 
 	@FXML
 	void excluir_Click(ActionEvent event) {
+		Alert alert = new Alert(AlertType.WARNING, 
+				"Deseja Remover Categoria?", 
+				ButtonType.YES, ButtonType.NO);
 
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.YES){
+			categoriaDAO.removeCategoria(categoria.getIdCategoria());
+		} else {
+			Alert alertExclusao = new Alert(AlertType.INFORMATION, "Operacao Cancelada", ButtonType.OK);
+			alertExclusao.showAndWait();
+		}
 	}
 
 	@FXML
 	void salvar_Click(ActionEvent event) {
+		if(categoria.getCategorias() != null) {
+			categoriaDAO.updateCategoria(getCategoria());
 
+			Alert alert = new Alert(AlertType.INFORMATION, "Categoria Inserida", ButtonType.OK);
+			alert.showAndWait();
+		}else {
+			categoriaDAO.addCategoria(getCategoria());
+
+			Alert alert = new Alert(AlertType.INFORMATION, "Categoria Alterada", ButtonType.OK);
+			alert.showAndWait();
+		}
 	}
-	
+
+	private Categoria getCategoria() {
+		if(categoria.getCategorias() != null) {
+			Categoria filho = new Categoria();
+			filho.setNome(tfdNomeCategoria.getText());
+			filho.setCategoria(categoria);
+			
+			return filho;
+		}else {
+			categoria.setNome(tfdNomeCategoria.getText());
+			
+			return categoria;
+		}
+	}
+
 	@FXML
 	private void initialize() {
-		tfdCategoriaPai.textProperty().bind(getNomeProperty(cat.getCategoria()));
-	}
-	private CategoriaItem cat;
-	
-	public StringProperty getNomeProperty(Categoria categoria) {
-		 StringProperty fname = new SimpleStringProperty();
-		 fname.setValue(categoria.getNome().toString());
-		return fname;
-	}
-	
-
-	public CategoriaViewController(CategoriaItem cat) {
-		this.cat = cat;
-		
+		tfdCategoriaPai.setText(categoria.getNome());
 	}
 
-	public int verificaVinculo(Categoria categoria) {
-		Session session = HibernateUtil.getSessionFactory().openSession();
-
-		CriteriaBuilder cb = session.getCriteriaBuilder();
-		CriteriaQuery<Produto> cr = cb.createQuery(Produto.class);
-
-		Root<Produto> root = cr.from(Produto.class);
-		cr.select(root).where(cb.equal(root.get("categoria"), categoria.getIdCategoria()));
-
-		return session.createQuery(cr).getMaxResults();
+	public CategoriaViewController(Categoria categoria, CategoriaDAO categoriaDAO) {
+		this.categoria = categoria;
+		this.categoriaDAO = categoriaDAO;
 
 	}
 
-	public void salvar() {
-
-	}
-
-	public class CategoriaNew extends CategoriaViewController {
-		private Categoria categoria;
-		public CategoriaNew() 
-        {
-            super(cat);
-			excluirButton.setDisable(true);
-        }
-		
-		public Categoria catExiste(Categoria categoria) {
-			Session session = HibernateUtil.getSessionFactory().openSession();
-
-			CriteriaBuilder cb = session.getCriteriaBuilder();
-			CriteriaQuery<Categoria> cr = cb.createQuery(Categoria.class);
-
-			Root<Categoria> root = cr.from(Categoria.class);
-			cr.select(root).where(cb.equal(root.get("nome"), categoria.getNome()));
-
-			Categoria catExiste = session.createQuery(cr).getSingleResult();
-
-			return catExiste;
-		}
-        @Override
-		public void salvar()
-        {
-            Categoria temp = catExiste(cat.getCategoria());
-            if (temp == null)
-            {
-            	Session session = HibernateUtil.getSessionFactory().openSession();
-            	
-            	categoria = new Categoria();
-                categoria.setIdCategoria(cat.getCategoria().getIdCategoria());
-                session.save(categoria);
-                try {
-					this.finalize();
-				} catch (Throwable e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-            }
-            else
-            {
-                System.out.println("Já existe uma categoria com esse nome.");
-            }
-        }
-	}
-
-	public class CategoriaEdit {
-
-	}
 }

@@ -12,11 +12,7 @@ public class HibernateUtil2 {
 			conf = new Configuration();
 			conf.configure("hibernate.cfg.xml");
 
-			System.out.println("configurou");
-
 			factory = conf.buildSessionFactory();
-
-			System.out.println("construiu");
 
 			return factory;
 		} catch (Throwable ex) {
