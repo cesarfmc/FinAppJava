@@ -1,12 +1,14 @@
 package controller;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Session;
 
 import helper.CentroCustoDAO;
 import helper.ContaPagarDAO;
+import helper.DateHelper;
 import helper.FormaPagamentoDAO;
 import helper.FornecedorDAO;
 import helper.HibernateUtil2;
@@ -76,6 +78,9 @@ public class ContaPagarListViewController {
 	@FXML
 	private DatePicker dpVencimentoInicio;
 
+	@FXML
+	private DatePicker dpVencimentoFinal;
+	
 	@FXML
 	private DatePicker dpCompraFinal;
 
@@ -205,9 +210,74 @@ public class ContaPagarListViewController {
 
 	}
 
+	public void pesquisaDataVencimento() {
+		Date dataInicio, dataFim;
+		dataInicio = DateHelper.getDate(dpVencimentoInicio.getValue());
+		dataFim = DateHelper.getDate(dpVencimentoFinal.getValue());
+		
+		listaContaPagar = contaPagarDAO.listContaPagarDataVencimento(dataInicio, dataFim);
+
+		tbvContaPagar.setItems(FXCollections.observableArrayList(listaContaPagar));
+	}
+	
+	public void pesquisaFornecedor() {
+		Fornecedor fornecedor = cmbFornecedor.getSelectionModel().getSelectedItem();
+		
+		listaContaPagar = contaPagarDAO.listContaPagarFornecedor(fornecedor);
+
+		tbvContaPagar.setItems(FXCollections.observableArrayList(listaContaPagar));
+
+	}
+	
+	public void pesquisaCentroCusto() {
+		CentroCusto centroCusto= cmbCentroCusto.getSelectionModel().getSelectedItem();
+		
+		listaContaPagar = contaPagarDAO.listContaPagarCentroCusto(centroCusto);
+
+		tbvContaPagar.setItems(FXCollections.observableArrayList(listaContaPagar));
+
+	}
+	
+	public void pesquisaPlanoConta() {
+		PlanoConta planoConta = cmbPlanoConta.getSelectionModel().getSelectedItem();
+		
+		listaContaPagar = contaPagarDAO.listContaPagarPlanoConta(planoConta);
+
+		tbvContaPagar.setItems(FXCollections.observableArrayList(listaContaPagar));
+
+	}
+
+	public void pesquisaFormaPagamento() {
+		FormaPagamento formaPagamento = cmbFormaPagamento.getSelectionModel().getSelectedItem();
+		
+		listaContaPagar = contaPagarDAO.listContaPagarFormaPagamento(formaPagamento);
+
+		tbvContaPagar.setItems(FXCollections.observableArrayList(listaContaPagar));
+
+	}
+
 	@FXML
 	void pesquisar_Click(ActionEvent event) {
-
+		if(dpVencimentoInicio.getValue() != null) {
+			pesquisaDataVencimento();
+		}else {
+			if(cmbFornecedor.getSelectionModel().getSelectedItem() != null) {
+				pesquisaFornecedor();
+			}else {
+				if(cmbCentroCusto.getSelectionModel().getSelectedItem() != null) {
+					pesquisaCentroCusto();
+				}else {
+					if(cmbPlanoConta.getSelectionModel().getSelectedItem() != null) {
+						pesquisaPlanoConta();
+					}else {
+						if(cmbFormaPagamento.getSelectionModel().getSelectedItem() != null) {
+							pesquisaFormaPagamento();
+						}
+					}
+				}
+			}
+		}
+		
 	}
 
 	@FXML

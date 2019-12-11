@@ -134,12 +134,13 @@ public class ContaPagarViewController {
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.YES) {
 			contaPagarDAO.removeContaPagar(contaPagar.getIdContaPagar());
-			Alert alertConfirm = new Alert(AlertType.INFORMATION, "Conta a Pagar!", ButtonType.OK);
+			Alert alertConfirm = new Alert(AlertType.INFORMATION, "Conta a Pagar Excluida!", ButtonType.OK);
 			alertConfirm.showAndWait();
 		} else {
 			Alert alertExclusao = new Alert(AlertType.INFORMATION, "Operacao Cancelada", ButtonType.OK);
 			alertExclusao.showAndWait();
 		}
+		fechar(getStage(btnExcluir));
 	}
 
 	@FXML
