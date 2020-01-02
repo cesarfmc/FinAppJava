@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 import model.CentroCusto;
 import model.ContaPagar;
@@ -36,65 +37,73 @@ public class ContaPagarDAO {
 		return list;
 	}
 	
-
-	public List<ContaPagar> listContaPagarDataVencimento(Date dataInicio, Date dataFim) {
+	public List<ContaPagar> listContaPagarTudo(Date dataInicio, Date dataFim,Fornecedor fornecedor,CentroCusto centroCusto,PlanoConta planoConta,FormaPagamento formaPagamento) {
 		List<ContaPagar> list = new ArrayList<ContaPagar>();
 		s.beginTransaction();
-		list = s.createQuery("from ContaPagar where dataVencimento between :dataInicio and :dataFinal ", ContaPagar.class)
-				.setParameter("dataInicio", dataInicio)
-				.setParameter("dataFinal", dataFim)
-				.list();
+		String sql = "from ContaPagar where";
+		StringBuilder hql = new StringBuilder();
+		hql.append(sql);
+		if(dataInicio != null) {
+			hql.append(" dataVencimento between :dataInicio and :dataFinal");
+			if(fornecedor != null || centroCusto  != null || planoConta != null || formaPagamento != null) {
+				hql.append(" and ");
+			}
+		}
+		
+		if(fornecedor != null) {
+				hql.append(" idFornecedor =  :idFornecedor");
+				if( centroCusto  != null || planoConta != null || formaPagamento != null) {
+					hql.append(" and ");
+				}
+		}
+		
+		if(centroCusto  != null) {
+			hql.append(" idCentroCusto =  :idCentroCusto");
+			if( planoConta != null || formaPagamento != null) {
+				hql.append(" and ");
+			}
+		}
+		
+		if(planoConta != null) {
+			hql.append(" idPlanoConta =  :idPlanoConta");
+			if( formaPagamento != null) {
+				hql.append(" and ");
+			}
+		}
+		
+		if(formaPagamento != null) {
+			System.out.println(formaPagamento.getIdFormaPagamento());
+			hql.append(" idFormaPagamento =  :idFormaPagamento");
+		}
+				
+		Query<ContaPagar> query = s.createQuery(hql.toString(),ContaPagar.class);
+		if(dataInicio != null) {
+			query.setParameter("dataInicio", dataInicio);
+			query.setParameter("dataFinal", dataFim);
+		}
+		
+		if(fornecedor != null) {
+			query.setParameter("idFornecedor", fornecedor.getIdFornecedor());
+		}
+		
+		if(centroCusto  != null) {
+			query.setParameter("idCentroCusto", centroCusto.getIdCentroCusto());
+		}
+		
+		if(planoConta != null) {
+			query.setParameter("idPlanoConta", planoConta.getIdPlanoConta());
+		}
+		
+		if(formaPagamento != null) {
+			query.setParameter("idFormaPagamento", formaPagamento.getIdFormaPagamento());
+		}
+		
+		list = query.list();
 		s.getTransaction().commit();
 
 		return list;
 	}
-
-	public List<ContaPagar> listContaPagarFornecedor(Fornecedor fornecedor) {
-		List<ContaPagar> list = new ArrayList<ContaPagar>();
-		s.beginTransaction();
-		list = s.createQuery("from ContaPagar where idFornecedor =  :idFornecedor", ContaPagar.class)
-				.setParameter("idFornecedor", fornecedor.getIdFornecedor())
-				.list();
-		s.getTransaction().commit();
-
-		return list;
-	}
-
 	
-	public List<ContaPagar> listContaPagarCentroCusto(CentroCusto centroCusto) {
-		List<ContaPagar> list = new ArrayList<ContaPagar>();
-		s.beginTransaction();
-		list = s.createQuery("from ContaPagar where idCentroCusto =  :idCentroCusto", ContaPagar.class)
-				.setParameter("idCentroCusto", centroCusto.getIdCentroCusto())
-				.list();
-		s.getTransaction().commit();
-
-		return list;
-	}
-
-	public List<ContaPagar> listContaPagarPlanoConta(PlanoConta planoConta) {
-		List<ContaPagar> list = new ArrayList<ContaPagar>();
-		s.beginTransaction();
-		list = s.createQuery("from ContaPagar where idPlanoConta =  :idPlanoConta", ContaPagar.class)
-				.setParameter("idPlanoConta", planoConta.getIdPlanoConta())
-				.list();
-		s.getTransaction().commit();
-
-		return list;
-	}
-
-	
-	public List<ContaPagar> listContaPagarFormaPagamento(FormaPagamento formaPagamento) {
-		List<ContaPagar> list = new ArrayList<ContaPagar>();
-		s.beginTransaction();
-		list = s.createQuery("from ContaPagar where idFormaPagamento =  :idFormaPagamento", ContaPagar.class)
-				.setParameter("idFormaPagamento", formaPagamento.getIdFormaPagamento())
-				.list();
-		s.getTransaction().commit();
-
-		return list;
-	}
-
 	public void removeContaPagar(Integer id) {
 		s.beginTransaction();
 		ContaPagar contaPagar = (ContaPagar) s.load(ContaPagar.class, id);

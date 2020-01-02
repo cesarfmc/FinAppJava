@@ -104,7 +104,10 @@ public class PlanoContaViewController {
 		if (planoConta == null) {
 			planoConta = new PlanoConta();
 		}
-		planoConta.setNome(tfdNome.getText());
+		if(tfdNome.getText() != null ) {
+			planoConta.setNome(tfdNome.getText());	
+		}
+		
 		planoConta.setDescricao(txaDescricao.getText());
 		planoConta.setPlanoConta(planoContaPai);
 

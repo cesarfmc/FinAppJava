@@ -18,12 +18,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -80,7 +83,7 @@ public class ContaPagarListViewController {
 
 	@FXML
 	private DatePicker dpVencimentoFinal;
-	
+
 	@FXML
 	private DatePicker dpCompraFinal;
 
@@ -210,74 +213,52 @@ public class ContaPagarListViewController {
 
 	}
 
-	public void pesquisaDataVencimento() {
-		Date dataInicio, dataFim;
-		dataInicio = DateHelper.getDate(dpVencimentoInicio.getValue());
-		dataFim = DateHelper.getDate(dpVencimentoFinal.getValue());
-		
-		listaContaPagar = contaPagarDAO.listContaPagarDataVencimento(dataInicio, dataFim);
-
-		tbvContaPagar.setItems(FXCollections.observableArrayList(listaContaPagar));
-	}
-	
-	public void pesquisaFornecedor() {
-		Fornecedor fornecedor = cmbFornecedor.getSelectionModel().getSelectedItem();
-		
-		listaContaPagar = contaPagarDAO.listContaPagarFornecedor(fornecedor);
-
-		tbvContaPagar.setItems(FXCollections.observableArrayList(listaContaPagar));
-
-	}
-	
-	public void pesquisaCentroCusto() {
-		CentroCusto centroCusto= cmbCentroCusto.getSelectionModel().getSelectedItem();
-		
-		listaContaPagar = contaPagarDAO.listContaPagarCentroCusto(centroCusto);
-
-		tbvContaPagar.setItems(FXCollections.observableArrayList(listaContaPagar));
-
-	}
-	
-	public void pesquisaPlanoConta() {
-		PlanoConta planoConta = cmbPlanoConta.getSelectionModel().getSelectedItem();
-		
-		listaContaPagar = contaPagarDAO.listContaPagarPlanoConta(planoConta);
-
-		tbvContaPagar.setItems(FXCollections.observableArrayList(listaContaPagar));
-
+	public Fornecedor getFornecedor() {
+		return cmbFornecedor.getSelectionModel().getSelectedItem();
 	}
 
-	public void pesquisaFormaPagamento() {
-		FormaPagamento formaPagamento = cmbFormaPagamento.getSelectionModel().getSelectedItem();
-		
-		listaContaPagar = contaPagarDAO.listContaPagarFormaPagamento(formaPagamento);
+	public CentroCusto getCentroCusto() {
+		return cmbCentroCusto.getSelectionModel().getSelectedItem();
+	}
 
-		tbvContaPagar.setItems(FXCollections.observableArrayList(listaContaPagar));
+	public PlanoConta getPlanoConta() {
+		return cmbPlanoConta.getSelectionModel().getSelectedItem();
+	}
 
+	public FormaPagamento getFormaPagamento() {
+		return cmbFormaPagamento.getSelectionModel().getSelectedItem();
+	}
+
+	public void pesquisaTudo() {
+		Date dataInicio = null, dataFim = null;
+		if (dpVencimentoInicio.getValue() != null && dpVencimentoFinal.getValue() != null) {
+			dataInicio = DateHelper.getDate(dpVencimentoInicio.getValue());
+			dataFim = DateHelper.getDate(dpVencimentoFinal.getValue());
+		}
+
+		listaContaPagar = contaPagarDAO.listContaPagarTudo(dataInicio, dataFim, getFornecedor(), getCentroCusto(),
+				getPlanoConta(), getFormaPagamento());
+
+		if (listaContaPagar.isEmpty()) {
+			Alert alert = new Alert(AlertType.INFORMATION, "Nenhum Dado Encontrado!", ButtonType.OK);
+			alert.showAndWait();
+		} else {
+			tbvContaPagar.setItems(FXCollections.observableArrayList(listaContaPagar));
+		}
 	}
 
 	@FXML
 	void pesquisar_Click(ActionEvent event) {
-		if(dpVencimentoInicio.getValue() != null) {
-			pesquisaDataVencimento();
-		}else {
-			if(cmbFornecedor.getSelectionModel().getSelectedItem() != null) {
-				pesquisaFornecedor();
-			}else {
-				if(cmbCentroCusto.getSelectionModel().getSelectedItem() != null) {
-					pesquisaCentroCusto();
-				}else {
-					if(cmbPlanoConta.getSelectionModel().getSelectedItem() != null) {
-						pesquisaPlanoConta();
-					}else {
-						if(cmbFormaPagamento.getSelectionModel().getSelectedItem() != null) {
-							pesquisaFormaPagamento();
-						}
-					}
-				}
-			}
+		if (dpVencimentoInicio.getValue() == null && cmbFornecedor.getSelectionModel().getSelectedItem() == null
+				&& cmbCentroCusto.getSelectionModel().getSelectedItem() == null
+				&& cmbPlanoConta.getSelectionModel().getSelectedItem() == null
+				&& cmbFormaPagamento.getSelectionModel().getSelectedItem() == null) {
+
+			Alert alert = new Alert(AlertType.INFORMATION, "Preencha ao menos um campo!", ButtonType.OK);
+			alert.showAndWait();
+		} else {
+			pesquisaTudo();
 		}
-		
 	}
 
 	@FXML
