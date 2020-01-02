@@ -109,12 +109,35 @@ public class ContaPagarViewController {
 
 	@FXML
 	void baixarDoc_Click(ActionEvent event) {
-
+		if (contaPagar.getStatus().contentEquals("A")) {
+			ativaBaixa();
+		} else {
+			Alert alertBaixa = new Alert(AlertType.INFORMATION, "Conta já possui baixa!", ButtonType.OK);
+			alertBaixa.showAndWait();
+		}
 	}
 
 	@FXML
 	void cancelarBaixa_Click(ActionEvent event) {
+		contaPagar.setStatus("A");
+		contaPagar.setValorPagamento(null);
+		contaPagar.setDataPagamento(null);
+		contaPagar.setNumeroBanco(null);
+		contaPagar.setNumeroAgencia(null);
+		contaPagar.setNumeroBanco(null);
 
+		Alert alert = new Alert(AlertType.WARNING, "Deseja Remover Baixa?", ButtonType.YES, ButtonType.NO);
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.YES) {
+			contaPagarDAO.updateContaPagar(contaPagar);
+			Alert alertConfirm = new Alert(AlertType.INFORMATION, "Baixa Removida!", ButtonType.OK);
+			alertConfirm.showAndWait();
+			fechar(getStage(btnCancelarBaixa));
+		} else {
+			Alert alertExclusao = new Alert(AlertType.INFORMATION, "Operacao Cancelada", ButtonType.OK);
+			alertExclusao.showAndWait();
+		}
 	}
 
 	@FXML
@@ -143,50 +166,117 @@ public class ContaPagarViewController {
 		fechar(getStage(btnExcluir));
 	}
 
-	@FXML
-	void salvar_Click(ActionEvent event) {
-		if(contaPagar == null) {
+	private void salvar() {
+		if (contaPagar == null) {
 			contaPagarDAO.addContaPagar(getDado());
-			
+
 			Alert alertConfirm = new Alert(AlertType.INFORMATION, "Conta a Pagar Inserida!", ButtonType.OK);
 			alertConfirm.showAndWait();
-		}else {
-			contaPagarDAO.updateContaPagar(getDado());
-			
-			Alert alertConfirm = new Alert(AlertType.INFORMATION, "Conta a Pagar Alterada!", ButtonType.OK);
-			alertConfirm.showAndWait();
+			fechar(getStage(btnSalvar));
+		} else {
+			contaPagar = getDado();
+			if (contaPagar.getValorPagamento() == null) {
+				Alert alertPagamento = new Alert(AlertType.INFORMATION, "Valor de Pagamento Obrigatório!",
+						ButtonType.OK);
+				alertPagamento.showAndWait();
+			}else {
+				contaPagarDAO.updateContaPagar(getDado());
+				if (btnBaixaDoc.isDisabled() == true) {
+					Alert alertConfirm = new Alert(AlertType.INFORMATION, "Baixa Efetuada!", ButtonType.OK);
+					alertConfirm.showAndWait();
+				} else {
+					Alert alertConfirm = new Alert(AlertType.INFORMATION, "Conta a Pagar Alterada!", ButtonType.OK);
+					alertConfirm.showAndWait();
+				}
+				fechar(getStage(btnSalvar));
+			}
+
 		}
-		
-		fechar(getStage(btnSalvar));
 	}
-	
+
+	@FXML
+	void salvar_Click(ActionEvent event) {
+		salvar();
+	}
+
+	private void desativaBaixa() {
+		tfdValorPagamento.setDisable(true);
+		tfdNumeroBanco.setDisable(true);
+		dpPagamento.setDisable(true);
+		tfdAgencia.setDisable(true);
+		tfdNumeroDocPagamento.setDisable(true);
+		tfdConta.setDisable(true);
+
+		btnCancelarBaixa.setDisable(true);
+	}
+
+	private void desativaDadosConta() {
+		dpCompra.setDisable(true);
+		tfdNumero.setDisable(true);
+		tfdDocumento.setDisable(true);
+		cmbFornecedor.setDisable(true);
+		tfdValor.setDisable(true);
+		cmbPlanoConta.setDisable(true);
+		cmbCentroCusto.setDisable(true);
+		dpVencimento.setDisable(true);
+		cmbFormaPagamento.setDisable(true);
+	}
+
+	private void ativaBaixa() {
+		tfdValorPagamento.setDisable(false);
+		tfdNumeroBanco.setDisable(false);
+		dpPagamento.setDisable(false);
+		tfdAgencia.setDisable(false);
+		tfdNumeroDocPagamento.setDisable(false);
+		tfdConta.setDisable(false);
+
+		btnBaixaDoc.setDisable(true);
+		desativaDadosConta();
+	}
+
 	private ContaPagar getDado() {
-		if(contaPagar == null) {
+		if (contaPagar == null) {
 			contaPagar = new ContaPagar();
+			contaPagar.setStatus("A");
 		}
-		
+
 		contaPagar.setPlanoConta(cmbPlanoConta.getSelectionModel().getSelectedItem());
 		contaPagar.setCentroCusto(cmbCentroCusto.getSelectionModel().getSelectedItem());
 		contaPagar.setFormaPagamento(cmbFormaPagamento.getSelectionModel().getSelectedItem());
 		contaPagar.setFornecedor(cmbFornecedor.getSelectionModel().getSelectedItem());
-		
+
 		contaPagar.setDataCompra(DateHelper.getDate(dpCompra.getValue()));
 		contaPagar.setDataVencimento(DateHelper.getDate(dpVencimento.getValue()));
-		contaPagar.setDataPagamento(DateHelper.getDate(dpPagamento.getValue()));
 		contaPagar.setDataInsercao(new Date());
-		
+
 		contaPagar.setNumero(tfdNumero.getText());
 		contaPagar.setDocumento(tfdDocumento.getText());
-		contaPagar.setValorPagamento(new BigDecimal(tfdValorPagamento.getText()));
 		contaPagar.setValor(new BigDecimal(tfdValor.getText()));
-		contaPagar.setNumeroBanco(tfdNumeroBanco.getText());
-		contaPagar.setNumeroAgencia(tfdAgencia.getText());
-		contaPagar.setNumeroConta(tfdConta.getText());
-		contaPagar.setNumeroDocPagto(tfdNumeroDocPagamento.getText());
-		contaPagar.setStatus("A");
-		
+
+		if (btnBaixaDoc.isDisabled() == true) {
+
+			if (tfdNumeroBanco.getText() != null) {
+				contaPagar.setNumeroBanco(tfdNumeroBanco.getText());
+			}
+			if (dpPagamento.getValue() != null) {
+				contaPagar.setDataPagamento(DateHelper.getDate(dpPagamento.getValue()));
+			}
+			if (tfdAgencia.getText() != null) {
+				contaPagar.setNumeroAgencia(tfdAgencia.getText());
+			}
+			if (tfdNumeroDocPagamento.getText() != null) {
+				contaPagar.setNumeroDocPagto(tfdNumeroDocPagamento.getText());
+			}
+			if (tfdConta.getText() != null) {
+				contaPagar.setNumeroConta(tfdConta.getText());
+			}
+
+			contaPagar.setStatus("B");
+		}
+
 		return contaPagar;
 	}
+
 	private void selectCentroCusto() {
 		for (CentroCusto centroCusto : listaCentroCusto) {
 			if (centroCusto.getNome().equals(contaPagar.getCentroCusto().getNome())) {
@@ -218,7 +308,7 @@ public class ContaPagarViewController {
 			}
 		}
 	}
-	
+
 	private void limpaCampos() {
 		tfdNumero.setText("");
 		tfdValor.setText("");
@@ -227,7 +317,33 @@ public class ContaPagarViewController {
 		tfdNumeroBanco.setText("");
 		tfdAgencia.setText("");
 		tfdConta.setText("");
-		
+
+	}
+
+	private void inicializaBaixa() {
+		if (contaPagar.getStatus().contentEquals("B")) {
+			btnBaixaDoc.setDisable(true);
+			btnCancelarBaixa.setDisable(false);
+			tfdValorPagamento.setText(String.valueOf(contaPagar.getValorPagamento()));
+
+			if (contaPagar.getNumeroDocPagto() != null) {
+				tfdNumeroDocPagamento.setText(contaPagar.getNumeroDocPagto());
+			}
+			if (contaPagar.getNumeroBanco() != null) {
+				tfdNumeroBanco.setText(contaPagar.getNumeroBanco());
+			}
+			if (contaPagar.getNumeroAgencia() != null) {
+				tfdAgencia.setText(contaPagar.getNumeroAgencia());
+			}
+			if (contaPagar.getNumeroConta() != null) {
+				tfdConta.setText(contaPagar.getNumeroConta());
+			}
+			if (contaPagar.getDataPagamento() != null) {
+				dpPagamento.setValue(DateHelper.getLocaltDate(contaPagar.getDataPagamento().toString()));
+			}
+		} else {
+			btnBaixaDoc.setDisable(false);
+		}
 	}
 
 	private void inicializaCampos() {
@@ -236,25 +352,32 @@ public class ContaPagarViewController {
 		cmbFormaPagamento.setItems(FXCollections.observableArrayList(listaFormaPagamento));
 		cmbPlanoConta.setItems(FXCollections.observableArrayList(listaPlanoConta));
 
+		desativaBaixa();
+
 		if (contaPagar != null) {
-			dpCompra.setValue(DateHelper.getLocaltDate(contaPagar.getDataCompra().toString()));
-			dpVencimento.setValue(DateHelper.getLocaltDate(contaPagar.getDataVencimento().toString()));
-			dpPagamento.setValue(DateHelper.getLocaltDate(contaPagar.getDataPagamento().toString()));
-			
-			tfdNumero.setText(contaPagar.getNumero());
-			tfdDocumento.setText(contaPagar.getDocumento());
-			tfdValor.setText(String.valueOf(contaPagar.getValor()));
-			tfdValorPagamento.setText(String.valueOf(contaPagar.getValorPagamento()));
-			tfdNumeroDocPagamento.setText(contaPagar.getNumeroDocPagto());
-			tfdNumeroBanco.setText(contaPagar.getNumeroBanco());
-			tfdAgencia.setText(contaPagar.getNumeroAgencia());
-			tfdConta.setText(contaPagar.getNumeroConta());
-			
+			if (contaPagar.getDataCompra() != null) {
+				dpCompra.setValue(DateHelper.getLocaltDate(contaPagar.getDataCompra().toString()));
+			}
+			if (contaPagar.getDataVencimento() != null) {
+				dpVencimento.setValue(DateHelper.getLocaltDate(contaPagar.getDataVencimento().toString()));
+			}
+			if (contaPagar.getNumero() != null) {
+				tfdNumero.setText(contaPagar.getNumero());
+			}
+			if (contaPagar.getDocumento() != null) {
+				tfdDocumento.setText(contaPagar.getDocumento());
+			}
+			if (contaPagar.getValor() != null) {
+				tfdValor.setText(String.valueOf(contaPagar.getValor()));
+			}
+
+			inicializaBaixa();
+
 			selectCentroCusto();
 			selectFornecedor();
 			selectFormaPagamento();
 			selectPlanoConta();
-		}else {
+		} else {
 			limpaCampos();
 		}
 	}
@@ -268,6 +391,7 @@ public class ContaPagarViewController {
 
 		return stage;
 	}
+
 	@FXML
 	private void initialize() {
 		inicializaCampos();
