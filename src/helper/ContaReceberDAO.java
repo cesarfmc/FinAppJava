@@ -8,40 +8,40 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import model.CentroCusto;
-import model.ContaPagar;
+import model.Cliente;
+import model.ContaReceber;
 import model.FormaPagamento;
-import model.Fornecedor;
 import model.PlanoConta;
 
-public class ContaPagarDAO {
+public class ContaReceberDAO {
 	private Session s;
 
-	public ContaPagarDAO(Session sessao) {
+	public ContaReceberDAO(Session sessao) {
 		this.s = sessao;
 	}
 
-	public void addContaPagar(ContaPagar contaPagar) {
+	public void addContaReceber(ContaReceber contaReceber) {
 		s.beginTransaction();
-		s.save(contaPagar);
+		s.save(contaReceber);
 		s.getTransaction().commit();
 
 	}
 
-	public List<ContaPagar> listContaPagar() {
-		List<ContaPagar> list = new ArrayList<ContaPagar>();
+	public List<ContaReceber> listContaReceber() {
+		List<ContaReceber> list = new ArrayList<ContaReceber>();
 		s.beginTransaction();
 
-		list = s.createQuery("from ContaPagar", ContaPagar.class).list();
+		list = s.createQuery("from ContaReceber", ContaReceber.class).list();
 		s.getTransaction().commit();
 
 		return list;
 	}
 		
-	public List<ContaPagar> listContaPagarStatus(String status) {
-		List<ContaPagar> list = new ArrayList<ContaPagar>();
+	public List<ContaReceber> listContaReceberStatus(String status) {
+		List<ContaReceber> list = new ArrayList<ContaReceber>();
 		s.beginTransaction();
 
-		list = s.createQuery("from ContaPagar where status = :status", ContaPagar.class)
+		list = s.createQuery("from ContaReceber where status = :status", ContaReceber.class)
 				.setParameter("status", status)			
 				.list();
 		s.getTransaction().commit();
@@ -49,21 +49,21 @@ public class ContaPagarDAO {
 		return list;
 	}
 	
-	public List<ContaPagar> listContaPagarTudo(Date dataInicio, Date dataFim,Fornecedor fornecedor,CentroCusto centroCusto,PlanoConta planoConta,FormaPagamento formaPagamento) {
-		List<ContaPagar> list = new ArrayList<ContaPagar>();
+	public List<ContaReceber> listContaReceberTudo(Date dataInicio, Date dataFim,Cliente cliente,CentroCusto centroCusto,PlanoConta planoConta,FormaPagamento formaPagamento) {
+		List<ContaReceber> list = new ArrayList<ContaReceber>();
 		s.beginTransaction();
-		String sql = "from ContaPagar where";
+		String sql = "from ContaReceber where";
 		StringBuilder hql = new StringBuilder();
 		hql.append(sql);
 		if(dataInicio != null) {
 			hql.append(" dataVencimento between :dataInicio and :dataFinal");
-			if(fornecedor != null || centroCusto  != null || planoConta != null || formaPagamento != null) {
+			if(cliente != null || centroCusto  != null || planoConta != null || formaPagamento != null) {
 				hql.append(" and ");
 			}
 		}
 		
-		if(fornecedor != null) {
-				hql.append(" idFornecedor =  :idFornecedor");
+		if(cliente != null) {
+				hql.append(" idCliente =  :idCliente");
 				if( centroCusto  != null || planoConta != null || formaPagamento != null) {
 					hql.append(" and ");
 				}
@@ -88,14 +88,14 @@ public class ContaPagarDAO {
 			hql.append(" idFormaPagamento =  :idFormaPagamento");
 		}
 				
-		Query<ContaPagar> query = s.createQuery(hql.toString(),ContaPagar.class);
+		Query<ContaReceber> query = s.createQuery(hql.toString(),ContaReceber.class);
 		if(dataInicio != null) {
 			query.setParameter("dataInicio", dataInicio);
 			query.setParameter("dataFinal", dataFim);
 		}
 		
-		if(fornecedor != null) {
-			query.setParameter("idFornecedor", fornecedor.getIdFornecedor());
+		if(cliente != null) {
+			query.setParameter("idCliente", cliente.getIdCliente());
 		}
 		
 		if(centroCusto  != null) {
@@ -116,24 +116,24 @@ public class ContaPagarDAO {
 		return list;
 	}
 	
-	public void removeContaPagar(Integer id) {
+	public void removeContaReceber(Integer id) {
 		s.beginTransaction();
-		ContaPagar contaPagar = (ContaPagar) s.load(ContaPagar.class, id);
-		s.delete(contaPagar);
+		ContaReceber contaReceber = (ContaReceber) s.load(ContaReceber.class, id);
+		s.delete(contaReceber);
 		s.getTransaction().commit();
 	}
 
-	public void updateContaPagar(ContaPagar contaPagar) {
+	public void updateContaReceber(ContaReceber contaReceber) {
 		s.beginTransaction();
-		s.update(contaPagar);
+		s.update(contaReceber);
 		s.getTransaction().commit();
 	}
 
-	public ContaPagar retornaFormaPagamento(Integer id) {
+	public ContaReceber retornaFormaPagamento(Integer id) {
 		s.beginTransaction();
-		ContaPagar contaPagar = (ContaPagar) s.get(ContaPagar.class, id);
+		ContaReceber contaReceber = (ContaReceber) s.get(ContaReceber.class, id);
 		s.getTransaction().commit();
 
-		return contaPagar;
+		return contaReceber;
 	}
 }

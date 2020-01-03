@@ -170,7 +170,9 @@ public class ContaPagarListViewController {
 
 	@FXML
 	void aberto_Click(ActionEvent event) {
+		listaContaPagar = contaPagarDAO.listContaPagarStatus("A");
 
+		tbvContaPagar.setItems(FXCollections.observableArrayList(listaContaPagar));
 	}
 
 	@FXML
@@ -210,7 +212,9 @@ public class ContaPagarListViewController {
 
 	@FXML
 	void pago_Click(ActionEvent event) {
+		listaContaPagar = contaPagarDAO.listContaPagarStatus("B");
 
+		tbvContaPagar.setItems(FXCollections.observableArrayList(listaContaPagar));
 	}
 
 	public Fornecedor getFornecedor() {

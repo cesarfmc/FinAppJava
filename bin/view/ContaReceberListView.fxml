@@ -15,6 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 
 <AnchorPane minHeight="600.0" minWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ContaReceberListViewController">
    <children>
@@ -119,7 +120,7 @@
                         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Forma de Recto:" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                  <Label text="Forma de Pagto:" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                      </GridPane.margin>
@@ -134,7 +135,7 @@
                         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                      </GridPane.margin>
                   </Label>
-                  <ComboBox prefWidth="240.0" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                  <ComboBox fx:id="cmbPlanoConta" prefWidth="240.0" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                      </GridPane.margin>
@@ -218,23 +219,79 @@
                </VBox.margin>
             </HBox>
             <Separator prefWidth="200.0" />
-            <TableView fx:id="trvContaReceber" prefHeight="315.0" prefWidth="200.0">
+            <TableView fx:id="tbvContaReceber" onMousePressed="#editarContaReceber_Click" prefHeight="315.0" prefWidth="200.0">
               <columns>
-                <TableColumn maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="90.0" text="Data de Venda" />
-                <TableColumn prefWidth="65.0" text="Número" />
-                  <TableColumn prefWidth="75.0" text="Documento" />
-                  <TableColumn prefWidth="170.0" text="Cliente" />
+                <TableColumn maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="90.0" text="Data de Venda" >
+                	<cellValueFactory>
+          				<PropertyValueFactory property="dataVenda" />
+          			</cellValueFactory>
+                </TableColumn>
+                <TableColumn prefWidth="65.0" text="Número" >
+                <cellValueFactory>
+          				<PropertyValueFactory property="numero" />
+          			</cellValueFactory>
+                </TableColumn>
+                  <TableColumn prefWidth="75.0" text="Documento" >
+                 <cellValueFactory>
+          				<PropertyValueFactory property="documento" />
+          			</cellValueFactory>
+                  </TableColumn>
+                  <TableColumn prefWidth="170.0" text="Cliente" >
+                  <cellValueFactory>
+          				<PropertyValueFactory property="cliente" />
+          			</cellValueFactory>
+                  </TableColumn>
                   <TableColumn text="Valor" />
-                  <TableColumn prefWidth="98.0" text="Data de Vencto" />
-                  <TableColumn prefWidth="97.0" text="Plano de Conta" />
-                  <TableColumn prefWidth="97.0" text="Centro de Custo" />
-                  <TableColumn prefWidth="100.0" text="Forma de Pagto" />
-                  <TableColumn prefWidth="75.0" text="Valor de Recto" />
-                  <TableColumn prefWidth="75.0" text="Data de Recto" />
-                  <TableColumn prefWidth="75.0" text="Banco" />
-                  <TableColumn prefWidth="75.0" text="Agência" />
-                  <TableColumn prefWidth="75.0" text="Núm. Conta" />
-                  <TableColumn prefWidth="75.0" text="Núm. Doc. Pagto" />
+                  <TableColumn prefWidth="98.0" text="Data de Vencto" >
+                  <cellValueFactory>
+          				<PropertyValueFactory property="dataVencimento" />
+          			</cellValueFactory>
+                  </TableColumn>
+                  <TableColumn prefWidth="97.0" text="Plano de Conta" >
+                  <cellValueFactory>
+          				<PropertyValueFactory property="planoConta" />
+          			</cellValueFactory>
+                  </TableColumn>
+                  <TableColumn prefWidth="97.0" text="Centro de Custo" >
+                  <cellValueFactory>
+          				<PropertyValueFactory property="centroCusto" />
+          			</cellValueFactory>
+                  </TableColumn>
+                  <TableColumn prefWidth="100.0" text="Forma de Pagto" >
+                  <cellValueFactory>
+          				<PropertyValueFactory property="formaPagamento" />
+          			</cellValueFactory>
+                  </TableColumn>
+                  <TableColumn prefWidth="75.0" text="Valor de Recto" >
+                  <cellValueFactory>
+          				<PropertyValueFactory property="valorRecebimento" />
+          			</cellValueFactory>
+                  </TableColumn>
+                  <TableColumn prefWidth="75.0" text="Data de Recto" >
+                  <cellValueFactory>
+          				<PropertyValueFactory property="dataRecebimento" />
+          			</cellValueFactory>
+                  </TableColumn>
+                  <TableColumn prefWidth="75.0" text="Banco" >
+                  <cellValueFactory>
+          				<PropertyValueFactory property="numeroBanco" />
+          			</cellValueFactory>
+                  </TableColumn>
+                  <TableColumn prefWidth="75.0" text="Agência" >
+                  <cellValueFactory>
+          				<PropertyValueFactory property="numeroAgencia" />
+          			</cellValueFactory>
+                  </TableColumn>
+                  <TableColumn prefWidth="75.0" text="Núm. Conta" >
+                  <cellValueFactory>
+          				<PropertyValueFactory property="numeroConta" />
+          			</cellValueFactory>
+                  </TableColumn>
+                  <TableColumn prefWidth="75.0" text="Núm. Doc. Recto" >
+                  <cellValueFactory>
+          				<PropertyValueFactory property="numDocRecto" />
+          			</cellValueFactory>
+                  </TableColumn>
               </columns>
             </TableView>
             <Separator prefWidth="200.0" />

@@ -243,4 +243,10 @@ public class Cliente implements java.io.Serializable {
 		this.receitaMensals = receitaMensals;
 	}
 
+	@Override
+	public String toString() {
+		return nome;
+	}
+
+	
 }
