@@ -20,7 +20,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.FormaPagamento;
-import model.Fornecedor;
 
 public class FormaPagamentoListViewController {
 	private Session sessao = HibernateUtil2.getSessionFactory().openSession();

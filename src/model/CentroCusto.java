@@ -22,6 +22,10 @@ import javax.persistence.UniqueConstraint;
 @Table(name = "CentroCusto", schema = "dbo", catalog = "FIN", uniqueConstraints = @UniqueConstraint(columnNames = "nome"))
 public class CentroCusto implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer idCentroCusto;
 	private CentroCusto centroCusto;
 	private String nome;

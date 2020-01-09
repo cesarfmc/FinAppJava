@@ -22,6 +22,10 @@ import javax.persistence.TemporalType;
 @Table(name = "ContaPagar", schema = "dbo", catalog = "FIN")
 public class ContaPagar implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer idContaPagar;
 	private CentroCusto centroCusto;
 	private FormaPagamento formaPagamento;

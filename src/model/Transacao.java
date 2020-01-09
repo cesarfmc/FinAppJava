@@ -25,6 +25,10 @@ import javax.persistence.TemporalType;
 @Table(name = "Transacao", schema = "dbo", catalog = "FIN")
 public class Transacao implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer idTransacao;
 	private Conta conta;
 	private Date data;

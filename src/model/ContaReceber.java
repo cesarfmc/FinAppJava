@@ -22,6 +22,10 @@ import javax.persistence.TemporalType;
 @Table(name = "ContaReceber", schema = "dbo", catalog = "FIN")
 public class ContaReceber implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer idContaReceber;
 	private CentroCusto centroCusto;
 	private Cliente cliente;

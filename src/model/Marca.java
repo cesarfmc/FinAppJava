@@ -19,6 +19,10 @@ import javax.persistence.Table;
 @Table(name = "Marca", schema = "dbo", catalog = "FIN")
 public class Marca implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer idMarca;
 	private String nome;
 	private Set<Produto> produtos = new HashSet<Produto>(0);

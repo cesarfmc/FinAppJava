@@ -22,6 +22,10 @@ import javax.persistence.Table;
 @Table(name = "Perfil", schema = "dbo", catalog = "FIN")
 public class Perfil implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer idPerfil;
 	private String nome;
 	private Set<Usuario> usuarios = new HashSet<Usuario>(0);

@@ -21,6 +21,10 @@ import javax.persistence.Table;
 @Table(name = "Cidade", schema = "dbo", catalog = "FIN")
 public class Cidade implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer idCidade;
 	private Estado estado;
 	private String nome;

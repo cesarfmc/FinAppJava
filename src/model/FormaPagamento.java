@@ -19,6 +19,10 @@ import javax.persistence.Table;
 @Table(name = "FormaPagamento", schema = "dbo", catalog = "FIN")
 public class FormaPagamento implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer idFormaPagamento;
 	private String codigo;
 	private String nome;

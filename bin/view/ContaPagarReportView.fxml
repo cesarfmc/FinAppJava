@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ContaPagarReportViewController">
    <children>
       <VBox layoutX="4.0" layoutY="6.0" prefHeight="590.0" prefWidth="793.0">
          <children>
@@ -46,10 +46,10 @@
                   <Label text="Data de Compra:" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
                   <Label text="Data de Vencimento:" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
                   <Label text="Data de Pagamento:" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
-                  <ComboBox prefWidth="240.0" GridPane.columnIndex="1" />
-                  <ComboBox prefWidth="240.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                  <ComboBox prefWidth="240.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                  <DatePicker maxWidth="96.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+                  <ComboBox fx:id="cmbFornecedor" prefWidth="240.0" GridPane.columnIndex="1" />
+                  <ComboBox fx:id="cmbCentroCusto" prefWidth="240.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                  <ComboBox fx:id="cmbPlanoConta" prefWidth="240.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                  <DatePicker fx:id="dpPagamentoInicio" maxWidth="96.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
                   <Label text="Tipo:" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
                   <Label text="Situação:" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
                   <Label text="a" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
@@ -57,14 +57,14 @@
                         <Insets right="450.0" />
                      </GridPane.margin>
                   </Label>
-                  <DatePicker maxWidth="96.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                  <DatePicker maxWidth="96.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                  <DatePicker fx:id="dpCompraInicio" maxWidth="96.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                  <DatePicker fx:id="dpCompraFinal" maxWidth="96.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets right="450.0" />
                      </GridPane.margin>
                   </DatePicker>
-                  <DatePicker maxWidth="96.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-                  <DatePicker maxWidth="96.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                  <DatePicker fx:id="dpVencimentoInicio" maxWidth="96.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+                  <DatePicker fx:id="dpVencimentoFinal" maxWidth="96.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets right="450.0" />
                      </GridPane.margin>
@@ -79,7 +79,7 @@
                         <Insets right="450.0" />
                      </GridPane.margin>
                   </Label>
-                  <DatePicker maxWidth="96.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+                  <DatePicker fx:id="dpPagamentoFinal" maxWidth="96.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets right="450.0" />
                      </GridPane.margin>
@@ -93,32 +93,32 @@
                         </Label>
                         <HBox layoutX="5.0" layoutY="9.0" prefHeight="17.0" prefWidth="787.0">
                            <children>
-                              <RadioButton mnemonicParsing="false" text="Fornecedor">
+                              <RadioButton fx:id="radBtnQuebraFornecedor" mnemonicParsing="false" text="Fornecedor">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                  </HBox.margin>
                               </RadioButton>
-                              <RadioButton mnemonicParsing="false" text="Centro de Custo">
+                              <RadioButton fx:id="radBtnQuebraCentroCusto" mnemonicParsing="false" text="Centro de Custo">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                  </HBox.margin>
                               </RadioButton>
-                              <RadioButton mnemonicParsing="false" text="Plano de Conta">
+                              <RadioButton fx:id="radBtnQuebraPlanoConta" mnemonicParsing="false" text="Plano de Conta">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                  </HBox.margin>
                               </RadioButton>
-                              <RadioButton mnemonicParsing="false" text="Data de Compra">
+                              <RadioButton fx:id="radBtnQuebraDataCompra" mnemonicParsing="false" text="Data de Compra">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                  </HBox.margin>
                               </RadioButton>
-                              <RadioButton mnemonicParsing="false" text="Data de vencimento">
+                              <RadioButton fx:id="radBtnQuebraDataVencimento" mnemonicParsing="false" text="Data de vencimento">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                  </HBox.margin>
                               </RadioButton>
-                              <RadioButton mnemonicParsing="false" text="Data de Pagamento">
+                              <RadioButton fx:id="radBtnQuebraDataPagamento" mnemonicParsing="false" text="Data de Pagamento">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                  </HBox.margin>
@@ -136,32 +136,32 @@
                         </Label>
                         <HBox layoutX="5.0" layoutY="9.0" prefHeight="17.0" prefWidth="787.0">
                            <children>
-                              <RadioButton mnemonicParsing="false" text="Fornecedor">
+                              <RadioButton fx:id="radBtnOrdemFornecedor" mnemonicParsing="false" text="Fornecedor">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                  </HBox.margin>
                               </RadioButton>
-                              <RadioButton mnemonicParsing="false" text="Centro de Custo">
+                              <RadioButton fx:id="radBtnOrdemCentroCusto" mnemonicParsing="false" text="Centro de Custo">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                  </HBox.margin>
                               </RadioButton>
-                              <RadioButton mnemonicParsing="false" text="Plano de Conta">
+                              <RadioButton fx:id="radBtnOrdemPlanoConta" mnemonicParsing="false" text="Plano de Conta">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                  </HBox.margin>
                               </RadioButton>
-                              <RadioButton mnemonicParsing="false" text="Data de Compra">
+                              <RadioButton fx:id="radBtnOrdemDataCompra" mnemonicParsing="false" text="Data de Compra">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                  </HBox.margin>
                               </RadioButton>
-                              <RadioButton mnemonicParsing="false" text="Data de vencimento">
+                              <RadioButton fx:id="radBtnOrdemDataVencimento" mnemonicParsing="false" text="Data de vencimento">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                  </HBox.margin>
                               </RadioButton>
-                              <RadioButton mnemonicParsing="false" text="Data de Pagamento">
+                              <RadioButton fx:id="radBtnOrdemDataPagamento" mnemonicParsing="false" text="Data de Pagamento">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                  </HBox.margin>
@@ -172,12 +172,12 @@
                   </Pane>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                      <children>
-                        <RadioButton minWidth="80.0" mnemonicParsing="false" text="Análitico">
+                        <RadioButton fx:id="radBtnTipoAnalitico" minWidth="80.0" mnemonicParsing="false" text="Análitico">
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </RadioButton>
-                        <RadioButton minWidth="80.0" mnemonicParsing="false" text="Sintético">
+                        <RadioButton fx:id="radBtnTipoSintetico" minWidth="80.0" mnemonicParsing="false" text="Sintético">
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
@@ -189,17 +189,17 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
                      <children>
-                        <RadioButton minWidth="80.0" mnemonicParsing="false" text="Todos">
+                        <RadioButton fx:id="radBtnSituacaoTodos" minWidth="80.0" mnemonicParsing="false" text="Todos">
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </RadioButton>
-                        <RadioButton minWidth="80.0" mnemonicParsing="false" text="Em Aberto">
+                        <RadioButton fx:id="radBtnSituacaoAberto" minWidth="80.0" mnemonicParsing="false" text="Em Aberto">
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </RadioButton>
-                        <RadioButton minWidth="80.0" mnemonicParsing="false" text="Pagos">
+                        <RadioButton fx:id="radBtnSituacaoPagos" minWidth="80.0" mnemonicParsing="false" text="Pagos">
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
@@ -214,17 +214,17 @@
             <Separator prefWidth="200.0" />
             <HBox prefHeight="33.0" prefWidth="793.0">
                <children>
-                  <Button minWidth="80.0" mnemonicParsing="false" text="Tela">
+                  <Button fx:id="btnTela" minWidth="80.0" mnemonicParsing="false" onAction="#tela_Click" text="Tela">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button minWidth="80.0" mnemonicParsing="false" text="Limpar">
+                  <Button fx:id="btnLimpar" minWidth="80.0" mnemonicParsing="false" onAction="#limpar_Click" text="Limpar">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button minWidth="80.0" mnemonicParsing="false" text="Sair">
+                  <Button fx:id="btnSair" minWidth="80.0" mnemonicParsing="false" onAction="#sair_Click" text="Sair">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>

@@ -19,6 +19,10 @@ import javax.persistence.Table;
 @Table(name = "ReceitaMensal", schema = "dbo", catalog = "FIN")
 public class ReceitaMensal implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer idReceitaMensal;
 	private CentroCusto centroCusto;
 	private Cliente cliente;

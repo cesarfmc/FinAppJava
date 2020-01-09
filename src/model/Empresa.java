@@ -21,6 +21,10 @@ import javax.persistence.TemporalType;
 @Table(name = "Empresa", schema = "dbo", catalog = "FIN")
 public class Empresa implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer idEmpresa;
 	private Cidade cidade;
 	private String cpf;

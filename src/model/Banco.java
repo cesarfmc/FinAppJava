@@ -19,6 +19,10 @@ import javax.persistence.Table;
 @Table(name = "Banco", schema = "dbo", catalog = "FIN")
 public class Banco implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer idBanco;
 	private String numero;
 	private String nome;

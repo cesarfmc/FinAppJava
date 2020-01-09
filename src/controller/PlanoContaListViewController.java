@@ -18,7 +18,6 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import model.CentroCusto;
 import model.PlanoConta;
 
 public class PlanoContaListViewController {

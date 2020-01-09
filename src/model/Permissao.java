@@ -19,6 +19,10 @@ import javax.persistence.Table;
 @Table(name = "Permissao", schema = "dbo", catalog = "FIN")
 public class Permissao implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer idPermissao;
 	private String grupo;
 	private String nome;
