@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
@@ -341,7 +342,7 @@ public class mainController {
 			Stage stage = new Stage();
 			Scene scene = new Scene(root, 800, 600);
 
-			stage.setTitle("Opções");
+			stage.setTitle("Opï¿½ï¿½es");
 			stage.setScene(scene);
 			stage.show();
 		} catch (IOException e) {
@@ -397,5 +398,4 @@ public class mainController {
 			e.printStackTrace();
 		}
 	}
-
 }

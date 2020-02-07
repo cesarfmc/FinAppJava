@@ -7,8 +7,9 @@
 			<attribute name="owner.project.facets" value="jpt.jpa;#system#"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JasperReports"/>
+	<classpathentry kind="con" path="net.sf.jasperreports.JR_DEPENDENCIES_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/Joao Paulo/Desktop/Zona/app projeto/sqljdbc_7.2/enu/mssql-jdbc-7.2.2.jre8.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/Joao Paulo/Desktop/Zona/app projeto/sqljdbc_7.2/enu/mssql-jdbc-7.2.2.jre11.jar"/>
+	<classpathentry kind="con" path="net.sf.jasperreports.JR_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

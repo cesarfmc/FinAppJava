@@ -1,2 +1,14 @@
 eclipse.preferences.version=1
-encoding//src/helper/RelatorioContaPagar.jrxml=UTF-8
+encoding//src/helper/RelatorioContaPagarCentroCusto.jrxml=UTF-8
+encoding//src/helper/RelatorioContaPagarDataCompra.jrxml=UTF-8
+encoding//src/helper/RelatorioContaPagarDataPagamento.jrxml=UTF-8
+encoding//src/helper/RelatorioContaPagarDataVencimento.jrxml=UTF-8
+encoding//src/helper/RelatorioContaPagarFornecedor.jrxml=UTF-8
+encoding//src/helper/RelatorioContaPagarPlanoConta.jrxml=UTF-8
+encoding//src/helper/RelatorioContaReceberCentroCusto.jrxml=UTF-8
+encoding//src/helper/RelatorioContaReceberCliente.jrxml=UTF-8
+encoding//src/helper/RelatorioContaReceberDataRecebimento.jrxml=UTF-8
+encoding//src/helper/RelatorioContaReceberDataVencimento.jrxml=UTF-8
+encoding//src/helper/RelatorioContaReceberDataVenda.jrxml=UTF-8
+encoding//src/helper/RelatorioContaReceberPlanoConta.jrxml=UTF-8
+encoding/<project>=UTF-8

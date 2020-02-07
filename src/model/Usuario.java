@@ -1,5 +1,5 @@
 package model;
-// Generated 18/10/2019 10:39:39 by Hibernate Tools 5.2.12.Final
+// Generated 15/05/2019 11:16:03 by Hibernate Tools 5.2.12.Final
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -91,6 +91,11 @@ public class Usuario implements java.io.Serializable {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+	
+	@Override
+	public String toString() {
+		return nome;
 	}
 
 }

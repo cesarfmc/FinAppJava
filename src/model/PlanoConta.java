@@ -1,5 +1,5 @@
 package model;
-// Generated 18/10/2019 10:39:39 by Hibernate Tools 5.2.12.Final
+// Generated 15/05/2019 11:16:03 by Hibernate Tools 5.2.12.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -140,11 +140,10 @@ public class PlanoConta implements java.io.Serializable {
 	public void setContaPagars(Set<ContaPagar> contaPagars) {
 		this.contaPagars = contaPagars;
 	}
-
+	
 	@Override
 	public String toString() {
 		return nome;
 	}
 
-	
 }

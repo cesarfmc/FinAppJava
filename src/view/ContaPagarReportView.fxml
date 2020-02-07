@@ -93,32 +93,32 @@
                         </Label>
                         <HBox layoutX="5.0" layoutY="9.0" prefHeight="17.0" prefWidth="787.0">
                            <children>
-                              <RadioButton fx:id="radBtnQuebraFornecedor" mnemonicParsing="false" text="Fornecedor">
+                              <RadioButton fx:id="radBtnQuebraFornecedor" mnemonicParsing="false" onAction="#quebraFornecedor_Click" text="Fornecedor">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                  </HBox.margin>
                               </RadioButton>
-                              <RadioButton fx:id="radBtnQuebraCentroCusto" mnemonicParsing="false" text="Centro de Custo">
+                              <RadioButton fx:id="radBtnQuebraCentroCusto" mnemonicParsing="false" onAction="#quebraCentroCusto_Click" text="Centro de Custo">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                  </HBox.margin>
                               </RadioButton>
-                              <RadioButton fx:id="radBtnQuebraPlanoConta" mnemonicParsing="false" text="Plano de Conta">
+                              <RadioButton fx:id="radBtnQuebraPlanoConta" mnemonicParsing="false" onAction="#quebraPlanoConta_Click" text="Plano de Conta">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                  </HBox.margin>
                               </RadioButton>
-                              <RadioButton fx:id="radBtnQuebraDataCompra" mnemonicParsing="false" text="Data de Compra">
+                              <RadioButton fx:id="radBtnQuebraDataCompra" mnemonicParsing="false" onAction="#quebraDataCompra_Click" text="Data de Compra">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                  </HBox.margin>
                               </RadioButton>
-                              <RadioButton fx:id="radBtnQuebraDataVencimento" mnemonicParsing="false" text="Data de vencimento">
+                              <RadioButton fx:id="radBtnQuebraDataVencimento" mnemonicParsing="false" onAction="#quebraDataVencimento_Click" text="Data de vencimento">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                  </HBox.margin>
                               </RadioButton>
-                              <RadioButton fx:id="radBtnQuebraDataPagamento" mnemonicParsing="false" text="Data de Pagamento">
+                              <RadioButton fx:id="radBtnQuebraDataPagamento" mnemonicParsing="false" onAction="#quebraDataPagamento_Click" text="Data de Pagamento">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                  </HBox.margin>
@@ -136,32 +136,32 @@
                         </Label>
                         <HBox layoutX="5.0" layoutY="9.0" prefHeight="17.0" prefWidth="787.0">
                            <children>
-                              <RadioButton fx:id="radBtnOrdemFornecedor" mnemonicParsing="false" text="Fornecedor">
+                              <RadioButton fx:id="radBtnOrdemFornecedor" mnemonicParsing="false" onAction="#ordenarFornecedor_Click" text="Fornecedor">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                  </HBox.margin>
                               </RadioButton>
-                              <RadioButton fx:id="radBtnOrdemCentroCusto" mnemonicParsing="false" text="Centro de Custo">
+                              <RadioButton fx:id="radBtnOrdemCentroCusto" mnemonicParsing="false" onAction="#ordenarCentroCusto_Click" text="Centro de Custo">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                  </HBox.margin>
                               </RadioButton>
-                              <RadioButton fx:id="radBtnOrdemPlanoConta" mnemonicParsing="false" text="Plano de Conta">
+                              <RadioButton fx:id="radBtnOrdemPlanoConta" mnemonicParsing="false" onAction="#ordenarPlanoConta_Click" text="Plano de Conta">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                  </HBox.margin>
                               </RadioButton>
-                              <RadioButton fx:id="radBtnOrdemDataCompra" mnemonicParsing="false" text="Data de Compra">
+                              <RadioButton fx:id="radBtnOrdemDataCompra" mnemonicParsing="false" onAction="#ordenarDataCompra_Click" text="Data de Compra">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                  </HBox.margin>
                               </RadioButton>
-                              <RadioButton fx:id="radBtnOrdemDataVencimento" mnemonicParsing="false" text="Data de vencimento">
+                              <RadioButton fx:id="radBtnOrdemDataVencimento" mnemonicParsing="false" onAction="#ordenarDataVencimento_Click" text="Data de vencimento">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                  </HBox.margin>
                               </RadioButton>
-                              <RadioButton fx:id="radBtnOrdemDataPagamento" mnemonicParsing="false" text="Data de Pagamento">
+                              <RadioButton fx:id="radBtnOrdemDataPagamento" mnemonicParsing="false" onAction="#ordenarDataPagamento_Click" text="Data de Pagamento">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                  </HBox.margin>
@@ -172,12 +172,12 @@
                   </Pane>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                      <children>
-                        <RadioButton fx:id="radBtnTipoAnalitico" minWidth="80.0" mnemonicParsing="false" text="Análitico">
+                        <RadioButton fx:id="radBtnTipoAnalitico" minWidth="80.0" mnemonicParsing="false" onAction="#analitico_Click" text="Análitico">
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </RadioButton>
-                        <RadioButton fx:id="radBtnTipoSintetico" minWidth="80.0" mnemonicParsing="false" text="Sintético">
+                        <RadioButton fx:id="radBtnTipoSintetico" minWidth="80.0" mnemonicParsing="false" onAction="#sintetico_Click" text="Sintético">
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
@@ -189,17 +189,17 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
                      <children>
-                        <RadioButton fx:id="radBtnSituacaoTodos" minWidth="80.0" mnemonicParsing="false" text="Todos">
+                        <RadioButton fx:id="radBtnSituacaoTodos" minWidth="80.0" mnemonicParsing="false" onAction="#todos_Cick" text="Todos">
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </RadioButton>
-                        <RadioButton fx:id="radBtnSituacaoAberto" minWidth="80.0" mnemonicParsing="false" text="Em Aberto">
+                        <RadioButton fx:id="radBtnSituacaoAberto" minWidth="80.0" mnemonicParsing="false" onAction="#aberto_Click" text="Em Aberto">
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </RadioButton>
-                        <RadioButton fx:id="radBtnSituacaoPagos" minWidth="80.0" mnemonicParsing="false" text="Pagos">
+                        <RadioButton fx:id="radBtnSituacaoPagos" minWidth="80.0" mnemonicParsing="false" onAction="#pago_Click" text="Pagos">
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
