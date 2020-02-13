@@ -6,11 +6,11 @@ import helper.CentroCustoDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import model.CentroCusto;
 
@@ -18,11 +18,13 @@ public class CentroCustoViewController {
 	private CentroCusto centroCusto;
 	private CentroCusto centroCustoPai;
 	private CentroCustoDAO centroCustoDAO;
+	private CentroCustoListViewController controller;
 	
-	public CentroCustoViewController(CentroCusto centroCusto, CentroCusto centroCustoPai, CentroCustoDAO centroCustoDAO) {
+	public CentroCustoViewController(CentroCusto centroCusto, CentroCusto centroCustoPai, CentroCustoDAO centroCustoDAO,CentroCustoListViewController controller) {
 		this.centroCusto = centroCusto;
 		this.centroCustoPai = centroCustoPai;
 		this.centroCustoDAO = centroCustoDAO;
+		this.controller = controller;
 	}
 
 	@FXML
@@ -80,30 +82,69 @@ public class CentroCustoViewController {
 
     @FXML
     void salvar_Click(ActionEvent event) {
-    	if(centroCusto != null) {
-			centroCustoDAO.updateCentroCusto(getDados());
-
-			Alert alert = new Alert(AlertType.INFORMATION, "Centro de Custos Alterado", ButtonType.OK);
+    	if(tfdNome.getText().contentEquals("")) {
+    		Alert alert = new Alert(AlertType.WARNING, "Nome Obrigatório!", ButtonType.OK);
 			alert.showAndWait();
-		}else {
-			centroCustoDAO.addCentroCusto(getDados());
+    	}else {
+    		if (centroCusto != null) {
+				Alert alert = new Alert(AlertType.WARNING, "Deseja Alterar Dados do Centro de Custo?", ButtonType.YES, ButtonType.NO);
 
-			Alert alert = new Alert(AlertType.INFORMATION, "Centro de Custos Inserido", ButtonType.OK);
-			alert.showAndWait();
-		}
-    	
-    	fechar(getStage(btnSalvar));
+				Optional<ButtonType> result = alert.showAndWait();
+				if (result.get() == ButtonType.YES) {
+					centroCustoDAO.updateCentroCusto(getDados());
+					
+					Alert alertConfirmacao = new Alert(AlertType.INFORMATION, "Centro de Custos Alterado", ButtonType.OK);
+					alertConfirmacao.showAndWait();
+
+					fechar(getStage(btnSalvar));
+				} else {
+					cancelarOperacao();
+				}
+			} else {
+				Alert alert = new Alert(AlertType.WARNING, "Deseja Inserir Centro de Custos?", ButtonType.YES, ButtonType.NO);
+
+				Optional<ButtonType> result = alert.showAndWait();
+				if (result.get() == ButtonType.YES) {
+					centroCustoDAO.addCentroCusto(getDados());
+
+					Alert alertConfirmacao = new Alert(AlertType.INFORMATION, "Centro de Custos Inserido", ButtonType.OK);
+					alertConfirmacao.showAndWait();
+					fechar(getStage(btnSalvar));
+				} else {
+					cancelarOperacao();
+				}
+				
+			}
+    	}
+    }
+    
+    private void cancelarOperacao() {
+    	Alert alertConfirmacao = new Alert(AlertType.INFORMATION, "Operacao Cancelada", ButtonType.OK);
+		alertConfirmacao.showAndWait();
     }
     
     private void fechar(Stage stage) {
+    	controller.pesquisar();
     	stage.close();
+    }
+    
+    private void iniciaBotoes() {
+    	inicializaCampos();
+    	tfdCentroCustoPai.setDisable(true);
+    	if(centroCusto != null) {
+    		btnExcluir.setDisable(false);
+    	}else {
+    		btnExcluir.setDisable(true);
+    	}
     }
     
     public void inicializaCampos() {
     	if(centroCusto != null) {
     		tfdNome.setText(centroCusto.getNome());
-    		txaDescricao.setText(centroCusto.getDescricao());
     		tfdCentroCustoPai.setText(centroCusto.getCentroCusto().getNome());
+    		if(centroCusto.getDescricao() != null) {
+    			txaDescricao.setText(centroCusto.getDescricao());
+    		}
     	}else {
     		tfdCentroCustoPai.setText(centroCustoPai.getNome());
     	}
@@ -122,6 +163,7 @@ public class CentroCustoViewController {
     
     @FXML
    	private void initialize() {
-   		inicializaCampos();
+   		iniciaBotoes();
    	}
+
 }

@@ -7,6 +7,7 @@ import org.hibernate.Session;
 
 import helper.FornecedorDAO;
 import helper.HibernateUtil2;
+import helper.MaskFieldUtil;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,20 +20,21 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.Cliente;
 import model.Fornecedor;
 
 public class FornecedorController{
 	private Session sessao = HibernateUtil2.getSessionFactory().openSession();
-	FornecedorDAO fDAO = new FornecedorDAO(sessao);
+	FornecedorDAO fornecedorDao = new FornecedorDAO(sessao);
 	
 	@FXML
     private TextField tfdNome;
 
     @FXML
-    private TextField tfdCNPJ;
+    private TextField tfdCnpj;
 
     @FXML
-    private TextField tfdCPF;
+    private TextField tfdCpf;
 
     @FXML
     private Button btnInserir;
@@ -73,7 +75,7 @@ public class FornecedorController{
     @FXML
     void inserir_Click(ActionEvent event) throws IOException {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FornecedorView.fxml"));
-		loader.setController(new FornecedorViewController(null,fDAO));
+		loader.setController(new FornecedorViewController(null,fornecedorDao));
 		Stage stage = new Stage();
 		
 		stage.initModality(Modality.APPLICATION_MODAL);
@@ -89,7 +91,7 @@ public class FornecedorController{
 
     @FXML
     void listar_Click(ActionEvent event) {
-    	List<Fornecedor> list = fDAO.listFornecedor();
+    	List<Fornecedor> list = fornecedorDao.listFornecedor();
     	
     	tbvListFornecedor.setItems(FXCollections.observableArrayList(list));
     	
@@ -97,7 +99,9 @@ public class FornecedorController{
 
     @FXML
     void pesquisar_Click(ActionEvent event) {
-
+		List<Fornecedor> list = fornecedorDao.pesquisaCliente(getNomeFornecedor(), getCnpjFornecedor(), getCpfFornecedor());
+		System.out.println(list);
+    	tbvListFornecedor.setItems(FXCollections.observableArrayList(list));
     }
 
     @FXML
@@ -112,7 +116,7 @@ public class FornecedorController{
     		Fornecedor fornecedor = tbvListFornecedor.getSelectionModel().getSelectedItem();
     		
     		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FornecedorView.fxml"));
-    		loader.setController(new FornecedorViewController(fornecedor,fDAO));
+    		loader.setController(new FornecedorViewController(fornecedor,fornecedorDao));
     		Stage stage = new Stage();
     		
     		stage.initModality(Modality.APPLICATION_MODAL);
@@ -121,6 +125,27 @@ public class FornecedorController{
     		stage.showAndWait();                   
         }
     }
+    
+    private String getNomeFornecedor() {
+		 if(tfdNome.getText() != null) {
+			 return tfdNome.getText();
+		 }
+		 return null;
+	 }
+	 
+	 private String getCnpjFornecedor() {
+		 if(tfdCnpj.getText() != null) {
+			 return tfdCnpj.getText();
+		 }
+		 return null;
+	 }
+	 
+	 private String getCpfFornecedor() {
+		 if(tfdCpf.getText() != null) {
+			 return tfdCpf.getText();
+		 }
+		 return null;
+	 }
 
     private void fechar(Stage stage) {
 		stage.close();
@@ -131,4 +156,10 @@ public class FornecedorController{
 
 		return stage;
 	}
+	@FXML
+	 private void initialize() {
+		 MaskFieldUtil.cnpjField(this.tfdCnpj);
+		 MaskFieldUtil.cpfField(tfdCpf);
+	 }
+	 
 }

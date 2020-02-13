@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import helper.ClienteDAO;
 import helper.DateHelper;
 import helper.EstadoDAO;
+import helper.MaskFieldUtil;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -118,8 +119,7 @@ public class ClienteViewController implements Initializable {
 				
 				fechar(getStage(btnExcluir));
 			} else {
-				Alert alertExclusao = new Alert(AlertType.INFORMATION, "Operacao Cancelada", ButtonType.OK);
-				alertExclusao.showAndWait();
+				cancelarOperacao();
 			}
 		}
 
@@ -127,20 +127,45 @@ public class ClienteViewController implements Initializable {
 
 	@FXML
 	void action_salvar(ActionEvent event) {
+		if(tfdNome.getText().contentEquals("")) {
+			Alert alertConfirmacao = new Alert(AlertType.WARNING, "Nome Obrigatório!", ButtonType.OK);
+			alertConfirmacao.showAndWait();
+		}else {
+			if (cliente != null) {
+				Alert alert = new Alert(AlertType.WARNING, "Deseja Alterar Dados do Cliente?", ButtonType.YES, ButtonType.NO);
 
-		if (cliente != null) {
-			clienteDAO.updateCliente(getClienteDados());
+				Optional<ButtonType> result = alert.showAndWait();
+				if (result.get() == ButtonType.YES) {
+					clienteDAO.updateCliente(getClienteDados());
+					
+					Alert alertConfirmacao = new Alert(AlertType.INFORMATION, "Cliente Alterado", ButtonType.OK);
+					alertConfirmacao.showAndWait();
 
-			Alert alert = new Alert(AlertType.INFORMATION, "Cliente Alterado", ButtonType.OK);
-			alert.showAndWait();
+					fechar(getStage(btnExcluir));
+				} else {
+					cancelarOperacao();
+				}
+			} else {
+				Alert alert = new Alert(AlertType.WARNING, "Deseja Inserir Cliente?", ButtonType.YES, ButtonType.NO);
 
-		} else {
-			clienteDAO.addCliente(getClienteDados());
+				Optional<ButtonType> result = alert.showAndWait();
+				if (result.get() == ButtonType.YES) {
+					clienteDAO.addCliente(getClienteDados());
 
-			Alert alert = new Alert(AlertType.INFORMATION, "Cliente Inserido", ButtonType.OK);
-			alert.showAndWait();
+					Alert alertConfirmacao = new Alert(AlertType.INFORMATION, "Cliente Inserido", ButtonType.OK);
+					alertConfirmacao.showAndWait();
+					fechar(getStage(btnSalvar));
+				} else {
+					cancelarOperacao();
+				}
+				
+			}
 		}
-		fechar(getStage(btnSalvar));
+	}
+	
+	private void cancelarOperacao() {
+		Alert alertConfirmacao = new Alert(AlertType.INFORMATION, "Operacao Cancelada", ButtonType.OK);
+		alertConfirmacao.showAndWait();
 	}
 
 	private void fechar(Stage stage) {
@@ -175,31 +200,81 @@ public class ClienteViewController implements Initializable {
 			cliente = new Cliente();
 		}
 
-		cliente.setBairro(this.tfdBairro.getText());
-		cliente.setCelular(this.tfdCelular.getText());
-		cliente.setCep(this.tfdCep.getText());
-		cliente.setCidade(this.cmbCidade.getSelectionModel().getSelectedItem());
-		cliente.setCnpj(this.tfdCnpj.getText());
-		cliente.setComplemento(this.tfdComplemento.getText());
-		cliente.setCpf(this.tfdCpf.getText());
-		cliente.setDataNascimento(DateHelper.getDate(this.dtpDatanascimento.getValue()));
-		cliente.setEmail(this.tfdEmail.getText());
-		cliente.setEndereco(this.tfdEndereco.getText());
-		cliente.setIe(this.tfdIe.getText());
-		cliente.setNome(this.tfdNome.getText());
-		cliente.setRg(this.tfdRg.getText());
-		cliente.setTelefone(this.tfdTelefone.getText());
-		cliente.setNumero(this.tfdNumero.getText());
-
+		if(tfdBairro.getText() != null) {
+			cliente.setBairro(this.tfdBairro.getText());
+		}
+		
+		if(tfdCelular.getText() != null) {
+			cliente.setCelular(this.tfdCelular.getText());
+		}
+		
+		if(tfdCep.getText() != null) {
+			cliente.setCep(this.tfdCep.getText());
+		}
+		
+		if(cmbCidade.getSelectionModel().getSelectedItem() != null) {
+			cliente.setCidade(this.cmbCidade.getSelectionModel().getSelectedItem());
+		}
+		
+		if(tfdCnpj.getText() != null) {
+			cliente.setCnpj(this.tfdCnpj.getText());
+		}
+		
+		if(tfdComplemento.getText() != null) {
+			cliente.setComplemento(this.tfdComplemento.getText());
+		}
+		
+		if(tfdCpf.getText() != null) {
+			cliente.setCpf(this.tfdCpf.getText());
+		}
+		
+		if(dtpDatanascimento.getValue() != null) {
+			cliente.setDataNascimento(DateHelper.getDate(this.dtpDatanascimento.getValue()));
+		}
+		
+		if(tfdEmail.getText() != null) {
+			cliente.setEmail(this.tfdEmail.getText());
+		}
+		
+		if(tfdEndereco.getText() != null) {
+			cliente.setEndereco(this.tfdEndereco.getText());
+		}
+		
+		if(tfdIe.getText() != null) {
+			cliente.setIe(this.tfdIe.getText());
+		}
+		
+		if(tfdNome.getText() != null) {
+			cliente.setNome(this.tfdNome.getText());
+		}
+		
+		if(tfdRg.getText() != null) {
+			cliente.setRg(this.tfdRg.getText());
+		}
+		
+		if(tfdTelefone.getText() != null) {
+			cliente.setTelefone(this.tfdTelefone.getText());
+		}
+		
+		if(tfdNumero.getText() != null) {
+			cliente.setNumero(this.tfdNumero.getText());
+		}
 		return cliente;
-
 	}
 
 	public void iniciaView() {
+		MaskFieldUtil.cnpjField(tfdCnpj);
+		MaskFieldUtil.cpfField(tfdCpf);
+		MaskFieldUtil.cepField(tfdCep);
+		MaskFieldUtil.foneField(tfdCelular);
+		MaskFieldUtil.foneField(tfdTelefone);
 		listEstado();
 
 		if (this.cliente != null) {
+			btnExcluir.setDisable(false);
 			preencheCampos();
+		}else {
+			btnExcluir.setDisable(true);
 		}
 	}
 
@@ -208,12 +283,15 @@ public class ClienteViewController implements Initializable {
 		listaEstados = estadoDAO.listEstado();
 
 		this.cmbEstado.setItems(FXCollections.observableArrayList(listaEstados));
+		cmbEstado.getItems().add(0, new Estado());
 		setEstadoSelected();
 
 		Estado estado = this.cmbEstado.getSelectionModel().getSelectedItem();
 
-		this.cmbCidade.setItems(FXCollections.observableArrayList(estado.getCidades()));
-		setCidadeSelected();
+		if(estado != null) {
+			this.cmbCidade.setItems(FXCollections.observableArrayList(estado.getCidades()));
+			setCidadeSelected();
+		}
 	}
 
 	public void setEstadoSelected() {
@@ -226,7 +304,7 @@ public class ClienteViewController implements Initializable {
 			}
 			this.cmbEstado.getSelectionModel().select(cont);
 		} else {
-			this.cmbEstado.getSelectionModel().select(cont);
+			this.cmbEstado.getSelectionModel().select(0);
 		}
 	}
 
@@ -241,32 +319,80 @@ public class ClienteViewController implements Initializable {
 			}
 			this.cmbCidade.getSelectionModel().select(cont);
 		} else {
-			this.cmbCidade.getSelectionModel().select(cont);
+			this.cmbCidade.getSelectionModel().select(0);
 		}
 	}
 
 	@FXML
 	void listarCidades(ActionEvent event) {
-		Estado estado = this.cmbEstado.getSelectionModel().getSelectedItem();
+		if(cmbEstado.getSelectionModel().getSelectedIndex() != 0) {
+			Estado estado = this.cmbEstado.getSelectionModel().getSelectedItem();
 
-		this.cmbCidade.setItems(FXCollections.observableArrayList(estado.getCidades()));
-		setCidadeSelected();
+			if(estado != null) {
+				this.cmbCidade.setItems(FXCollections.observableArrayList(estado.getCidades()));
+				setCidadeSelected();
+			}
+		}else {
+			cmbCidade.getItems().clear();
+		}
 	}
 
 	public void preencheCampos() {
-		this.tfdNome.setText(cliente.getNome());
-		this.tfdCnpj.setText(cliente.getCnpj());
-		this.tfdCpf.setText(cliente.getCpf());
-		this.tfdBairro.setText(cliente.getBairro());
-		this.tfdCelular.setText(cliente.getCelular());
-		this.tfdCep.setText(cliente.getCep());
-		this.tfdComplemento.setText(cliente.getComplemento());
-		this.tfdEmail.setText(cliente.getEmail());
-		this.tfdEndereco.setText(cliente.getEndereco());
-		this.tfdIe.setText(cliente.getIe());
-		this.tfdNumero.setText(cliente.getNumero());
-		this.tfdRg.setText(cliente.getRg());
-		this.dtpDatanascimento.setValue(DateHelper.getLocaltDate(cliente.getDataNascimento().toString()));
+		if(cliente.getBairro() != null) {
+			this.tfdBairro.setText(cliente.getBairro());
+		}
+		
+		if(cliente.getCelular() != null) {
+			this.tfdCelular.setText(cliente.getCelular());
+		}
+		
+		if(cliente.getCep() != null) {
+			tfdCep.setText(cliente.getCep());
+		}
+		
+		if(cliente.getCnpj() != null) {
+			this.tfdCnpj.setText(cliente.getCnpj());
+		}
+		
+		if(cliente.getComplemento() != null) {
+			this.tfdComplemento.setText(cliente.getComplemento());
+		}
+		
+		if(cliente.getCpf() != null) {
+			this.tfdCpf.setText(cliente.getCpf());
+		}
+		
+		if(cliente.getDataNascimento() != null) {
+			this.dtpDatanascimento.setValue(DateHelper.getLocaltDate(cliente.getDataNascimento().toString()));
+		}
+		
+		if(cliente.getEmail() != null) {
+			this.tfdEmail.setText(cliente.getEmail());
+		}
+		
+		if(cliente.getEndereco() != null) {
+			this.tfdEndereco.setText(cliente.getEndereco());
+		}
+		
+		if(cliente.getIe() != null) {
+			this.tfdIe.setText(cliente.getIe());
+		}
+		
+		if(cliente.getNome() != null) {
+			this.tfdNome.setText(cliente.getNome());
+		}
+		
+		if(cliente.getRg() != null) {
+			this.tfdRg.setText(cliente.getRg());
+		}
+		
+		if(cliente.getTelefone() != null) {
+			this.tfdTelefone.setText(cliente.getTelefone());
+		}
+		
+		if(cliente.getNumero() != null) {
+			this.tfdNumero.setText(cliente.getNumero());
+		}
 	}
 
 	@Override

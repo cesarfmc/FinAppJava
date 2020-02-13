@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 import model.PlanoConta;
 
@@ -62,13 +63,33 @@ private Session s;
 		return list;
 	}
 	
-	public List<PlanoConta> listPlanoContaFilhos(Integer id) {
+	public List<PlanoConta> listPlanoContaFilhos(Integer idPlanoContaPai) {
 		List<PlanoConta> list = new ArrayList<PlanoConta>();
 		s.beginTransaction();
+		
+		String sql = "from PlanoConta where ";
+		StringBuilder hql = new StringBuilder();
+		hql.append(sql);
 
-		list = s.createQuery("from PlanoConta where idPlanoContaPai = "+id,PlanoConta.class).list();
+		
+		  if (idPlanoContaPai != null) {
+			  hql.append(" idPlanoContaPai = :idPlanoContaPai "); 
+		  }
+		    
+		  if (idPlanoContaPai != null) { 
+			  hql.append(" ORDER BY nome "); 
+		  }
+		  Query<PlanoConta> query = s.createQuery(hql.toString(),PlanoConta.class);
+		  
+		  if (idPlanoContaPai != null) { 
+			  query.setParameter("idPlanoContaPai",idPlanoContaPai); 
+		  }
+		 
+		 list = query.list();
+		 
 		s.getTransaction().commit();
-
+		
 		return list;
+
 	}
 }

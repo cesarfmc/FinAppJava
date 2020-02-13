@@ -52,12 +52,12 @@
                         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                      </GridPane.margin>
                   </TextField>
-                  <TextField fx:id="tfdCNPJ" maxWidth="240.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                  <TextField fx:id="tfdCnpj" maxWidth="240.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                      </GridPane.margin>
                   </TextField>
-                  <TextField fx:id="tfdCPF" maxWidth="240.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                  <TextField fx:id="tfdCpf" maxWidth="240.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                      </GridPane.margin>

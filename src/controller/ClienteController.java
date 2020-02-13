@@ -7,6 +7,7 @@ import org.hibernate.Session;
 
 import helper.ClienteDAO;
 import helper.HibernateUtil2;
+import helper.MaskFieldUtil;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -125,12 +126,12 @@ public class ClienteController {
 	void listar_Click(ActionEvent event) {
     	List<Cliente> list = clienteDao.listCliente();
     	tbvClienteList.setItems(FXCollections.observableArrayList(list));
-
 	}
 
 	@FXML
 	void pesquisar_Click(ActionEvent event) {
-
+		List<Cliente> list = clienteDao.pesquisaCliente(getNomeCliente(), getCnpjCliente(), getCpfCliente());
+    	tbvClienteList.setItems(FXCollections.observableArrayList(list));
 	}
 
 
@@ -149,4 +150,31 @@ public class ClienteController {
 		sessao.close();
 		fechar(getStage(btnSair));
 	}
+	
+	 @FXML
+	 private void initialize() {
+		 MaskFieldUtil.cnpjField(this.tfdCnpj);
+		 MaskFieldUtil.cpfField(tfdCpf);
+	 }
+	 
+	 private String getNomeCliente() {
+		 if(tfdNome.getText() != null) {
+			 return tfdNome.getText();
+		 }
+		 return null;
+	 }
+	 
+	 private String getCnpjCliente() {
+		 if(tfdCnpj.getText() != null) {
+			 return tfdCnpj.getText();
+		 }
+		 return null;
+	 }
+	 
+	 private String getCpfCliente() {
+		 if(tfdCpf.getText() != null) {
+			 return tfdCpf.getText();
+		 }
+		 return null;
+	 }
 }

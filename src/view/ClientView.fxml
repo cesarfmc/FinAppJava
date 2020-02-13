@@ -35,7 +35,7 @@
           <RowConstraints minHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Nome:" GridPane.halignment="LEFT" />
+            <Label text="Nome:*" GridPane.halignment="LEFT" />
             <Label text="CNPJ:" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
             <Label text="CPF:" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
             <Label text="Celular:" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />

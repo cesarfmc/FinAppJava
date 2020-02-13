@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,11 +14,13 @@ import helper.ContaReceberDAO;
 import helper.DateHelper;
 import helper.FormaPagamentoDAO;
 import helper.HibernateUtil2;
+import helper.MaskFieldUtil;
 import helper.PlanoContaDAO;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -27,6 +31,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.CentroCusto;
@@ -50,6 +55,10 @@ public class ContaReceberListViewController {
 	private FormaPagamentoDAO formaPagamentoDAO = new FormaPagamentoDAO(sessao);
 	private ContaReceberDAO contaReceberDAO = new ContaReceberDAO(sessao);
 
+	private Date dataVencimentoInicio = null, dataVencimentoFim = null;
+	private Date dataVendaInicio = null, dataVendaFim = null;
+	private Date dataRecebimentoInicio = null, dataRecebimentoFim = null;
+	private BigDecimal valorInicial, valorFinal;
 	
     @FXML
     private TextField tfdNumero;
@@ -125,9 +134,14 @@ public class ContaReceberListViewController {
 
     @FXML
     void aberto_Click(ActionEvent event) {
-    	listaContaReceber = contaReceberDAO.listContaReceber();
-
-		tbvContaReceber.setItems(FXCollections.observableArrayList(listaContaReceber));
+		List<ContaReceber> lista= new ArrayList<ContaReceber>(listaContaReceber);
+		for (ContaReceber contaReceber : lista) {
+			if(contaReceber.getStatus().contentEquals("B")) {
+				tbvContaReceber.getItems().remove(contaReceber);
+			}
+		}
+		tfdValorTotal.setText(calcTotal());
+		tfdQtd.setText(totalItens());
     }
 
     @FXML
@@ -162,32 +176,74 @@ public class ContaReceberListViewController {
     @FXML
     void limpar_Click(ActionEvent event) {
     	tbvContaReceber.getItems().clear();
+		if(!listaContaReceber.isEmpty()) {
+			listaContaReceber.clear();
+		}
+
+		tfdNumero.clear();
+		tfdValorInicio.clear();
+		tfdValorFinal.clear();
+		tfdQtd.clear();
+		tfdValorTotal.clear();
+		
+		cmbCentroCusto.getSelectionModel().clearSelection();
+		cmbFormaPagamento.getSelectionModel().clearSelection();
+		cmbCliente.getSelectionModel().clearSelection();
+		cmbPlanoConta.getSelectionModel().clearSelection();
+	
+		dpVendaInicio.setValue(null);
+		dpVendaFinal.setValue(null);
+		dpVencimentoInicio.setValue(null);
+		dpVencimentoFinal.setValue(null);
+		dpRecebimentoInicio.setValue(null);
+		dpRecebimentoFinal.setValue(null);
+
     }
 
     @FXML
     void pesquisar_Click(ActionEvent event) {
-    	if (dpVencimentoInicio.getValue() == null && cmbCliente.getSelectionModel().getSelectedItem() == null
-				&& cmbCentroCusto.getSelectionModel().getSelectedItem() == null
-				&& cmbPlanoConta.getSelectionModel().getSelectedItem() == null
-				&& cmbFormaPagamento.getSelectionModel().getSelectedItem() == null) {
+    	if (tfdNumero.getText().contentEquals("") && dpVendaInicio.getValue() == null && dpVencimentoInicio.getValue() == null && dpRecebimentoInicio.getValue() == null && 
+				cmbCliente.getSelectionModel().getSelectedItem() == null && cmbCentroCusto.getSelectionModel().getSelectedItem() == null
+				&& cmbPlanoConta.getSelectionModel().getSelectedItem() == null && cmbFormaPagamento.getSelectionModel().getSelectedItem() == null
+				&& tfdValorInicio.getText().contentEquals("")) {
 
 			Alert alert = new Alert(AlertType.INFORMATION, "Preencha ao menos um campo!", ButtonType.OK);
 			alert.showAndWait();
 		} else {
 			pesquisaTudo();
+			tfdValorTotal.setText(calcTotal());
+			tfdQtd.setText(totalItens());
 		}
     }
 
     @FXML
     void recebido_Click(ActionEvent event) {
-    	listaContaReceber = contaReceberDAO.listContaReceberStatus("B");
-
-		tbvContaReceber.setItems(FXCollections.observableArrayList(listaContaReceber));
+    	if(!listaContaReceber.isEmpty()) {
+    		List<ContaReceber> lista= new ArrayList<ContaReceber>(listaContaReceber);
+    		for (ContaReceber contaReceber : lista) {
+    			if(contaReceber.getStatus().contentEquals("A")) {
+    				tbvContaReceber.getItems().remove(contaReceber);
+    			}
+    		}
+    		tfdValorTotal.setText(calcTotal());
+    		tfdQtd.setText(totalItens());
+    	}
     }
 
     @FXML
     void relatorio_Click(ActionEvent event) {
+    	try {
+			Parent root = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/ContaReceberReportView.fxml"));
+			Stage stage = new Stage();
+			Scene scene = new Scene(root, 800, 600);
 
+			stage.setTitle("Relatorio Contas a Receber");
+			stage.setScene(scene);
+			stage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     @FXML
@@ -197,13 +253,23 @@ public class ContaReceberListViewController {
 
     @FXML
     void todo_Click(ActionEvent event) {
-    	listaContaReceber = contaReceberDAO.listContaReceber();
-
-		tbvContaReceber.setItems(FXCollections.observableArrayList(listaContaReceber));
-    }
-    @FXML
-	private void initialize() {
-		inicializaCampos();
+    	if(!listaContaReceber.isEmpty()) {
+			tbvContaReceber.setItems(FXCollections.observableArrayList(listaContaReceber));
+			tfdValorTotal.setText(calcTotal());
+			tfdQtd.setText(totalItens());
+		}    }
+    
+    public String calcTotal() {
+		BigDecimal total = new BigDecimal("0.0");
+		List<ContaReceber> lista= new ArrayList<ContaReceber>(tbvContaReceber.getItems());
+		for (ContaReceber contaReceber : lista) {
+			total = total.add(contaReceber.getValor());
+		}
+		return total.toString();
+	}
+    public String totalItens() {
+		int totalItens = tbvContaReceber.getItems().size();
+		return String.valueOf(totalItens);
 	}
     private void fechar(Stage stage) {
 		stage.close();
@@ -229,17 +295,7 @@ public class ContaReceberListViewController {
 
 		return stage;
 	}
-	
-	public void pesquisaTudo() {
-		Date dataInicio = null, dataFim = null;
-		if (dpVencimentoInicio.getValue() != null && dpVencimentoFinal.getValue() != null) {
-			dataInicio = DateHelper.getDate(dpVencimentoInicio.getValue());
-			dataFim = DateHelper.getDate(dpVencimentoFinal.getValue());
-		}
-
-		listaContaReceber = contaReceberDAO.listContaReceberTudo(dataInicio, dataFim, getCliente(), getCentroCusto(),
-				getPlanoConta(), getFormaPagamento());
-
+	public void verificaLista() {
 		if (listaContaReceber.isEmpty()) {
 			Alert alert = new Alert(AlertType.INFORMATION, "Nenhum Dado Encontrado!", ButtonType.OK);
 			alert.showAndWait();
@@ -247,7 +303,92 @@ public class ContaReceberListViewController {
 			tbvContaReceber.setItems(FXCollections.observableArrayList(listaContaReceber));
 		}
 	}
+	public void pesquisaTudo() {
+		if(getDatasVenda() != 1 || getDatasVencimento() != 1 || getDatasRecebimento() != 1) {
+			Alert alert = new Alert(AlertType.INFORMATION, "Data Invalida!", ButtonType.OK);
+			alert.showAndWait();
+	}else {
+		if(getFaixaValores() != 1) {
+			Alert alert = new Alert(AlertType.INFORMATION, "Valor Invalido!", ButtonType.OK);
+			alert.showAndWait();
+		}else {
+			listaContaReceber = contaReceberDAO.listContaReceberTudo(getNumero(),valorInicial,valorFinal,dataVendaInicio, dataVendaFim, dataVencimentoInicio, dataVencimentoFim, dataRecebimentoInicio,
+					dataRecebimentoFim,getCliente(), getCentroCusto(), getPlanoConta(), getFormaPagamento());
+
+			verificaLista();
+		}
+	}
+	}
+	public String getNumero() {
+		return tfdNumero.getText();
+	}
 	
+	public int getFaixaValores() {
+		if (!tfdValorInicio.getText().contentEquals("") && !tfdValorFinal.getText().contentEquals("")) {
+			if(MaskFieldUtil.monetaryValueFromField(tfdValorInicio).compareTo(MaskFieldUtil.monetaryValueFromField(tfdValorFinal)) <= 0)  {
+				valorInicial = MaskFieldUtil.monetaryValueFromField(tfdValorInicio);
+				valorFinal = MaskFieldUtil.monetaryValueFromField(tfdValorFinal);
+				
+				return 1;
+			}else {
+				return 0;
+			}
+		}else {
+			return 1;
+		}
+	}
+
+	public int getDatasVenda() {
+		dataVendaInicio = null;
+		dataVendaFim = null;
+		
+		if (dpVendaInicio.getValue() != null && dpVendaFinal.getValue() != null) {
+			if(dpVendaFinal.getValue().isAfter(dpVendaInicio.getValue()) || dpVendaFinal.getValue().isEqual(dpVendaInicio.getValue())) {
+				dataVendaInicio = DateHelper.getDate(dpVendaInicio.getValue());
+				dataVendaFim = DateHelper.getDate(dpVendaFinal.getValue());
+				
+			}else {
+				return 0;
+			}
+		}
+		return 1;
+	}
+
+	public int getDatasVencimento() {
+		dataVencimentoInicio = null;
+		dataVencimentoFim = null;
+
+		if (dpVencimentoInicio.getValue() != null && dpVencimentoFinal.getValue() != null) {
+			if(dpVencimentoFinal.getValue().isAfter(dpVencimentoInicio.getValue()) || dpVencimentoFinal.getValue().isEqual(dpVencimentoInicio.getValue())) {
+				dataVencimentoInicio = DateHelper.getDate(dpVencimentoInicio.getValue());
+				dataVencimentoFim = DateHelper.getDate(dpVencimentoFinal.getValue());
+				
+			}else {
+				return 0;
+			}
+		}
+		return 1;
+	}
+
+	public int getDatasRecebimento() {
+		dataRecebimentoInicio = null;
+		dataRecebimentoFim = null;
+		if (dpRecebimentoInicio.getValue() != null && dpRecebimentoFinal.getValue() != null) {
+			if(dpRecebimentoFinal.getValue().isAfter(dpRecebimentoInicio.getValue()) || dpRecebimentoFinal.getValue().isEqual(dpRecebimentoInicio.getValue())) {
+				dataRecebimentoInicio = DateHelper.getDate(dpRecebimentoInicio.getValue());
+				dataRecebimentoFim = DateHelper.getDate(dpRecebimentoFinal.getValue());
+				
+			}else {
+				return 0;
+			}
+		}
+		return 1;
+	}
+
+	private void iniciaBotoes() {
+		tfdQtd.setDisable(true);
+		tfdValorTotal.setDisable(true);
+	}
 	private void inicializaCampos() {
 		listaCliente = clienteDAO.listCliente();
 		listaCentroCusto = centroCustoDAO.listCentroCusto();
@@ -260,5 +401,11 @@ public class ContaReceberListViewController {
 		cmbPlanoConta.setItems(FXCollections.observableArrayList(listaPlanoConta));
 	}
 	
-
+	@FXML
+	private void initialize() {
+    	iniciaBotoes();
+		inicializaCampos();
+		MaskFieldUtil.monetaryField(tfdValorInicio);
+		MaskFieldUtil.monetaryField(tfdValorFinal);
+    }
 }

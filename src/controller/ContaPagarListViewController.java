@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,13 +14,16 @@ import helper.DateHelper;
 import helper.FormaPagamentoDAO;
 import helper.FornecedorDAO;
 import helper.HibernateUtil2;
+import helper.MaskFieldUtil;
 import helper.PlanoContaDAO;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
@@ -26,8 +31,8 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.CentroCusto;
@@ -50,7 +55,12 @@ public class ContaPagarListViewController {
 	private PlanoContaDAO planoContaDAO = new PlanoContaDAO(sessao);
 	private FormaPagamentoDAO formaPagamentoDAO = new FormaPagamentoDAO(sessao);
 	private ContaPagarDAO contaPagarDAO = new ContaPagarDAO(sessao);
-
+	
+	private Date dataVencimentoInicio = null, dataVencimentoFim = null;
+	private Date dataCompraInicio = null, dataCompraFim = null;
+	private Date dataPagamentoInicio = null, dataPagamentoFim = null;
+	private BigDecimal valorInicial, valorFinal;
+	
 	@FXML
 	private TextField tfdNumero;
 
@@ -170,9 +180,14 @@ public class ContaPagarListViewController {
 
 	@FXML
 	void aberto_Click(ActionEvent event) {
-		listaContaPagar = contaPagarDAO.listContaPagarStatus("A");
-
-		tbvContaPagar.setItems(FXCollections.observableArrayList(listaContaPagar));
+		List<ContaPagar> lista= new ArrayList<ContaPagar>(listaContaPagar);
+		for (ContaPagar contaPagar : lista) {
+			if(contaPagar.getStatus().contentEquals("B")) {
+				tbvContaPagar.getItems().remove(contaPagar);
+			}
+		}
+		tfdValorTotal.setText(calcTotal());
+		tfdQtd.setText(totalItens());
 	}
 
 	@FXML
@@ -199,7 +214,7 @@ public class ContaPagarListViewController {
 			Stage stage = new Stage();
 
 			stage.initModality(Modality.APPLICATION_MODAL);
-			stage.setTitle("Editar Fornecedor");
+			stage.setTitle("Editar Conta Pagar");
 			stage.setScene(new Scene(loader.load()));
 			stage.showAndWait();
 		}
@@ -208,15 +223,48 @@ public class ContaPagarListViewController {
 	@FXML
 	void limpar_Click(ActionEvent event) {
 		tbvContaPagar.getItems().clear();
+		listaContaPagar.clear();
+
+		tfdNumero.clear();
+		tfdValorInicio.clear();
+		tfdValorFinal.clear();
+		tfdQtd.clear();
+		tfdValorTotal.clear();
+		
+		cmbCentroCusto.getSelectionModel().clearSelection();
+		cmbFormaPagamento.getSelectionModel().clearSelection();
+		cmbFornecedor.getSelectionModel().clearSelection();
+		cmbPlanoConta.getSelectionModel().clearSelection();
+	
+		dpCompraInicio.setValue(null);
+		dpCompraFinal.setValue(null);
+		dpVencimentoInicio.setValue(null);
+		dpVencimentoFinal.setValue(null);
+		dpPagamentoInicio.setValue(null);
+		dpPagamentoFinal.setValue(null);
 	}
 
 	@FXML
 	void pago_Click(ActionEvent event) {
-		listaContaPagar = contaPagarDAO.listContaPagarStatus("B");
-
-		tbvContaPagar.setItems(FXCollections.observableArrayList(listaContaPagar));
+		List<ContaPagar> lista= new ArrayList<ContaPagar>(listaContaPagar);
+		for (ContaPagar contaPagar : lista) {
+			if(contaPagar.getStatus().contentEquals("A")) {
+				tbvContaPagar.getItems().remove(contaPagar);
+			}
+		}
+		tfdValorTotal.setText(calcTotal());
+		tfdQtd.setText(totalItens());
 	}
 
+	public String calcTotal() {
+		BigDecimal total = new BigDecimal("0.0");
+		List<ContaPagar> lista= new ArrayList<ContaPagar>(tbvContaPagar.getItems());
+		for (ContaPagar contaPagar : lista) {
+			total = total.add(contaPagar.getValor());
+		}
+		return total.toString();
+	}
+	
 	public Fornecedor getFornecedor() {
 		return cmbFornecedor.getSelectionModel().getSelectedItem();
 	}
@@ -232,17 +280,8 @@ public class ContaPagarListViewController {
 	public FormaPagamento getFormaPagamento() {
 		return cmbFormaPagamento.getSelectionModel().getSelectedItem();
 	}
-
-	public void pesquisaTudo() {
-		Date dataInicio = null, dataFim = null;
-		if (dpVencimentoInicio.getValue() != null && dpVencimentoFinal.getValue() != null) {
-			dataInicio = DateHelper.getDate(dpVencimentoInicio.getValue());
-			dataFim = DateHelper.getDate(dpVencimentoFinal.getValue());
-		}
-
-		listaContaPagar = contaPagarDAO.listContaPagarTudo(dataInicio, dataFim, getFornecedor(), getCentroCusto(),
-				getPlanoConta(), getFormaPagamento());
-
+	
+	public void verificaLista() {
 		if (listaContaPagar.isEmpty()) {
 			Alert alert = new Alert(AlertType.INFORMATION, "Nenhum Dado Encontrado!", ButtonType.OK);
 			alert.showAndWait();
@@ -250,24 +289,125 @@ public class ContaPagarListViewController {
 			tbvContaPagar.setItems(FXCollections.observableArrayList(listaContaPagar));
 		}
 	}
+	
+	public String getNumero() {
+		return tfdNumero.getText();
+	}
+	
+	public int getFaixaValores() {
+		if (!tfdValorInicio.getText().contentEquals("") && !tfdValorFinal.getText().contentEquals("")) {
+			if(MaskFieldUtil.monetaryValueFromField(tfdValorInicio).compareTo(MaskFieldUtil.monetaryValueFromField(tfdValorFinal)) <= 0)  {
+				valorInicial = MaskFieldUtil.monetaryValueFromField(tfdValorInicio);
+				valorFinal = MaskFieldUtil.monetaryValueFromField(tfdValorFinal);
+				
+				return 1;
+			}else {
+				return 0;
+			}
+		}else {
+			return 1;
+		}
+	}
 
+	
+	public int getDatasCompra() {
+		dataCompraInicio = null;
+		dataCompraFim = null;
+		
+		if (dpCompraInicio.getValue() != null && dpCompraFinal.getValue() != null) {
+			if(dpCompraFinal.getValue().isAfter(dpCompraInicio.getValue()) || dpCompraFinal.getValue().isEqual(dpCompraInicio.getValue())) {
+				dataCompraInicio = DateHelper.getDate(dpCompraInicio.getValue());
+				dataCompraFim = DateHelper.getDate(dpCompraFinal.getValue());
+				
+			}else {
+				return 0;
+			}
+		}
+		return 1;
+	}
+
+	public int getDatasVencimento() {
+		dataVencimentoInicio = null;
+		dataVencimentoFim = null;
+
+		if (dpVencimentoInicio.getValue() != null && dpVencimentoFinal.getValue() != null) {
+			if(dpVencimentoFinal.getValue().isAfter(dpVencimentoInicio.getValue()) || dpVencimentoFinal.getValue().isEqual(dpVencimentoInicio.getValue())) {
+				dataVencimentoInicio = DateHelper.getDate(dpVencimentoInicio.getValue());
+				dataVencimentoFim = DateHelper.getDate(dpVencimentoFinal.getValue());
+				
+			}else {
+				return 0;
+			}
+		}
+		return 1;
+	}
+
+	public int getDatasPagamento() {
+		dataPagamentoInicio = null;
+		dataPagamentoFim = null;
+		if (dpPagamentoInicio.getValue() != null && dpPagamentoFinal.getValue() != null) {
+			if(dpPagamentoFinal.getValue().isAfter(dpPagamentoInicio.getValue()) || dpPagamentoFinal.getValue().isEqual(dpPagamentoInicio.getValue())) {
+				dataPagamentoInicio = DateHelper.getDate(dpPagamentoInicio.getValue());
+				dataPagamentoFim = DateHelper.getDate(dpPagamentoFinal.getValue());
+				
+			}else {
+				return 0;
+			}
+		}
+		return 1;
+	}
+
+	public void pesquisaTudo() {
+		if(getDatasCompra() != 1 || getDatasVencimento() != 1 || getDatasPagamento() != 1) {
+				Alert alert = new Alert(AlertType.INFORMATION, "Data Invalida!", ButtonType.OK);
+				alert.showAndWait();
+		}else {
+			if(getFaixaValores() != 1) {
+				Alert alert = new Alert(AlertType.INFORMATION, "Valor Invalido!", ButtonType.OK);
+				alert.showAndWait();
+			}else {
+				listaContaPagar = contaPagarDAO.listContaPagarTudo(getNumero(),valorInicial,valorFinal,dataCompraInicio, dataCompraFim, dataVencimentoInicio, dataVencimentoFim, dataPagamentoInicio,dataPagamentoFim, 
+						getFornecedor(), getCentroCusto(), getPlanoConta(), getFormaPagamento());
+
+				verificaLista();
+			}
+		}
+	}
+
+	public String totalItens() {
+		int totalItens = tbvContaPagar.getItems().size();
+		return String.valueOf(totalItens);
+	}
 	@FXML
 	void pesquisar_Click(ActionEvent event) {
-		if (dpVencimentoInicio.getValue() == null && cmbFornecedor.getSelectionModel().getSelectedItem() == null
-				&& cmbCentroCusto.getSelectionModel().getSelectedItem() == null
-				&& cmbPlanoConta.getSelectionModel().getSelectedItem() == null
-				&& cmbFormaPagamento.getSelectionModel().getSelectedItem() == null) {
+		if (tfdNumero.getText().contentEquals("") && dpCompraInicio.getValue() == null && dpVencimentoInicio.getValue() == null && dpPagamentoInicio.getValue() == null && 
+				cmbFornecedor.getSelectionModel().getSelectedItem() == null && cmbCentroCusto.getSelectionModel().getSelectedItem() == null
+				&& cmbPlanoConta.getSelectionModel().getSelectedItem() == null && cmbFormaPagamento.getSelectionModel().getSelectedItem() == null
+				&& tfdValorInicio.getText().contentEquals("")) {
 
 			Alert alert = new Alert(AlertType.INFORMATION, "Preencha ao menos um campo!", ButtonType.OK);
 			alert.showAndWait();
 		} else {
 			pesquisaTudo();
+			tfdValorTotal.setText(calcTotal());
+			tfdQtd.setText(totalItens());
 		}
 	}
 
 	@FXML
 	void relatorio_Click(ActionEvent event) {
+		try {
+			Parent root = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/ContaPagarReportView.fxml"));
+			Stage stage = new Stage();
+			Scene scene = new Scene(root, 800, 600);
 
+			stage.setTitle("Relatorio Contas a Pagar");
+			stage.setScene(scene);
+			stage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
@@ -278,9 +418,11 @@ public class ContaPagarListViewController {
 
 	@FXML
 	void todos_Click(ActionEvent event) {
-		listaContaPagar = contaPagarDAO.listContaPagar();
-
-		tbvContaPagar.setItems(FXCollections.observableArrayList(listaContaPagar));
+		if(!listaContaPagar.isEmpty()) {
+			tbvContaPagar.setItems(FXCollections.observableArrayList(listaContaPagar));
+			tfdValorTotal.setText(calcTotal());
+			tfdQtd.setText(totalItens());
+		}
 	}
 
 	private void inicializaCampos() {
@@ -305,9 +447,16 @@ public class ContaPagarListViewController {
 		return stage;
 	}
 
+	private void iniciaBotoes() {
+		tfdQtd.setDisable(true);
+		tfdValorTotal.setDisable(true);
+	}
 	@FXML
 	private void initialize() {
+		iniciaBotoes();
 		inicializaCampos();
+		MaskFieldUtil.monetaryField(tfdValorInicio);
+		MaskFieldUtil.monetaryField(tfdValorFinal);
 	}
 
 }

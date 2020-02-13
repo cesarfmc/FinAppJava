@@ -19,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.Cliente;
 import model.FormaPagamento;
 
 public class FormaPagamentoListViewController {
@@ -58,7 +59,7 @@ public class FormaPagamentoListViewController {
 	@FXML
 	void inserir_Click(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FormaPagamentoView.fxml"));
-		loader.setController(new FormaPagamentoViewController(null, formaPagamentoDAO));
+		loader.setController(new FormaPagamentoViewController(null, formaPagamentoDAO,this));
 		Stage stage = new Stage();
 
 		stage.initModality(Modality.APPLICATION_MODAL);
@@ -74,7 +75,8 @@ public class FormaPagamentoListViewController {
 
 	@FXML
 	void pesquisar_Click(ActionEvent event) {
-
+		List<FormaPagamento> list = formaPagamentoDAO.pesquisaFormaPagamento(getCodigoFormaPagamento(), getNomeFormaPagamento());
+    	tbvFormaPagamento.setItems(FXCollections.observableArrayList(list));
 	}
 
 	@FXML
@@ -83,12 +85,17 @@ public class FormaPagamentoListViewController {
 	}
 
 	@FXML
+	private void initialize() {
+		iniciaTabela();
+	}
+	
+	@FXML
 	void editaFormaPagamento_Click(MouseEvent event) throws IOException {
 		if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
 			FormaPagamento formaPagamento = tbvFormaPagamento.getSelectionModel().getSelectedItem();
 
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FormaPagamentoView.fxml"));
-			loader.setController(new FormaPagamentoViewController(formaPagamento, formaPagamentoDAO));
+			loader.setController(new FormaPagamentoViewController(formaPagamento, formaPagamentoDAO,this));
 			Stage stage = new Stage();
 
 			stage.initModality(Modality.APPLICATION_MODAL);
@@ -97,12 +104,19 @@ public class FormaPagamentoListViewController {
 			stage.showAndWait();
 		}
 	}
-
-	@FXML
-	private void initialize() {
-		List<FormaPagamento> listFormaPagamento = formaPagamentoDAO.listFormaPagamento();
-		tbvFormaPagamento.setItems(FXCollections.observableArrayList(listFormaPagamento));
-	}
+	 private String getCodigoFormaPagamento() {
+		 if(tfdCodigo.getText() == null) {
+			return null;
+		 }
+		 return tfdCodigo.getText();
+	 }
+	 
+	 private String getNomeFormaPagamento() {
+		 if(tfdNome.getText().contentEquals("")) {
+			 return null;
+		 }
+		 return tfdNome.getText();
+	 }
 
 	private void fechar(Stage stage) {
 		stage.close();
@@ -112,5 +126,10 @@ public class FormaPagamentoListViewController {
 		Stage stage = (Stage) btn.getScene().getWindow();
 
 		return stage;
+	}
+	
+	public void iniciaTabela() {
+		List<FormaPagamento> listFormaPagamento = formaPagamentoDAO.listFormaPagamento();
+		tbvFormaPagamento.setItems(FXCollections.observableArrayList(listFormaPagamento));
 	}
 }

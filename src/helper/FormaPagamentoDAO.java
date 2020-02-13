@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 import model.FormaPagamento;
 
@@ -50,5 +51,46 @@ public class FormaPagamentoDAO {
 		s.getTransaction().commit();
 
 		return f;
+	}
+	
+	public List<FormaPagamento> pesquisaFormaPagamento(String codigoFormaPagamento, String nomeFormaPagamento) {
+		List<FormaPagamento> list = new ArrayList<FormaPagamento>();
+		s.beginTransaction();
+		String sql;
+		
+		if(codigoFormaPagamento  == null && nomeFormaPagamento == null) {
+			sql = "from FormaPagamento";
+		}else {
+			sql = "from FormaPagamento where";
+		}
+		StringBuilder hql = new StringBuilder();
+		hql.append(sql);
+
+		
+		  if (codigoFormaPagamento != null) {
+			  hql.append(" codigo LIKE :codigoFormaPagamento "); 
+			  if(nomeFormaPagamento != null ) {
+				  hql.append("and "); 
+			  }
+		  }
+		  
+		  if (nomeFormaPagamento != null) { 
+			  hql.append("nome LIKE :nomeFormaPagamento "); 
+		  }
+		  		  
+		  Query<FormaPagamento> query = s.createQuery(hql.toString(),FormaPagamento.class);
+		  
+		  if (codigoFormaPagamento != null) { 
+			  query.setParameter("codigoFormaPagamento","%"+codigoFormaPagamento+"%");
+		  }
+		  
+		  if (nomeFormaPagamento != null) {
+			  query.setParameter("nomeFormaPagamento", "%"+nomeFormaPagamento+"%");
+		  }
+		 list = query.list();
+		 
+		s.getTransaction().commit();
+
+		return list;
 	}
 }

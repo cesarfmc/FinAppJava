@@ -1,5 +1,6 @@
 package helper;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -48,50 +49,98 @@ public class ContaReceberDAO {
 		return list;
 	}
 
-	public List<ContaReceber> listContaReceberTudo(Date dataInicio, Date dataFim, Cliente cliente,
+	public List<ContaReceber> listContaReceberTudo(String numero, BigDecimal valorInicial, BigDecimal valorFinal, Date dataVendaInicio, Date dataVendaFim, Date dataVencimentoInicio,
+			Date dataVencimentoFim, Date dataRecebimentoInicio, Date dataRecebimentoFim, Cliente cliente,
 			CentroCusto centroCusto, PlanoConta planoConta, FormaPagamento formaPagamento) {
 		List<ContaReceber> list = new ArrayList<ContaReceber>();
 		s.beginTransaction();
+
 		String sql = "from ContaReceber where";
 		StringBuilder hql = new StringBuilder();
 		hql.append(sql);
-		if (dataInicio != null) {
-			hql.append(" dataVencimento between :dataInicio and :dataFinal");
-			if (cliente != null || centroCusto != null || planoConta != null || formaPagamento != null) {
-				hql.append(" and ");
+
+		if (!numero.isEmpty()) {
+			hql.append(" numero LIKE :numero");
+			if(valorInicial != null || dataVendaInicio != null || dataVencimentoInicio != null || dataRecebimentoInicio != null || cliente != null || centroCusto != null || planoConta != null || formaPagamento != null) {
+				hql.append(" and");
+			}
+		}
+		
+		if (valorInicial != null) {
+			hql.append(" valor between :valorInicial and :valorFinal");
+			if( dataVendaInicio != null || dataRecebimentoInicio != null || dataVencimentoInicio != null || cliente != null || centroCusto != null || planoConta != null || formaPagamento != null) {
+				hql.append(" and");
+			}
+		}
+		if (dataVendaInicio != null) {
+			hql.append(" dataVenda between :dataVendaInicio and :dataVendaFinal");
+			if(dataRecebimentoInicio != null || dataRecebimentoInicio != null || cliente != null || centroCusto != null || planoConta != null || formaPagamento != null) {
+				hql.append(" and");
+			}
+		}
+
+		if (dataVencimentoInicio != null) {
+			hql.append(" dataVencimento between :dataVencimentoInicio and :dataVencimentoFinal");
+			if(dataRecebimentoInicio != null || cliente != null || centroCusto != null || planoConta != null || formaPagamento != null) {
+				hql.append(" and");
+			}
+		}
+
+		if (dataRecebimentoInicio != null) {
+			hql.append(" dataRecebimento between :dataRecebimentoInicio and :dataRecebimentoFinal");
+			if(cliente != null || centroCusto != null || planoConta != null || formaPagamento != null) {
+				hql.append(" and");
 			}
 		}
 
 		if (cliente != null) {
 			hql.append(" idCliente =  :idCliente");
-			if (centroCusto != null || planoConta != null || formaPagamento != null) {
-				hql.append(" and ");
+			if(centroCusto != null || planoConta != null || formaPagamento != null) {
+				hql.append(" and");
 			}
 		}
 
 		if (centroCusto != null) {
 			hql.append(" idCentroCusto =  :idCentroCusto");
-			if (planoConta != null || formaPagamento != null) {
-				hql.append(" and ");
+			if( planoConta != null || formaPagamento != null) {
+				hql.append(" and");
 			}
 		}
 
 		if (planoConta != null) {
 			hql.append(" idPlanoConta =  :idPlanoConta");
-			if (formaPagamento != null) {
-				hql.append(" and ");
+			if( formaPagamento != null) {
+				hql.append(" and");
 			}
 		}
-
+		
 		if (formaPagamento != null) {
-			System.out.println(formaPagamento.getIdFormaPagamento());
-			hql.append(" idFormaPagamento =  :idFormaPagamento");
+			hql.append(" idFormaPagamento =  :idFormaPagamento ");
+		}
+		Query<ContaReceber> query = s.createQuery(hql.toString(), ContaReceber.class);
+
+		if (!numero.isEmpty()) {
+			query.setParameter("numero", "%"+numero+"%");
+		}
+		
+		if (valorInicial != null) {
+			query.setParameter("valorInicial", valorInicial);
+			query.setParameter("valorFinal", valorFinal);
+		}
+		
+		if (dataVendaInicio != null) {
+			query.setParameter("dataVendaInicio", dataVendaInicio);
+			query.setParameter("dataVendaFinal", dataVendaFim);
 		}
 
-		Query<ContaReceber> query = s.createQuery(hql.toString(), ContaReceber.class);
-		if (dataInicio != null) {
-			query.setParameter("dataInicio", dataInicio);
-			query.setParameter("dataFinal", dataFim);
+		if (dataVencimentoInicio != null) {
+			query.setParameter("dataVencimentoInicio", dataVencimentoInicio);
+			query.setParameter("dataVencimentoFinal", dataVencimentoFim);
+		}
+
+		if (dataRecebimentoInicio != null) {
+			query.setParameter("dataRecebimentoInicio", dataRecebimentoInicio);
+			query.setParameter("dataRecebimentoFinal", dataRecebimentoFim);
 		}
 
 		if (cliente != null) {
@@ -109,13 +158,13 @@ public class ContaReceberDAO {
 		if (formaPagamento != null) {
 			query.setParameter("idFormaPagamento", formaPagamento.getIdFormaPagamento());
 		}
-
+		
 		list = query.list();
+
 		s.getTransaction().commit();
 
 		return list;
 	}
-
 	public void removeContaReceber(Integer id) {
 		s.beginTransaction();
 		ContaReceber contaReceber = (ContaReceber) s.load(ContaReceber.class, id);
@@ -129,7 +178,7 @@ public class ContaReceberDAO {
 		s.getTransaction().commit();
 	}
 
-	public ContaReceber retornaFormaPagamento(Integer id) {
+	public ContaReceber retornaContaReceber(Integer id) {
 		s.beginTransaction();
 		ContaReceber contaReceber = (ContaReceber) s.get(ContaReceber.class, id);
 		s.getTransaction().commit();

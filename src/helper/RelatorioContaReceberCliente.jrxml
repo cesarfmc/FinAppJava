@@ -163,19 +163,12 @@
 				<text><![CDATA[CORBA SISTEMAS]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="260" y="50" width="80" height="18" uuid="c0f08525-dec6-4717-8557-3f32ee2f9127"/>
+				<reportElement x="210" y="50" width="130" height="18" uuid="c0f08525-dec6-4717-8557-3f32ee2f9127"/>
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{quebra}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Por "+$P{quebra}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="240" y="50" width="28" height="18" uuid="f264dfb9-502a-424b-be36-16a2716de89c"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Por]]></text>
-			</staticText>
 			<textField>
 				<reportElement x="2" y="70" width="558" height="70" uuid="2a2951c2-1eb6-4604-91db-09ebe5aea0f7"/>
 				<textElement>

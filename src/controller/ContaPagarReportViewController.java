@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.hibernate.Session;
 
@@ -18,10 +17,13 @@ import helper.PlanoContaDAO;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import model.CentroCusto;
 import model.ContaPagarDataView;
@@ -138,7 +140,18 @@ public class ContaPagarReportViewController {
 
 	@FXML
 	void limpar_Click(ActionEvent event) {
-
+		cmbFornecedor.getSelectionModel().clearSelection();
+		cmbCentroCusto.getSelectionModel().clearSelection();
+		cmbFornecedor.getSelectionModel().clearSelection();
+		
+		dpCompraInicio.setValue(null);
+		dpCompraFinal.setValue(null);
+		dpVencimentoInicio.setValue(null);
+		dpVencimentoFinal.setValue(null);
+		dpPagamentoInicio.setValue(null);
+		dpPagamentoFinal.setValue(null);
+		
+		estadoInicialBotoes();
 	}
 
 	@FXML
@@ -302,9 +315,10 @@ public class ContaPagarReportViewController {
 
 	@FXML
 	void tela_Click(ActionEvent event) throws JRException {
-		getDatasCompra();
-		getDatasVencimento();
-		getDatasPagamento();
+		if(getDatasCompra() != 1 || getDatasVencimento() != 1 || getDatasPagamento() != 1) {
+			Alert alert = new Alert(AlertType.INFORMATION, "Data Invalida!", ButtonType.OK);
+			alert.showAndWait();
+		}else {
 		List<ContaPagarDataView> listaContaPagar = contaPagarViewDAO.listContaPagarJasper(dataCompraInicio, dataCompraFim, dataVencimentoInicio, dataVencimentoFim, dataPagamentoInicio,dataPagamentoFim, 
 																	getFornecedor(), getCentroCusto(), getPlanoConta(), getOrdenacao(), getStatus(),getQuebra());
 
@@ -316,18 +330,24 @@ public class ContaPagarReportViewController {
 		  
 		Map parameters = new HashMap();
 		  parameters.put("listaContaPagar", listaContaPagar);
-		  parameters.put("ordem", getOrdenacaoJasper());
+		  parameters.put("quebra", getQuebraJasper());
 		  paramBusca(parameters);
 		  
-		  InputStream fonte = getQuebraJasper();
+		  InputStream fonte = quebraJasper();
 		  
 		  JasperReport report = JasperCompileManager.compileReport(fonte);
 		  
 		  JasperPrint print = JasperFillManager.fillReport(report, parameters, 
 				  new JREmptyDataSource()); JasperViewer.viewReport(print, false);
+		}
 		 
 	}
-	
+	private void estadoInicialBotoes() {
+		radBtnTipoAnalitico.setSelected(true);
+		radBtnSituacaoTodos.setSelected(true);
+		radBtnQuebraFornecedor.setSelected(true);
+		radBtnOrdemFornecedor.setSelected(true);
+	}
 	private void paramBusca(Map parameters ) {
 		if(getFornecedor() != null) {
 			  parameters.put("FornecedorP", getFornecedor().getNome());
@@ -392,31 +412,51 @@ public class ContaPagarReportViewController {
 		return cmbFornecedor.getSelectionModel().getSelectedItem();
 	}
 
-	public void getDatasCompra() {
+	public int getDatasCompra() {
 		dataCompraInicio = null;
 		dataCompraFim = null;
+		
 		if (dpCompraInicio.getValue() != null && dpCompraFinal.getValue() != null) {
-			dataCompraInicio = DateHelper.getDate(dpCompraInicio.getValue());
-			dataCompraFim = DateHelper.getDate(dpCompraFinal.getValue());
+			if(dpCompraFinal.getValue().isAfter(dpCompraInicio.getValue()) || dpCompraFinal.getValue().isEqual(dpCompraInicio.getValue())) {
+				dataCompraInicio = DateHelper.getDate(dpCompraInicio.getValue());
+				dataCompraFim = DateHelper.getDate(dpCompraFinal.getValue());
+				
+			}else {
+				return 0;
+			}
 		}
+		return 1;
 	}
 
-	public void getDatasVencimento() {
+	public int getDatasVencimento() {
 		dataVencimentoInicio = null;
 		dataVencimentoFim = null;
+
 		if (dpVencimentoInicio.getValue() != null && dpVencimentoFinal.getValue() != null) {
-			dataVencimentoInicio = DateHelper.getDate(dpVencimentoInicio.getValue());
-			dataVencimentoFim = DateHelper.getDate(dpVencimentoFinal.getValue());
+			if(dpVencimentoFinal.getValue().isAfter(dpVencimentoInicio.getValue()) || dpVencimentoFinal.getValue().isEqual(dpVencimentoInicio.getValue())) {
+				dataVencimentoInicio = DateHelper.getDate(dpVencimentoInicio.getValue());
+				dataVencimentoFim = DateHelper.getDate(dpVencimentoFinal.getValue());
+				
+			}else {
+				return 0;
+			}
 		}
+		return 1;
 	}
 
-	public void getDatasPagamento() {
+	public int getDatasPagamento() {
 		dataPagamentoInicio = null;
 		dataPagamentoFim = null;
 		if (dpPagamentoInicio.getValue() != null && dpPagamentoFinal.getValue() != null) {
-			dataPagamentoInicio = DateHelper.getDate(dpPagamentoInicio.getValue());
-			dataPagamentoFim = DateHelper.getDate(dpPagamentoFinal.getValue());
+			if(dpPagamentoFinal.getValue().isAfter(dpPagamentoInicio.getValue()) || dpPagamentoFinal.getValue().isEqual(dpPagamentoInicio.getValue())) {
+				dataPagamentoInicio = DateHelper.getDate(dpPagamentoInicio.getValue());
+				dataPagamentoFim = DateHelper.getDate(dpPagamentoFinal.getValue());
+				
+			}else {
+				return 0;
+			}
 		}
+		return 1;
 	}
 	
 	private void iniciaBotoes() {
@@ -450,7 +490,7 @@ public class ContaPagarReportViewController {
 		}
 	}
 	
-	private InputStream getQuebraJasper() {
+	private InputStream quebraJasper() {
 		if(radBtnQuebraFornecedor.isSelected()) {
 			return ContaPagarReportViewController.class
 					  .getResourceAsStream("/helper/RelatorioContaPagarFornecedor.jrxml");
@@ -504,7 +544,7 @@ public class ContaPagarReportViewController {
 		}
 	}
 	
-	private String getOrdenacaoJasper() {
+	private String getQuebraJasper() {
 		if(radBtnOrdemFornecedor.isSelected()) {
 			return "Fornecedor";
 		}else{

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 import model.CentroCusto;
 
@@ -62,11 +63,30 @@ public class CentroCustoDAO {
 		return list;
 	}
 	
-	public List<CentroCusto> listCentroCustoFilhos(Integer id) {
+	public List<CentroCusto> listCentroCustoFilhos(Integer idCentroCustoPai) {
 		List<CentroCusto> list = new ArrayList<CentroCusto>();
 		s.beginTransaction();
+		
+		String sql = "from CentroCusto where ";
+		StringBuilder hql = new StringBuilder();
+		hql.append(sql);
 
-		list = s.createQuery("from CentroCusto where idCentroCustoPai = "+id,CentroCusto.class).list();
+		
+		  if (idCentroCustoPai != null) {
+			  hql.append(" idCentroCustoPai = :idCentroCustoPai "); 
+		  }
+		    
+		  if (idCentroCustoPai != null) { 
+			  hql.append(" ORDER BY nome "); 
+		  }
+		  Query<CentroCusto> query = s.createQuery(hql.toString(),CentroCusto.class);
+		  
+		  if (idCentroCustoPai != null) { 
+			  query.setParameter("idCentroCustoPai",idCentroCustoPai); 
+		  }
+		 
+		 list = query.list();
+		 
 		s.getTransaction().commit();
 
 		return list;

@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -13,11 +12,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.CentroCusto;
 import model.PlanoConta;
 
 public class PlanoContaListViewController {
@@ -37,12 +40,12 @@ public class PlanoContaListViewController {
 
 	@FXML
 	void editar_Click(ActionEvent event) {
-		PlanoConta planoContaSelected = trvPlanoConta.getSelectionModel().getSelectedItem().getValue();
+		PlanoConta planoContaSelected = verificaPlanoConta();
 		if (planoContaSelected != null) {
 			try {
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/PlanoContaView.fxml"));
 				loader.setController(new PlanoContaViewController(planoContaSelected,
-						planoContaSelected.getPlanoConta(), planoContaDAO));
+						planoContaSelected.getPlanoConta(), planoContaDAO,this));
 				Parent root = loader.load();
 				Stage stage = new Stage();
 				Scene scene = new Scene(root, 800, 600);
@@ -59,11 +62,11 @@ public class PlanoContaListViewController {
 
 	@FXML
 	void inserir_Click(ActionEvent event) {
-		PlanoConta planoContaSelected = trvPlanoConta.getSelectionModel().getSelectedItem().getValue();
+		PlanoConta planoContaSelected = verificaPlanoConta();
 		if (planoContaSelected != null) {
 			try {
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/PlanoContaView.fxml"));
-				loader.setController(new PlanoContaViewController(null, planoContaSelected, planoContaDAO));
+				loader.setController(new PlanoContaViewController(null, planoContaSelected, planoContaDAO,this));
 				Parent root = loader.load();
 				Stage stage = new Stage();
 				Scene scene = new Scene(root, 800, 600);
@@ -83,28 +86,22 @@ public class PlanoContaListViewController {
 		sessao.close();
 		fechar(getStage(btnSair));
 	}
-
-	@FXML
-	private void initialize() {
-		pesquisar();
-	}
-
+	
 	private void addFilho(TreeItem<PlanoConta> itemPai, PlanoConta planoContaPai) {
-		Iterator<PlanoConta> plano = planoContaPai.getPlanoContas().iterator();
+		List<PlanoConta> plano = planoContaDAO.listPlanoContaFilhos(planoContaPai.getIdPlanoConta());
 		TreeItem<PlanoConta> filho = new TreeItem<PlanoConta>(planoContaPai);
-		PlanoConta p;
 
 		itemPai.getChildren().add(filho);
-
-		while (plano.hasNext()) {
-			p = plano.next();
-
+		
+		for (PlanoConta p : plano) {
+			
 			addFilho(filho, p);
 		}
+		filho.setExpanded(true);
 
 	}
 
-	private void pesquisar() {
+	public void pesquisar() {
 		List<PlanoConta> planoContaPai = planoContaDAO.listPlanoContaPai();
 		TreeItem<PlanoConta> fakeRoot = new TreeItem<PlanoConta>();
 
@@ -115,6 +112,7 @@ public class PlanoContaListViewController {
 			for (PlanoConta filho : listaFilhos) {
 				addFilho(itemPai, filho);
 			}
+			itemPai.setExpanded(true);
 			fakeRoot.getChildren().add(itemPai);
 		}
 
@@ -131,4 +129,22 @@ public class PlanoContaListViewController {
 
 		return stage;
 	}
+	
+	private PlanoConta verificaPlanoConta() {
+		if(trvPlanoConta.getSelectionModel().getSelectedItem() != null) {
+			return trvPlanoConta.getSelectionModel().getSelectedItem().getValue();
+		}else {
+			Alert alert = new Alert(AlertType.WARNING, "Nenhum Plano de Conta Selecionado", ButtonType.OK);
+			alert.showAndWait();
+		}
+		
+		return null;
+		 
+	}
+	
+	@FXML
+	private void initialize() {
+		pesquisar();
+	}
+
 }

@@ -1,12 +1,12 @@
 package controller;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import helper.ContaReceberDAO;
 import helper.DateHelper;
+import helper.MaskFieldUtil;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -112,24 +112,24 @@ public class ContaReceberViewController {
 		if (contaReceber.getStatus().contentEquals("A")) {
 			ativaBaixa();
 		} else {
-			Alert alertBaixa = new Alert(AlertType.INFORMATION, "Conta já possui baixa!", ButtonType.OK);
+			Alert alertBaixa = new Alert(AlertType.INFORMATION, "Conta ja possui baixa!", ButtonType.OK);
 			alertBaixa.showAndWait();
 		}
 	}
 
 	@FXML
 	void cancelaBaixa_Click(ActionEvent event) {
-		contaReceber.setStatus("A");
-		contaReceber.setValorRecebimento(null);
-		contaReceber.setDataRecebimento(null);
-		contaReceber.setNumeroBanco(null);
-		contaReceber.setNumeroAgencia(null);
-		contaReceber.setNumeroBanco(null);
-
 		Alert alert = new Alert(AlertType.WARNING, "Deseja Remover Baixa?", ButtonType.YES, ButtonType.NO);
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.YES) {
+			contaReceber.setStatus("A");
+			contaReceber.setValorRecebimento(null);
+			contaReceber.setDataRecebimento(null);
+			contaReceber.setNumeroBanco(null);
+			contaReceber.setNumeroAgencia(null);
+			contaReceber.setNumeroBanco(null);
+
 			contaReceberDAO.updateContaReceber(contaReceber);
 			Alert alertConfirm = new Alert(AlertType.INFORMATION, "Baixa Removida!", ButtonType.OK);
 			alertConfirm.showAndWait();
@@ -147,6 +147,11 @@ public class ContaReceberViewController {
 
 	@FXML
 	void copiar_Click(ActionEvent event) {
+
+	}
+
+	@FXML
+	void excluir_Click(ActionEvent event) {
 		Alert alert = new Alert(AlertType.WARNING, "Deseja Remover Conta a Receber?", ButtonType.YES, ButtonType.NO);
 
 		Optional<ButtonType> result = alert.showAndWait();
@@ -162,36 +167,55 @@ public class ContaReceberViewController {
 	}
 
 	@FXML
-	void excluir_Click(ActionEvent event) {
-
-	}
-
-	@FXML
 	void salvar_Click(ActionEvent event) {
 		if (contaReceber == null) {
-			contaReceberDAO.addContaReceber(getDado());
+			if(!tfdValor.getText().isEmpty()) {
+				if(dpVenda.getValue() != null) {
+					if(dpVencimento.getValue() != null) {
+						contaReceberDAO.addContaReceber(getDado());
 
-			Alert alertConfirm = new Alert(AlertType.INFORMATION, "Conta a Receber Inserida!", ButtonType.OK);
-			alertConfirm.showAndWait();
-			fechar(getStage(btnSalvar));
+						Alert alertConfirm = new Alert(AlertType.INFORMATION, "Conta a Receber Inserida!", ButtonType.OK);
+						alertConfirm.showAndWait();
+						fechar(getStage(btnSalvar));	
+					}else {
+						Alert alertPagamento = new Alert(AlertType.INFORMATION, "Data de vencimento Obrigatoria!",
+								ButtonType.OK);
+						alertPagamento.showAndWait();
+					}
+				}else {
+					Alert alertPagamento = new Alert(AlertType.INFORMATION, "Data da Venda Obrigatoria!",
+							ButtonType.OK);
+					alertPagamento.showAndWait();
+				}
+				
+			}else {
+				Alert alertPagamento = new Alert(AlertType.INFORMATION, "Valor Obrigatorio!",
+						ButtonType.OK);
+				alertPagamento.showAndWait();
+			}
 		} else {
 			contaReceber = getDado();
 			if (contaReceber.getValorRecebimento() == null) {
-				Alert alertRecebimento = new Alert(AlertType.INFORMATION, "Valor de Recebimento Obrigatório!",
+				Alert alertPagamento = new Alert(AlertType.INFORMATION, "Valor de Recebimento Obrigatorio!",
 						ButtonType.OK);
-				alertRecebimento.showAndWait();
+				alertPagamento.showAndWait();
 			}else {
-				contaReceberDAO.updateContaReceber(getDado());
-				if (btnBaixaDoc.isDisabled() == true) {
-					Alert alertConfirm = new Alert(AlertType.INFORMATION, "Baixa Efetuada!", ButtonType.OK);
-					alertConfirm.showAndWait();
-				} else {
-					Alert alertConfirm = new Alert(AlertType.INFORMATION, "Conta a Pagar Alterada!", ButtonType.OK);
-					alertConfirm.showAndWait();
+				if (contaReceber.getDataRecebimento() == null) {
+					Alert alertPagamento = new Alert(AlertType.INFORMATION, "Data de Recebimento Obrigatorio!",
+							ButtonType.OK);
+					alertPagamento.showAndWait();
+				}else {
+					contaReceberDAO.updateContaReceber(getDado());
+					if (btnBaixaDoc.isDisabled()) {
+						Alert alertConfirm = new Alert(AlertType.INFORMATION, "Baixa Efetuada!", ButtonType.OK);
+						alertConfirm.showAndWait();
+					} else {
+						Alert alertConfirm = new Alert(AlertType.INFORMATION, "Conta a Receber Alterada!", ButtonType.OK);
+						alertConfirm.showAndWait();
+					}
+					fechar(getStage(btnSalvar));
 				}
-				fechar(getStage(btnSalvar));
 			}
-
 		}
 	}
 	private void desativaBaixa() {
@@ -202,6 +226,7 @@ public class ContaReceberViewController {
 		tfdNumDocRecto.setDisable(true);
 		tfdConta.setDisable(true);
 
+		btnBaixaDoc.setDisable(true);
 		btnCancelaBaixa.setDisable(true);
 	}
 
@@ -233,28 +258,40 @@ public class ContaReceberViewController {
 		if (contaReceber == null) {
 			contaReceber = new ContaReceber();
 			contaReceber.setStatus("A");
+			contaReceber.setDataInsercao(new Date());
 		}
 
-		contaReceber.setPlanoConta(cmbPlanoConta.getSelectionModel().getSelectedItem());
-		contaReceber.setCentroCusto(cmbCentroCusto.getSelectionModel().getSelectedItem());
-		contaReceber.setFormaPagamento(cmbFormaPagamento.getSelectionModel().getSelectedItem());
-		contaReceber.setCliente(cmbCliente.getSelectionModel().getSelectedItem());
-
+		if(cmbPlanoConta.getSelectionModel().getSelectedItem() != null) {
+			contaReceber.setPlanoConta(cmbPlanoConta.getSelectionModel().getSelectedItem());
+		}
+		if(cmbCentroCusto.getSelectionModel().getSelectedItem() != null) {
+			contaReceber.setCentroCusto(cmbCentroCusto.getSelectionModel().getSelectedItem());
+		}
+		if(cmbFormaPagamento.getSelectionModel().getSelectedItem() != null) {
+			contaReceber.setFormaPagamento(cmbFormaPagamento.getSelectionModel().getSelectedItem());
+		}
+		if(cmbCliente.getSelectionModel().getSelectedItem() != null) {
+			contaReceber.setCliente(cmbCliente.getSelectionModel().getSelectedItem());
+		}
 		contaReceber.setDataVenda(DateHelper.getDate(dpVenda.getValue()));
-		contaReceber.setDataVencimento(DateHelper.getDate(dpVencimento.getValue()));
-		contaReceber.setDataInsercao(new Date());
+		if(dpVencimento.getValue() != null) {
+			contaReceber.setDataVencimento(DateHelper.getDate(dpVencimento.getValue()));
+		}
+		if(!tfdNumero.getText().isEmpty()) {
+			contaReceber.setNumero(tfdNumero.getText());
+		}
+		if(!tfdDocumento.getText().isEmpty()) {
+			contaReceber.setDocumento(tfdDocumento.getText());
+		}
+		contaReceber.setValor(MaskFieldUtil.monetaryValueFromField(tfdValor));	
 
-		contaReceber.setNumero(tfdNumero.getText());
-		contaReceber.setDocumento(tfdDocumento.getText());
-		contaReceber.setValor(new BigDecimal(tfdValor.getText()));
-
-		if (btnBaixaDoc.isDisabled() == true) {
+		if (btnBaixaDoc.isDisabled() && contaReceber != null) {
 
 			if (tfdNumeroBanco.getText() != null) {
 				contaReceber.setNumeroBanco(tfdNumeroBanco.getText());
 			}
 			if (tfdValorRecebimento.getText() != null) {
-				contaReceber.setValorRecebimento(new BigDecimal(tfdValorRecebimento.getText()));
+				contaReceber.setValorRecebimento(MaskFieldUtil.monetaryValueFromField(tfdValorRecebimento));
 			}
 			if (dpRecto.getValue() != null) {
 				contaReceber.setDataRecebimento(DateHelper.getDate(dpRecto.getValue()));
@@ -276,8 +313,8 @@ public class ContaReceberViewController {
 	}
 
 	private void selectCentroCusto() {
-		for (CentroCusto centroCusto : listaCentroCusto) {
-			if(contaReceber.getCentroCusto() != null) {
+		if(contaReceber.getCentroCusto() != null) {
+			for (CentroCusto centroCusto : listaCentroCusto) {
 				if (centroCusto.getNome().equals(contaReceber.getCentroCusto().getNome())) {
 					cmbCentroCusto.getSelectionModel().select(centroCusto);
 				}
@@ -286,8 +323,8 @@ public class ContaReceberViewController {
 	}
 
 	private void selectCliente() {
-		for (Cliente cliente : listaCliente) {
-			if(contaReceber.getCliente() != null) {
+		if(contaReceber.getCliente() != null) {
+			for (Cliente cliente : listaCliente) {
 				if (cliente.getNome().equals(contaReceber.getCliente().getNome())) {
 					cmbCliente.getSelectionModel().select(cliente);
 				}
@@ -296,8 +333,8 @@ public class ContaReceberViewController {
 	}
 
 	private void selectFormaPagamento() {
-		for (FormaPagamento formaPagamento : listaFormaPagamento) {
-			if(contaReceber.getFormaPagamento() != null) {
+		if(contaReceber.getFormaPagamento() != null) {
+			for (FormaPagamento formaPagamento : listaFormaPagamento) {
 				if (formaPagamento.getNome().equals(contaReceber.getFormaPagamento().getNome())) {
 					cmbFormaPagamento.getSelectionModel().select(formaPagamento);
 				}
@@ -306,8 +343,8 @@ public class ContaReceberViewController {
 	}
 
 	private void selectPlanoConta() {
-		for (PlanoConta planoConta : listaPlanoConta) {
-			if(contaReceber.getPlanoConta() != null) {
+		if(contaReceber.getPlanoConta() != null) {
+			for (PlanoConta planoConta : listaPlanoConta) {
 				if (planoConta.getNome().equals(contaReceber.getPlanoConta().getNome())) {
 					cmbPlanoConta.getSelectionModel().select(planoConta);
 				}
@@ -316,14 +353,21 @@ public class ContaReceberViewController {
 	}
 
 	private void limpaCampos() {
-		tfdNumero.setText("");
-		tfdValor.setText("");
-		tfdValorRecebimento.setText("");
-		tfdNumDocRecto.setText("");
-		tfdNumeroBanco.setText("");
-		tfdAgencia.setText("");
-		tfdConta.setText("");
-
+		tfdNumero.clear();
+		tfdValor.clear();
+		tfdValorRecebimento.clear();
+		tfdNumDocRecto.clear();
+		tfdNumeroBanco.clear();
+		tfdAgencia.clear();
+		tfdConta.clear();
+		
+		dpVenda.setValue(null);
+		dpVencimento.setValue(null);
+		
+		cmbCliente.getSelectionModel().clearSelection();
+		cmbPlanoConta.getSelectionModel().clearSelection();
+		cmbCentroCusto.getSelectionModel().clearSelection();
+		cmbFormaPagamento.getSelectionModel().clearSelection();
 	}
 
 	private void inicializaBaixa() {
@@ -376,7 +420,7 @@ public class ContaReceberViewController {
 			if (contaReceber.getValor() != null) {
 				tfdValor.setText(String.valueOf(contaReceber.getValor()));
 			}
-
+			btnExcluir.setDisable(false);
 			inicializaBaixa();
 
 			selectCentroCusto();
@@ -384,10 +428,14 @@ public class ContaReceberViewController {
 			selectFormaPagamento();
 			selectPlanoConta();
 		} else {
+			btnExcluir.setDisable(true);
 			limpaCampos();
 		}
 	}
-
+	private void setMask() {
+		MaskFieldUtil.monetaryField(tfdValor);
+		MaskFieldUtil.monetaryField(tfdValorRecebimento);
+	}
 	private void fechar(Stage stage) {
 		stage.close();
 	}
@@ -399,6 +447,7 @@ public class ContaReceberViewController {
 	}
 	@FXML
 	private void initialize() {
+		setMask();
 		inicializaCampos();
 	}
 }
