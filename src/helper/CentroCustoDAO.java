@@ -10,16 +10,20 @@ import model.CentroCusto;
 
 public class CentroCustoDAO {
 	private Session s;
+	private long tempoInicial;
 	
 	public CentroCustoDAO(Session session) {
 		s = session;
 	}
 
 	public void addCentroCusto(CentroCusto centroCusto) {
+		tempoInicial = System.currentTimeMillis();
+		
 		s.beginTransaction();
 		s.save(centroCusto);
 		s.getTransaction().commit();
 
+		GeradorCsv.tempoFinal(tempoInicial, "Adicionar Centro de Custo");
 	}
 
 	public List<CentroCusto> listCentroCusto() {
@@ -33,27 +37,40 @@ public class CentroCustoDAO {
 	}
 
 	public void removeCentroCusto(Integer id) {
+		tempoInicial = System.currentTimeMillis();
+		
 		s.beginTransaction();
 		CentroCusto centroCusto = (CentroCusto) s.load(CentroCusto.class, id);
 		s.delete(centroCusto);
 		s.getTransaction().commit();
+		
+		GeradorCsv.tempoFinal(tempoInicial, "Remover Centro de Custo");
 	}
 
 	public void updateCentroCusto(CentroCusto centroCusto) {
+		tempoInicial = System.currentTimeMillis();
+		
 		s.beginTransaction();
 		s.update(centroCusto);
 		s.getTransaction().commit();
+		
+		GeradorCsv.tempoFinal(tempoInicial, "Alterar Centro de Custo");
 	}
 
 	public CentroCusto retornaCentroCusto(Integer id) {
+		tempoInicial = System.currentTimeMillis();
+		
 		s.beginTransaction();
 		CentroCusto centroCusto = (CentroCusto) s.get(CentroCusto.class, id);
 		s.getTransaction().commit();
 
+		GeradorCsv.tempoFinal(tempoInicial, "Remover Centro de Custo");
+		
 		return centroCusto;
 	}
 	
 	public List<CentroCusto> listCentroCustoPai() {
+		
 		List<CentroCusto> list = new ArrayList<CentroCusto>();
 		s.beginTransaction();
 
@@ -64,6 +81,7 @@ public class CentroCustoDAO {
 	}
 	
 	public List<CentroCusto> listCentroCustoFilhos(Integer idCentroCustoPai) {
+		
 		List<CentroCusto> list = new ArrayList<CentroCusto>();
 		s.beginTransaction();
 		

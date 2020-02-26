@@ -6,93 +6,73 @@
 		<sql-type jdbc-type="NVARCHAR" hibernate-type="string"></sql-type>
 		<sql-type jdbc-type="NCHAR" hibernate-type="string"></sql-type>
 	</type-mapping>
-	<table-filter match-catalog="FIN" match-schema="dbo"
-		match-name="Banco" />
-	<table-filter match-catalog="FIN" match-schema="dbo"
-		match-name="Categoria" />
-	<table-filter match-catalog="FIN" match-schema="dbo"
-		match-name="CentroCusto" />
-	<table-filter match-catalog="FIN" match-schema="dbo"
-		match-name="Cidade" />
-	<table-filter match-catalog="FIN" match-schema="dbo"
-		match-name="Cliente" />
-	<table-filter match-catalog="FIN" match-schema="dbo"
-		match-name="Conta" />
-	<table-filter match-catalog="FIN" match-schema="dbo"
-		match-name="ContaPagar" />
-	<table-filter match-catalog="FIN" match-schema="dbo"
-		match-name="ContaReceber" />
-	<table-filter match-catalog="FIN" match-schema="dbo"
-		match-name="DespesaMensal" />
-	<table-filter match-catalog="FIN" match-schema="dbo"
-		match-name="Empresa" />
-	<table-filter match-catalog="FIN" match-schema="dbo"
-		match-name="Estado" />
-	<table-filter match-catalog="FIN" match-schema="dbo"
-		match-name="FormaPagamento" />
-	<table-filter match-catalog="FIN" match-schema="dbo"
-		match-name="Fornecedor" />
-	<table-filter match-catalog="FIN" match-schema="dbo"
-		match-name="Marca" />
-	<table-filter match-catalog="FIN" match-schema="dbo"
-		match-name="Perfil" />
-	<table-filter match-catalog="FIN" match-schema="dbo"
-		match-name="PerfilPermissao" />
-	<table-filter match-catalog="FIN" match-schema="dbo"
-		match-name="Permissao" />
-	<table-filter match-catalog="FIN" match-schema="dbo"
-		match-name="PlanoConta" />
-	<table-filter match-catalog="FIN" match-schema="dbo"
-		match-name="Produto" />
-	<table-filter match-catalog="FIN" match-schema="dbo"
-		match-name="ReceitaMensal" />
-	<table-filter match-catalog="FIN" match-schema="dbo"
-		match-name="TipoConta" />
-	<table-filter match-catalog="FIN" match-schema="dbo"
-		match-name="Transacao" />
-	<table-filter match-catalog="FIN" match-schema="dbo"
-		match-name="Usuario" />
-	<table-filter match-name="ContaDataView" match-catalog="FIN"
+	<table-filter match-name="Banco" match-catalog="Fin3l"
 		match-schema="dbo">
 	</table-filter>
-	<table-filter match-name="ContaPagarDataView" match-catalog="FIN"
+	<table-filter match-name="CentroCusto" match-catalog="Fin3l"
 		match-schema="dbo">
 	</table-filter>
-	<table-filter match-name="ContaReceberDataView" match-catalog="FIN"
+	<table-filter match-name="Cidade" match-catalog="Fin3l"
 		match-schema="dbo">
 	</table-filter>
-	<table-filter match-name="ContaDataView" match-catalog="FIN"
+	<table-filter match-name="Cliente" match-catalog="Fin3l"
 		match-schema="dbo">
 	</table-filter>
-<table catalog="FIN" schema="dbo" name="ContaPagarDataView">
-<primary-key>
-	<generator class="assigned">
-		<param name="id2"></param>
-	</generator>
-</primary-key>
-<column name="planoContaNome"></column>
-	<column name="numeroConta"></column>
-	<column name="idFornecedor"></column>
-	<column name="dataVencimento"></column>
-	<column name="valorPagamento"></column>
-	<column name="idPlanoConta"></column>
-	<column name="numero"></column>
-	<column name="idCentroCusto"></column>
-	<column name="dataCompra"></column>
-	<column name="numeroDocPagto"></column>
-	<column name="codigo"></column>
-	<column name="numeroBanco"></column>
-	<column name="dataInsercao"></column>
-	<column name="numeroAgencia"></column>
-	<column name="observacao"></column>
-	<column name="idContaPagar"></column>
-	<column name="valor"></column>
-	<column name="centroCustoNome"></column>
-	<column name="fornecedorNome"></column>
-	<column name="idFormaPagamento"></column>
-	<column name="documento"></column>
-	<column name="descricao"></column>
-	<column name="dataPagamento"></column>
-	<column name="status"></column>
-</table>
+	<table-filter match-name="Conta" match-catalog="Fin3l"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="ContaDataView" match-catalog="Fin3l"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="ContaPagar" match-catalog="Fin3l"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="ContaPagarDataView" match-catalog="Fin3l"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="ContaReceber" match-catalog="Fin3l"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="ContaReceberDataView"
+		match-catalog="Fin3l" match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="DespesaMensal" match-catalog="Fin3l"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="Empresa" match-catalog="Fin3l"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="Estado" match-catalog="Fin3l"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="FormaPagamento" match-catalog="Fin3l"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="Fornecedor" match-catalog="Fin3l"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="Perfil" match-catalog="Fin3l"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="PerfilPermissao" match-catalog="Fin3l"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="Permissao" match-catalog="Fin3l"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="PlanoConta" match-catalog="Fin3l"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="ReceitaMensal" match-catalog="Fin3l"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="TipoConta" match-catalog="Fin3l"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="Transacao" match-catalog="Fin3l"
+		match-schema="dbo">
+	</table-filter>
+	<table-filter match-name="Usuario" match-catalog="Fin3l"
+		match-schema="dbo">
+	</table-filter>
 </hibernate-reverse-engineering>

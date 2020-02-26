@@ -150,6 +150,7 @@ public class ClienteViewController implements Initializable {
 
 				Optional<ButtonType> result = alert.showAndWait();
 				if (result.get() == ButtonType.YES) {
+					
 					clienteDAO.addCliente(getClienteDados());
 
 					Alert alertConfirmacao = new Alert(AlertType.INFORMATION, "Cliente Inserido", ButtonType.OK);
@@ -214,6 +215,10 @@ public class ClienteViewController implements Initializable {
 		
 		if(cmbCidade.getSelectionModel().getSelectedItem() != null) {
 			cliente.setCidade(this.cmbCidade.getSelectionModel().getSelectedItem());
+		}
+		
+		if (cmbEstado.getSelectionModel().getSelectedIndex() != 0) {
+			cliente.getCidade().setEstado(this.cmbEstado.getSelectionModel().getSelectedItem());
 		}
 		
 		if(tfdCnpj.getText() != null) {
@@ -296,7 +301,7 @@ public class ClienteViewController implements Initializable {
 
 	public void setEstadoSelected() {
 		int cont = 0;
-		if (cliente != null) {
+		if (cliente != null && cliente.getCidade() != null) {
 			for (Estado estado : listaEstados) {
 				if (estado.getNome().contentEquals(cliente.getCidade().getEstado().getNome())) {
 					cont = listaEstados.indexOf(estado);
@@ -311,7 +316,7 @@ public class ClienteViewController implements Initializable {
 	public void setCidadeSelected() {
 		int cont = 0;
 
-		if (cliente != null) {
+		if (cliente != null && cliente.getCidade() != null) {
 			for (Cidade cidade : cmbCidade.getItems()) {
 				if (cidade.getNome().contentEquals(cliente.getCidade().getNome())) {
 					cont = cmbCidade.getItems().indexOf(cidade);
@@ -327,11 +332,9 @@ public class ClienteViewController implements Initializable {
 	void listarCidades(ActionEvent event) {
 		if(cmbEstado.getSelectionModel().getSelectedIndex() != 0) {
 			Estado estado = this.cmbEstado.getSelectionModel().getSelectedItem();
-
-			if(estado != null) {
-				this.cmbCidade.setItems(FXCollections.observableArrayList(estado.getCidades()));
-				setCidadeSelected();
-			}
+			this.cmbCidade.setItems(FXCollections.observableArrayList(estado.getCidades()));
+			cmbCidade.getItems().add(0, new Cidade());
+			setCidadeSelected();
 		}else {
 			cmbCidade.getItems().clear();
 		}
@@ -397,7 +400,6 @@ public class ClienteViewController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
 		iniciaView();
 
 	}

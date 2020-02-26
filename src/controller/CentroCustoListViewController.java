@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Session;
 
 import helper.CentroCustoDAO;
+import helper.GeradorCsv;
 import helper.HibernateUtil2;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,6 +26,7 @@ import model.CentroCusto;
 public class CentroCustoListViewController {
 	private Session sessao = HibernateUtil2.getSessionFactory().openSession();
 	private CentroCustoDAO centroCustoDAO = new CentroCustoDAO(sessao);
+	private long tempoInicial;
 
 	@FXML
 	private TreeView<CentroCusto> trvCentroDeCustos;
@@ -139,6 +141,8 @@ public class CentroCustoListViewController {
 	
 	@FXML
 	private void initialize() {
+		tempoInicial = System.currentTimeMillis();
 		pesquisar();
+		GeradorCsv.tempoFinal(tempoInicial, "Listar CentroCusto");
 	}
 }

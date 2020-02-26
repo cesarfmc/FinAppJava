@@ -6,46 +6,59 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-import model.Cliente;
 import model.Fornecedor;
 
 public class FornecedorDAO {
 	private Session s;
-	
-	
+	private long tempoInicial;
 	
 	public FornecedorDAO(Session sessao) {
 		this.s = sessao;
 	}
 
 	public void addFornecedor(Fornecedor fornecedor) {
+		tempoInicial = System.currentTimeMillis();
+		
 		s.beginTransaction();
 		s.save(fornecedor);
 		s.getTransaction().commit();
 
+		GeradorCsv.tempoFinal(tempoInicial, "Adicionar Fornecedor");
 	}
 
 	public List<Fornecedor> listFornecedor() {
+		tempoInicial = System.currentTimeMillis();
+		
 		List<Fornecedor> list = new ArrayList<Fornecedor>();
 		s.beginTransaction();
 
 		list = s.createQuery("from Fornecedor",Fornecedor.class).list();
 		s.getTransaction().commit();
+		
+		GeradorCsv.tempoFinal(tempoInicial, "Listar Fornecedor");
 
 		return list;
 	}
 
 	public void removeFornecedor(Integer id) {
+		tempoInicial = System.currentTimeMillis();
+		
 		s.beginTransaction();
 		Fornecedor f = (Fornecedor) s.load(Fornecedor.class, id);
 		s.delete(f);
 		s.getTransaction().commit();
+		
+		GeradorCsv.tempoFinal(tempoInicial, "Remover Fornecedor");
 	}
 
 	public void updateFornecedor(Fornecedor fornecedor) {
+		tempoInicial = System.currentTimeMillis();
+		
 		s.beginTransaction();
 		s.update(fornecedor);
 		s.getTransaction().commit();
+		
+		GeradorCsv.tempoFinal(tempoInicial, "Alterar Fornecedor");
 	}
 
 	public Fornecedor retornaFornecedor(Integer id) {
@@ -57,6 +70,8 @@ public class FornecedorDAO {
 	}
 	
 	public List<Fornecedor> pesquisaCliente(String nomeFornecedor, String cnpjFornecedor, String cpfFornecedor) {
+		tempoInicial = System.currentTimeMillis();
+		
 		List<Fornecedor> list = new ArrayList<Fornecedor>();
 		s.beginTransaction();
 		
@@ -101,6 +116,8 @@ public class FornecedorDAO {
 		 
 		s.getTransaction().commit();
 
+		GeradorCsv.tempoFinal(tempoInicial, "Pesquisar Fornecedor");
+		
 		return list;
 	}
 }

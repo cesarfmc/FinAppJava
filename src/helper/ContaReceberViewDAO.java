@@ -9,13 +9,12 @@ import org.hibernate.query.Query;
 
 import model.CentroCusto;
 import model.Cliente;
-import model.ContaReceber;
 import model.ContaReceberDataView;
 import model.PlanoConta;
 
 public class ContaReceberViewDAO {
-	
 	private Session s;
+	private long tempoInicial;
 
 	public ContaReceberViewDAO(Session sessao) {
 		this.s = sessao;
@@ -24,6 +23,8 @@ public class ContaReceberViewDAO {
 	public List<ContaReceberDataView> listContaReceberJasper(Date dataVendaInicio, Date dataVendaFim, Date dataVencimentoInicio,
 			Date dataVencimentoFim, Date dataRecebimentoInicio, Date dataRecebimentoFim, Cliente  cliente,
 			CentroCusto centroCusto, PlanoConta planoConta, int tipoOrdenacao, int status, int tipoQuebra) {
+		tempoInicial = System.currentTimeMillis();
+
 		List<ContaReceberDataView> list = new ArrayList<ContaReceberDataView>();
 		s.beginTransaction();
 		String sql = "from ContaReceberDataView where";
@@ -131,6 +132,8 @@ public class ContaReceberViewDAO {
 
 		list = query.list();
 		s.getTransaction().commit();
+		
+		GeradorCsv.tempoFinal(tempoInicial, "Pesquisar ContaReceberView");
 
 		return list;
 	}

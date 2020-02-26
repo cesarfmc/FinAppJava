@@ -10,39 +10,54 @@ import model.FormaPagamento;
 
 public class FormaPagamentoDAO {
 	private Session s;
+	private long tempoInicial;
 
 	public FormaPagamentoDAO(Session sessao) {
 		this.s = sessao;
 	}
 
 	public void addFormaPagamento(FormaPagamento formaPagamento) {
+		tempoInicial = System.currentTimeMillis();
+		
 		s.beginTransaction();
 		s.save(formaPagamento);
 		s.getTransaction().commit();
 
+		GeradorCsv.tempoFinal(tempoInicial, "Adicionar FormaPagamento");
 	}
 
 	public List<FormaPagamento> listFormaPagamento() {
+		tempoInicial = System.currentTimeMillis();
+		
 		List<FormaPagamento> list = new ArrayList<FormaPagamento>();
 		s.beginTransaction();
 
 		list = s.createQuery("from FormaPagamento", FormaPagamento.class).list();
 		s.getTransaction().commit();
 
+		GeradorCsv.tempoFinal(tempoInicial, "Listar FormaPagamento");
 		return list;
 	}
 
 	public void removeFormaPagamento(Integer id) {
+		tempoInicial = System.currentTimeMillis();
+		
 		s.beginTransaction();
 		FormaPagamento f = (FormaPagamento) s.load(FormaPagamento.class, id);
 		s.delete(f);
 		s.getTransaction().commit();
+		
+		GeradorCsv.tempoFinal(tempoInicial, "Remover FormaPagamento");
 	}
 
 	public void updateFormaPagamento(FormaPagamento formaPagamento) {
+		tempoInicial = System.currentTimeMillis();
+		
 		s.beginTransaction();
 		s.update(formaPagamento);
 		s.getTransaction().commit();
+		
+		GeradorCsv.tempoFinal(tempoInicial, "Alterar FormaPagamento");
 	}
 
 	public FormaPagamento retornaFormaPagamento(Integer id) {
@@ -54,6 +69,8 @@ public class FormaPagamentoDAO {
 	}
 	
 	public List<FormaPagamento> pesquisaFormaPagamento(String codigoFormaPagamento, String nomeFormaPagamento) {
+		tempoInicial = System.currentTimeMillis();
+		
 		List<FormaPagamento> list = new ArrayList<FormaPagamento>();
 		s.beginTransaction();
 		String sql;
@@ -90,6 +107,8 @@ public class FormaPagamentoDAO {
 		 list = query.list();
 		 
 		s.getTransaction().commit();
+		
+		GeradorCsv.tempoFinal(tempoInicial, "Pesquisar FormaPagamento");
 
 		return list;
 	}

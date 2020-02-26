@@ -9,17 +9,21 @@ import org.hibernate.query.Query;
 import model.PlanoConta;
 
 public class PlanoContaDAO {
-private Session s;
+	private Session s;
+	private long tempoInicial;
 	
 	public PlanoContaDAO(Session session) {
 		s = session;
 	}
 
 	public void addPlanoConta(PlanoConta planoConta) {
+		tempoInicial = System.currentTimeMillis();
+		
 		s.beginTransaction();
 		s.save(planoConta);
 		s.getTransaction().commit();
 
+		GeradorCsv.tempoFinal(tempoInicial, "Adicionar PlanoConta");
 	}
 
 	public List<PlanoConta> listPlanoConta() {
@@ -33,16 +37,24 @@ private Session s;
 	}
 
 	public void removePlanoConta(Integer id) {
+		tempoInicial = System.currentTimeMillis();
+		
 		s.beginTransaction();
 		PlanoConta planoConta = (PlanoConta) s.load(PlanoConta.class, id);
 		s.delete(planoConta);
 		s.getTransaction().commit();
+		
+		GeradorCsv.tempoFinal(tempoInicial, "Remover PlanoConta");
 	}
 
 	public void updatePlanoConta(PlanoConta planoConta) {
+		tempoInicial = System.currentTimeMillis();
+		
 		s.beginTransaction();
 		s.update(planoConta);
 		s.getTransaction().commit();
+		
+		GeradorCsv.tempoFinal(tempoInicial, "Alterar PlanoConta");
 	}
 
 	public PlanoConta retornaPlanoConta(Integer id) {

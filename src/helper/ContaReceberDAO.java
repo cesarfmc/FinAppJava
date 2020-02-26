@@ -16,29 +16,39 @@ import model.PlanoConta;
 
 public class ContaReceberDAO {
 	private Session s;
+	private long tempoInicial;
 
 	public ContaReceberDAO(Session sessao) {
 		this.s = sessao;
 	}
 
 	public void addContaReceber(ContaReceber contaReceber) {
+		tempoInicial = System.currentTimeMillis();
+		
 		s.beginTransaction();
 		s.save(contaReceber);
 		s.getTransaction().commit();
 
+		GeradorCsv.tempoFinal(tempoInicial, "Adicionar ContaReceber");
 	}
 
 	public List<ContaReceber> listContaReceber() {
+		tempoInicial = System.currentTimeMillis();
+		
 		List<ContaReceber> list = new ArrayList<ContaReceber>();
 		s.beginTransaction();
 
 		list = s.createQuery("from ContaReceber", ContaReceber.class).list();
 		s.getTransaction().commit();
+		
+		GeradorCsv.tempoFinal(tempoInicial, "Listar ContaReceber");
 
 		return list;
 	}
 
 	public List<ContaReceber> listContaReceberStatus(String status) {
+		tempoInicial = System.currentTimeMillis();
+		
 		List<ContaReceber> list = new ArrayList<ContaReceber>();
 		s.beginTransaction();
 
@@ -46,12 +56,15 @@ public class ContaReceberDAO {
 				.setParameter("status", status).list();
 		s.getTransaction().commit();
 
+		GeradorCsv.tempoFinal(tempoInicial, "Listar ContaReceber");
 		return list;
 	}
 
 	public List<ContaReceber> listContaReceberTudo(String numero, BigDecimal valorInicial, BigDecimal valorFinal, Date dataVendaInicio, Date dataVendaFim, Date dataVencimentoInicio,
 			Date dataVencimentoFim, Date dataRecebimentoInicio, Date dataRecebimentoFim, Cliente cliente,
 			CentroCusto centroCusto, PlanoConta planoConta, FormaPagamento formaPagamento) {
+		tempoInicial = System.currentTimeMillis();
+		
 		List<ContaReceber> list = new ArrayList<ContaReceber>();
 		s.beginTransaction();
 
@@ -162,20 +175,30 @@ public class ContaReceberDAO {
 		list = query.list();
 
 		s.getTransaction().commit();
+		
+		GeradorCsv.tempoFinal(tempoInicial, "Pesquisar ContaReceber");
 
 		return list;
 	}
 	public void removeContaReceber(Integer id) {
+		tempoInicial = System.currentTimeMillis();
+		
 		s.beginTransaction();
 		ContaReceber contaReceber = (ContaReceber) s.load(ContaReceber.class, id);
 		s.delete(contaReceber);
 		s.getTransaction().commit();
+		
+		GeradorCsv.tempoFinal(tempoInicial, "Remover ContaReceber");
 	}
 
 	public void updateContaReceber(ContaReceber contaReceber) {
+		tempoInicial = System.currentTimeMillis();
+		
 		s.beginTransaction();
 		s.update(contaReceber);
 		s.getTransaction().commit();
+		
+		GeradorCsv.tempoFinal(tempoInicial, "Alterar ContaReceber");
 	}
 
 	public ContaReceber retornaContaReceber(Integer id) {

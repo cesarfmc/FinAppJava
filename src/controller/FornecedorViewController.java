@@ -28,6 +28,7 @@ import model.Fornecedor;
 public class FornecedorViewController implements Initializable {
 	private Fornecedor fornecedor;
 	private FornecedorDAO fornecedorDao;
+	private EstadoDAO estadoDao  = new EstadoDAO();
 
 	public FornecedorViewController(FornecedorDAO fornecedorDAO) {
 		this.fornecedorDao = fornecedorDAO;
@@ -244,10 +245,14 @@ public class FornecedorViewController implements Initializable {
 			fornecedor.setCep(this.tfdCep.getText());
 		}
 
-		if (cmbCidade.getSelectionModel().getSelectedItem() != null) {
+		if (cmbCidade.getSelectionModel().getSelectedIndex() != 0) {
 			fornecedor.setCidade(this.cmbCidade.getSelectionModel().getSelectedItem());
 		}
-
+		
+		if (cmbEstado.getSelectionModel().getSelectedIndex() != 0) {
+			fornecedor.getCidade().setEstado(this.cmbEstado.getSelectionModel().getSelectedItem());
+		}
+		
 		if (tfdCnpj.getText() != null) {
 			fornecedor.setCnpj(this.tfdCnpj.getText());
 		}
@@ -296,8 +301,7 @@ public class FornecedorViewController implements Initializable {
 	}
 
 	private void setEstado() {
-		EstadoDAO estadoDAO = new EstadoDAO();
-		List<Estado> listaEstados = estadoDAO.listEstado();
+		List<Estado> listaEstados = estadoDao.listEstado();
 
 		cmbEstado.setItems(FXCollections.observableArrayList(listaEstados));
 		cmbEstado.getItems().add(0, new Estado());
@@ -305,7 +309,7 @@ public class FornecedorViewController implements Initializable {
 	}
 
 	public void setEstadoSelecionado(List<Estado> listaEstados) {
-		if (fornecedor != null) {
+		if (fornecedor != null && fornecedor.getCidade().getEstado() != null) {
 			for (Estado estado : listaEstados) {
 				if (fornecedor.getCidade() != null) {
 					if (fornecedor.getCidade().getEstado().getNome().equals(estado.getNome())) {
@@ -321,7 +325,8 @@ public class FornecedorViewController implements Initializable {
 
 	private void setCidade(Estado estado) {
 		this.cmbCidade.setItems(FXCollections.observableArrayList(estado.getCidades()));
-		if (fornecedor != null) {
+		cmbCidade.getItems().add(0, new Cidade());
+		if (fornecedor != null && fornecedor.getCidade() != null) {
 			for (Cidade cidade : estado.getCidades()) {
 				if (fornecedor.getCidade() != null) {
 					if (fornecedor.getCidade().getNome().equals(cidade.getNome())) {

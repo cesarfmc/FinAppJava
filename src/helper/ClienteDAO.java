@@ -10,41 +10,59 @@ import model.Cliente;
 
 public class ClienteDAO {
 	private Session s;
+	private long tempoInicial;
 	
 	public ClienteDAO(Session session) {
 		this.s = session;
 	}
 	public void addCliente(Cliente cliente) {
+		tempoInicial = System.currentTimeMillis();
+		
 		s.beginTransaction();
 		s.save(cliente);
 		s.getTransaction().commit();
+		GeradorCsv.tempoFinal(tempoInicial, "Adicionar Cliente");
 		
 	}
 
 	public List<Cliente> listCliente() {
+		tempoInicial = System.currentTimeMillis();
+		
 		List<Cliente> list = new ArrayList<Cliente>();
 		s.beginTransaction();
 
 		list = s.createQuery("from Cliente",Cliente.class).list();
 		s.getTransaction().commit();
-
+		
+		GeradorCsv.tempoFinal(tempoInicial, "Listar Clientes");
+		
 		return list;
 	}
 
 	public void removeCliente(Integer id) {
+		tempoInicial = System.currentTimeMillis();
+		
 		s.beginTransaction();
 		Cliente c = (Cliente) s.load(Cliente.class, id);
 		s.delete(c);
 		s.getTransaction().commit();
+		
+		GeradorCsv.tempoFinal(tempoInicial, "Remover Cliente");
 	}
 
 	public void updateCliente(Cliente cliente) {
+		tempoInicial = System.currentTimeMillis();
+		
 		s.beginTransaction();
 		s.update(cliente);
 		s.getTransaction().commit();
+		
+		GeradorCsv.tempoFinal(tempoInicial, "Atualizar Cliente");
 	}
 
 	public Cliente retornaCliente(Integer id) {
+		tempoInicial = System.currentTimeMillis();
+		
 		s.beginTransaction();
 		Cliente c = (Cliente) s.get(Cliente.class, id);
 		s.getTransaction().commit();
@@ -53,6 +71,8 @@ public class ClienteDAO {
 	}
 	
 	public List<Cliente> pesquisaCliente(String nomeCliente, String cnpjCliente, String cpfCliente) {
+		tempoInicial = System.currentTimeMillis();
+		
 		List<Cliente> list = new ArrayList<Cliente>();
 		s.beginTransaction();
 		
@@ -96,6 +116,8 @@ public class ClienteDAO {
 		 list = query.list();
 		 
 		s.getTransaction().commit();
+		
+		GeradorCsv.tempoFinal(tempoInicial, "Pesquisar Clientes");
 
 		return list;
 	}

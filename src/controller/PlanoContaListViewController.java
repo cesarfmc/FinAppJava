@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import helper.GeradorCsv;
 import helper.HibernateUtil2;
 import helper.PlanoContaDAO;
 import javafx.event.ActionEvent;
@@ -20,12 +21,13 @@ import javafx.scene.control.TreeView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import model.CentroCusto;
 import model.PlanoConta;
 
 public class PlanoContaListViewController {
 	private Session sessao = HibernateUtil2.getSessionFactory().openSession();
 	private PlanoContaDAO planoContaDAO = new PlanoContaDAO(sessao);
+	private long tempoInicial;
+	
 	@FXML
 	private TreeView<PlanoConta> trvPlanoConta;
 
@@ -144,7 +146,9 @@ public class PlanoContaListViewController {
 	
 	@FXML
 	private void initialize() {
+		tempoInicial = System.currentTimeMillis();
 		pesquisar();
+		GeradorCsv.tempoFinal(tempoInicial, "Listar PlanoConta");
 	}
 
 }

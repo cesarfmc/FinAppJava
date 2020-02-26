@@ -20,7 +20,7 @@ public class Main extends Application {
 			primaryStage.setTitle("FinSys");
 		
 			primaryStage.setScene(scene);
-			//primaryStage.setMaximized(true);
+			primaryStage.setMaximized(true);
 			primaryStage.show();
 			setStage(primaryStage);
 		} catch(Exception e) {

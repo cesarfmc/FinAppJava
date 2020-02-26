@@ -15,6 +15,7 @@ import model.PlanoConta;
 public class ContaPagarViewDAO {
 	
 	private Session s;
+	private long tempoInicial;
 
 	public ContaPagarViewDAO(Session sessao) {
 		this.s = sessao;
@@ -23,6 +24,8 @@ public class ContaPagarViewDAO {
 	public List<ContaPagarDataView> listContaPagarJasper(Date dataCompraInicio, Date dataCompraFim, Date dataVencimentoInicio,
 			Date dataVencimentoFim, Date dataPagamentoInicio, Date dataPagamentoFim, Fornecedor fornecedor,
 			CentroCusto centroCusto, PlanoConta planoConta, int tipoOrdenacao, int status, int tipoQuebra) {
+		tempoInicial = System.currentTimeMillis();
+		
 		List<ContaPagarDataView> list = new ArrayList<ContaPagarDataView>();
 		s.beginTransaction();
 		
@@ -97,6 +100,8 @@ public class ContaPagarViewDAO {
 		 list = query.list();
 		 
 		s.getTransaction().commit();
+		
+		GeradorCsv.tempoFinal(tempoInicial, "Pesquisar ContaPagarView");
 
 		return list;
 	}

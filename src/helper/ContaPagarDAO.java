@@ -16,29 +16,39 @@ import model.PlanoConta;
 
 public class ContaPagarDAO {
 	private Session s;
+	private long tempoInicial;
 
 	public ContaPagarDAO(Session sessao) {
 		this.s = sessao;
 	}
 
 	public void addContaPagar(ContaPagar contaPagar) {
+		tempoInicial = System.currentTimeMillis();
+		
 		s.beginTransaction();
 		s.save(contaPagar);
 		s.getTransaction().commit();
 
+		GeradorCsv.tempoFinal(tempoInicial, "Adicionar ContaPagar");
 	}
 
 	public List<ContaPagar> listContaPagar() {
+		tempoInicial = System.currentTimeMillis();
+		
 		List<ContaPagar> list = new ArrayList<ContaPagar>();
 		s.beginTransaction();
 
 		list = s.createQuery("from ContaPagar", ContaPagar.class).list();
 		s.getTransaction().commit();
+		
+		GeradorCsv.tempoFinal(tempoInicial, "Listar ContaPagar");
 
 		return list;
 	}
 
 	public List<ContaPagar> listContaPagarStatus(String status) {
+		tempoInicial = System.currentTimeMillis();
+		
 		List<ContaPagar> list = new ArrayList<ContaPagar>();
 		s.beginTransaction();
 
@@ -46,17 +56,25 @@ public class ContaPagarDAO {
 				.list();
 		s.getTransaction().commit();
 
+		GeradorCsv.tempoFinal(tempoInicial, "Listar ContaPagar");
+		
 		return list;
 	}
 
 	public void removeContaPagar(Integer id) {
+		tempoInicial = System.currentTimeMillis();
+		
 		s.beginTransaction();
 		ContaPagar contaPagar = (ContaPagar) s.load(ContaPagar.class, id);
 		s.delete(contaPagar);
 		s.getTransaction().commit();
+		
+		GeradorCsv.tempoFinal(tempoInicial, "Remover ContaPagar");
 	}
 
 	public void updateContaPagar(ContaPagar contaPagar) {
+		tempoInicial = System.currentTimeMillis();
+		
 		s.beginTransaction();
 		s.update(contaPagar);
 		s.getTransaction().commit();
@@ -73,6 +91,8 @@ public class ContaPagarDAO {
 	public List<ContaPagar> listContaPagarTudo(String numero, BigDecimal valorInicial, BigDecimal valorFinal, Date dataCompraInicio, Date dataCompraFim, Date dataVencimentoInicio,
 			Date dataVencimentoFim, Date dataPagamentoInicio, Date dataPagamentoFim, Fornecedor fornecedor,
 			CentroCusto centroCusto, PlanoConta planoConta, FormaPagamento formaPagamento) {
+		tempoInicial = System.currentTimeMillis();
+		
 		List<ContaPagar> list = new ArrayList<ContaPagar>();
 		s.beginTransaction();
 
@@ -183,6 +203,8 @@ public class ContaPagarDAO {
 		list = query.list();
 
 		s.getTransaction().commit();
+		
+		GeradorCsv.tempoFinal(tempoInicial, "Pesquisar ContaPagar");
 
 		return list;
 	}

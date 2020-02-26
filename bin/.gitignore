@@ -1,7 +1,8 @@
+/META-INF/
 /controller/
 /helper/
 /hibernate.cfg.xml
 /hibernate.reveng.xml
 /images/
-/model/
 /view/
+/model/
