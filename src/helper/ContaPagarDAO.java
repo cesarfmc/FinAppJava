@@ -161,7 +161,7 @@ public class ContaPagarDAO {
 		Query<ContaPagar> query = s.createQuery(hql.toString(), ContaPagar.class);
 
 		if (!numero.isEmpty()) {
-			query.setParameter("numero", "%"+numero+"%");
+			query.setParameter("numero", numero+"%");
 		}
 		
 		if (valorInicial != null) {

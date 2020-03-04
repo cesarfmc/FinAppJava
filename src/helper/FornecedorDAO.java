@@ -80,36 +80,36 @@ public class FornecedorDAO {
 		hql.append(sql);
 
 		
-		  if (nomeFornecedor != null) {
+		  if (!nomeFornecedor.isEmpty()) {
 			  hql.append(" nome LIKE :nomeFornecedor "); 
-			  if(cnpjFornecedor != null || cpfFornecedor != null) {
+			  if(!cnpjFornecedor.isEmpty() || !cpfFornecedor.isEmpty()) {
 				  hql.append("and "); 
 			  }
 		  }
 		  
-		  if (cnpjFornecedor != null) { 
+		  if (!cnpjFornecedor.isEmpty()) { 
 			  hql.append("cnpj LIKE :cnpjFornecedor "); 
-			  if(cpfFornecedor != null) {
+			  if(!cpfFornecedor.isEmpty()) {
 				  hql.append("and "); 
 			  }
 		  }
 		  
-		  if (cpfFornecedor != null) { 
+		  if (!cpfFornecedor.isEmpty()) { 
 			  hql.append("cpf LIKE :cpfFornecedor "); 
 		  }
 		  
 		  Query<Fornecedor> query = s.createQuery(hql.toString(),Fornecedor.class);
 		  
-		  if (nomeFornecedor != null) { 
-			  query.setParameter("nomeFornecedor",nomeFornecedor);
+		  if (!nomeFornecedor.isEmpty()) { 
+			  query.setParameter("nomeFornecedor",nomeFornecedor+"%");
 		  }
 		  
-		  if (cnpjFornecedor != null) {
-			  query.setParameter("cnpjFornecedor", cnpjFornecedor);
+		  if (!cnpjFornecedor.isEmpty()) {
+			  query.setParameter("cnpjFornecedor", cnpjFornecedor+"%");
 		  }
 		  
-		  if (cpfFornecedor != null) { 
-			  query.setParameter("cpfFornecedor",cpfFornecedor); 
+		  if (!cpfFornecedor.isEmpty()) { 
+			  query.setParameter("cpfFornecedor",cpfFornecedor+"%"); 
 		  }
 		 
 		 list = query.list();

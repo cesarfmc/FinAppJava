@@ -13,10 +13,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -131,7 +134,12 @@ public class ClienteController {
 	@FXML
 	void pesquisar_Click(ActionEvent event) {
 		List<Cliente> list = clienteDao.pesquisaCliente(getNomeCliente(), getCnpjCliente(), getCpfCliente());
-    	tbvClienteList.setItems(FXCollections.observableArrayList(list));
+		if(list.isEmpty()) {
+			Alert alertBusca = new Alert(AlertType.INFORMATION, "Nenhum Cliente Encontrado", ButtonType.OK);
+			alertBusca.showAndWait();
+		}else {
+			tbvClienteList.setItems(FXCollections.observableArrayList(list));
+		}
 	}
 
 

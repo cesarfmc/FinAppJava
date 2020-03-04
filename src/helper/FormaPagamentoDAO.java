@@ -75,7 +75,7 @@ public class FormaPagamentoDAO {
 		s.beginTransaction();
 		String sql;
 		
-		if(codigoFormaPagamento  == null && nomeFormaPagamento == null) {
+		if(codigoFormaPagamento.isEmpty() && nomeFormaPagamento.isEmpty()) {
 			sql = "from FormaPagamento";
 		}else {
 			sql = "from FormaPagamento where";
@@ -84,25 +84,25 @@ public class FormaPagamentoDAO {
 		hql.append(sql);
 
 		
-		  if (codigoFormaPagamento != null) {
+		  if (!codigoFormaPagamento.isEmpty()) {
 			  hql.append(" codigo LIKE :codigoFormaPagamento "); 
-			  if(nomeFormaPagamento != null ) {
+			  if(!nomeFormaPagamento.isEmpty() ) {
 				  hql.append("and "); 
 			  }
 		  }
 		  
-		  if (nomeFormaPagamento != null) { 
+		  if (!nomeFormaPagamento.isEmpty()) { 
 			  hql.append("nome LIKE :nomeFormaPagamento "); 
 		  }
 		  		  
 		  Query<FormaPagamento> query = s.createQuery(hql.toString(),FormaPagamento.class);
 		  
 		  if (codigoFormaPagamento != null) { 
-			  query.setParameter("codigoFormaPagamento","%"+codigoFormaPagamento+"%");
+			  query.setParameter("codigoFormaPagamento", codigoFormaPagamento+"%");
 		  }
 		  
 		  if (nomeFormaPagamento != null) {
-			  query.setParameter("nomeFormaPagamento", "%"+nomeFormaPagamento+"%");
+			  query.setParameter("nomeFormaPagamento", nomeFormaPagamento+"%");
 		  }
 		 list = query.list();
 		 

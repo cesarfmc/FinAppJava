@@ -133,7 +133,7 @@ public class ContaReceberDAO {
 		Query<ContaReceber> query = s.createQuery(hql.toString(), ContaReceber.class);
 
 		if (!numero.isEmpty()) {
-			query.setParameter("numero", "%"+numero+"%");
+			query.setParameter("numero", numero+"%");
 		}
 		
 		if (valorInicial != null) {

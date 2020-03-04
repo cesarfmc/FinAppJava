@@ -81,36 +81,36 @@ public class ClienteDAO {
 		hql.append(sql);
 
 		
-		  if (nomeCliente != null) {
+		  if (!nomeCliente.isEmpty()) {
 			  hql.append(" nome LIKE :nomeCliente "); 
-			  if(cnpjCliente != null || cpfCliente != null) {
+			  if(!cnpjCliente.isEmpty() || !cpfCliente.isEmpty()) {
 				  hql.append("and "); 
 			  }
 		  }
 		  
-		  if (cnpjCliente != null) { 
+		  if (!cnpjCliente.isEmpty()) { 
 			  hql.append("cnpj LIKE :cnpjCliente "); 
-			  if(cpfCliente != null) {
+			  if(!cpfCliente.isEmpty()) {
 				  hql.append("and "); 
 			  }
 		  }
 		  
-		  if (cpfCliente != null) { 
+		  if (!cpfCliente.isEmpty()) { 
 			  hql.append("cpf LIKE :cpfCliente "); 
 		  }
 		  
 		  Query<Cliente> query = s.createQuery(hql.toString(),Cliente.class);
 		  
-		  if (nomeCliente != null) { 
-			  query.setParameter("nomeCliente","%"+nomeCliente+"%");
+		  if (!nomeCliente.isEmpty()) { 
+			  query.setParameter("nomeCliente",nomeCliente+"%");
 		  }
 		  
-		  if (cnpjCliente != null) {
-			  query.setParameter("cnpjCliente", "%"+cnpjCliente+"%");
+		  if (!cnpjCliente.isEmpty()) {
+			  query.setParameter("cnpjCliente", cnpjCliente+"%");
 		  }
 		  
-		  if (cpfCliente != null) { 
-			  query.setParameter("cpfCliente", "%"+cpfCliente+"%"); 
+		  if (!cpfCliente.isEmpty()) { 
+			  query.setParameter("cpfCliente", cpfCliente+"%"); 
 		  }
 		 
 		 list = query.list();
